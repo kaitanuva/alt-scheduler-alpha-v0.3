@@ -1,0 +1,65 @@
+<div class="container-fluid">
+  <button 
+    type="button" 
+    class="btn btn-success" 
+    (click)="newSchool()">New School</button>
+  <button
+    *ngIf="schoolWasClicked"
+    type="button" 
+    class="btn btn-danger"
+    (click)="deleteSchool()">Delete School</button>
+  <br><br>
+  <form *ngIf="newClicked" #f="ngForm">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-xs-2">
+          <label for="school">School Name</label>
+          <input 
+            type="text"
+            id="school"
+            name="school"
+            class="form-control"
+            ngModel
+            required
+          >
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-xs-2">
+          <label for="alt">Alt Name</label>
+          <input 
+            type="text"
+            id="alt"
+            name="alt"
+            class="form-control"
+            ngModel
+            required
+        >
+        </div>
+      </div>
+      <br>
+      <button 
+        type="button"
+        class="btn"
+        [disabled]="!f.valid" 
+        (click)="onSave()">Save</button>
+    </div>
+  </form>
+<hr>
+  <div class="row">
+    <div class="col-md-2">
+        <a 
+          style="cursor: pointer;"
+          class="list-group-item clearfix"
+          *ngFor="let school of schoolsList; let i = index"
+          (click)="schoolClicked(i)"
+          routerLinkActive="active"
+          [routerLink]="i"
+        >{{school}}</a>
+    </div>
+    <div class="col-md-10">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

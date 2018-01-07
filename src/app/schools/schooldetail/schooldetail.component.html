@@ -1,0 +1,137 @@
+<div class="row">
+  <h1> {{ currentYear}}年 {{ months[currentMonth]}} </h1>
+  <button class="btn btn-primary" (click)="prevMonth()">Prev Month</button>
+  <button class="btn btn-primary" (click)="nextMonth()">Next Month</button>
+</div>
+<br>
+<div class="row">
+  <button class="btn btn-success" routerLink="new" (click)="onAdd()">Add Plan</button>
+</div>
+<hr>
+<form #f="ngForm" *ngFor="let plan of schoolPlansList"> 
+  <div 
+    class="form-group">
+    <br>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr class="active">
+            <th class="col-xs-1 text-center">Date 日</th>
+            <th class="col-xs-1 text-center">Day 曜</th>
+            <th class="col-xs-2 text-center">Period (time) 校時 (時間)</th>
+            <th class="col-xs-1 text-center">Class 学年/組</th>
+            <th class="col-xs-2 text-center">Teacher 担当教諭</th>
+            <th class="col-xs-5 text-center">Lesson Plans</th>
+          </tr>
+          <tr [ngClass]="{'warning': plan.period1}">
+            <td rowspan="7" id="bgWhite" style="vertical-align: middle">
+              <p class="text-center form-control-static">{{plan.date}}日</p>
+            </td>
+            <td rowspan="7" id="bgWhite" style="vertical-align: middle">
+              <p class="text-center form-control-static">{{plan.day}}</p>
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.period1}}</p>
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.class1}}</p>
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.teacher1}}</p>              
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.lesson1}}</p>              
+          </tr>
+          <tr [ngClass]="{'warning': plan.period2}">
+            <td>
+              <p class="text-center form-control-static">{{plan.period2}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.class2}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.teacher2}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.lesson2}}</p>                            
+            </td>
+          </tr>
+          <tr [ngClass]="{'warning': plan.period3}">
+            <td>
+              <p class="text-center form-control-static">{{plan.period3}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.class3}}</p>              
+              
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.teacher3}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.lesson3}}</p>              
+            </td>
+          </tr>
+          <tr [ngClass]="{'warning': plan.period4}">
+            <td>
+              <p class="text-center form-control-static">{{plan.period4}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.class4}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.teacher4}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.lesson4}}</p>                            
+            </td>
+          </tr>
+          <tr [ngClass]="{'warning': plan.lunch}">
+            <td>
+              <p class="text-center form-control-static">{{plan.lunch}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.classLunch}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.teacherLunch}}</p>                            
+            </td>
+            <td>
+            </td>
+          </tr>
+          <tr [ngClass]="{'warning': plan.period5}">
+            <td>
+              <p class="text-center form-control-static">{{plan.period5}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.class5}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.teacher5}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.lesson5}}</p>                            
+            </td>
+          </tr>
+          <tr [ngClass]="{'warning': plan.period6}">
+            <td>
+              <p class="text-center form-control-static">{{plan.period6}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.class6}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.teacher6}}</p>                            
+            </td>
+            <td>
+              <p class="text-center form-control-static">{{plan.lesson6}}</p>                            
+            </td>
+          </tr>
+        </thead>
+      </table>
+  </div>
+  <button 
+    type="button" 
+    class="btn" 
+    (click)="onEdit(plan.date)"
+    routerLink="./edit"
+  >Edit Plan</button>
+</form>

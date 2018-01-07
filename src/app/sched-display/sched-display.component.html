@@ -1,0 +1,96 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-4">
+        <h1> {{ currentYear}}年 {{ months[currentMonth]}} </h1>
+        <button class="btn btn-primary" (click)="prevMonth()">Prev Month</button>
+        <button class="btn btn-primary" (click)="nextMonth()">Next Month</button>
+      <br><br>
+        <button 
+          *ngIf="authService.userType == 'main'"
+          class="btn btn-success" 
+          (click)="onAddSchool(currentYear, currentMonth+1, '', '')">
+          New School</button>
+    </div>
+    <div *ngIf="authService.userType == 'main'" class="col-xs-8">
+      <br>
+      <form #f="ngForm" class="form-group">
+        <select 
+          name="requestedSchools" 
+          id="requestedSchools" 
+          class="form-control"
+          ngModel
+          size="5">
+          <option 
+            *ngFor="let plan of approvalList; let i = index"
+            [value]="i"
+          >{{plan.status}} | {{plan.name}}, {{plan.year}}年 {{plan.month}}月 {{plan.date}}日, {{plan.time}}</option>
+        </select>
+      </form>
+      <button class="btn btn-success" (click)="onApprove()">Approve</button>
+      <button class="btn btn-danger"(click)="onReject()">Reject</button>
+    </div>
+  </div>
+  <hr>
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th class="col-xs-1"></th>
+        <th class="col-xs-3 text-center">午前</th>
+        <th class="col-xs-3 text-center">午後</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let date of datesList">
+        <th>{{date.date}} {{date.day}}</th>
+        <td 
+          colspan=2 
+          *ngIf="date.day =='土' || date.day =='日'" 
+          class="text-center"
+          style="background-color: rgb(197, 197, 197);" >休み</td>
+        <td colspan=2 
+          *ngIf="checkAllDaySchool(currentYear, currentMonth+1, date.date)"
+          class="text-center">
+            <a
+              class="btn"
+              style="cursor: pointer;"
+              (click)="schoolClicked(currentYear, currentMonth+1, date.date, '一日中')"
+            >
+              <span>
+                {{findSchool(currentYear, currentMonth+1, date.date, '一日中').name}}
+              </span>
+            </a>
+        </td>
+        <td 
+          *ngIf="date.day != '日' && date.day != '土' 
+          && !checkAllDaySchool(currentYear, currentMonth+1, date.date)" 
+          class="text-center">
+            <a
+              class="btn"
+              style="cursor: pointer;"
+              (click)="schoolClicked(currentYear, currentMonth+1, date.date, '午前')"
+            >
+              <span 
+                *ngIf="findSchool(currentYear, currentMonth+1, date.date, '午前')"
+                >{{findSchool(currentYear, currentMonth+1, date.date, '午前').name}}
+              </span>
+            </a>
+        </td>
+        <td 
+          *ngIf="date.day != '日' && date.day != '土'
+          && !checkAllDaySchool(currentYear, currentMonth+1, date.date)" 
+          class="text-center">
+            <a
+              class="btn"
+              style="cursor: pointer;"
+              (click)="schoolClicked(currentYear, currentMonth+1, date.date, '午後')"
+            >
+              <span 
+                *ngIf="findSchool(currentYear, currentMonth+1, date.date, '午後')"
+                >{{findSchool(currentYear, currentMonth+1, date.date, '午後').name}}
+              </span>
+            </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

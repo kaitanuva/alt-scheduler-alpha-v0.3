@@ -1,0 +1,21 @@
+<!-- <app-header></app-header>
+<div class="container">
+  <div class="row">
+    <div class="col-mid-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div> -->
+<ng-template [ngIf]="!redirect">
+  <app-header></app-header>
+  <div class="container">
+    <div class="row">
+      <div class="col-mid-12">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template [ngIf]="redirect">
+  <app-redirect></app-redirect>
+</ng-template>

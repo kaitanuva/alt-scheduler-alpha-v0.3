@@ -1,0 +1,349 @@
+<form #f="ngForm"> 
+  <div 
+    class="form-group">
+    <br>
+    <!-- <div class="col-xs-2">
+      <div class="radio">
+          <input type="radio" name="time" value="午前" [ngModel]="time" required>午前
+      </div>
+      <div class="radio">
+        <input type="radio" name="time" value="午後" [ngModel]="time">午後
+      </div>
+      <div class="radio">
+        <input type="radio" name="time" value="一日中" [ngModel]="time">一日中
+      </div>
+    </div> -->
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th class="col-xs-1 text-center">Date 日</th>
+            <th class="col-xs-1 text-center">Day 曜</th>
+            <th class="col-xs-2 text-center">Period (time) 校時 (時間)</th>
+            <th class="col-xs-1 text-center">Class 学年/組</th>
+            <th class="col-xs-2 text-center">Teacher 担当教諭</th>
+            <th class="col-xs-5 text-center">Lesson Plans</th>
+          </tr>
+          <tr>
+            <td rowspan="7" style="vertical-align: middle">
+              <select 
+                id="date"
+                class="text-center form-control input-sm"
+                name="date"
+                [ngModel]="schoolPlan.date"
+                disabled>
+                  <option 
+                    *ngFor="let theDate of datesList"
+                    [value]="theDate"
+                  >{{theDate}}</option>
+                </select>
+            </td>
+            <td rowspan="7" style="vertical-align: middle">
+              <p class="text-center form-control-static">{{theDay}}</p>
+            </td>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="period1"
+                name="period1"
+                [ngModel]="schoolPlan.period1"
+                style="width: 100%" 
+                type="text" 
+                placeholder="(1) 8:40-9:25">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="class1"
+                name="class1"
+                [ngModel]="schoolPlan.class1"
+                style="width: 100%" 
+                type="text" 
+                placeholder="1">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="teacher1"
+                name="teacher1"
+                [ngModel]="schoolPlan.teacher1"
+                style="width: 100%" 
+                type="text" 
+                placeholder="Yamada">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control"
+                id="lesson1"
+                name="lesson1"
+                [ngModel]="schoolPlan.lesson1"
+                type="text"
+                style="width: 100%" 
+                placeholder="Numbers">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="period2"
+                name="period2"
+                [ngModel]="schoolPlan.period2"
+                style="width: 100%" 
+                type="text" 
+                placeholder="(2) 9:40-10:25">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="class2"
+                name="class2"
+                [ngModel]="schoolPlan.class2"
+                style="width: 100%" 
+                type="text"
+                placeholder="2">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="teacher2"
+                name="teacher2"
+                [ngModel]="schoolPlan.teacher2"
+                style="width: 100%" 
+                type="text" 
+                placeholder="Yamada">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control"
+                id="lesson2"
+                name="lesson2"
+                [ngModel]="schoolPlan.lesson2"
+                type="text"
+                style="width: 100%" 
+                placeholder="Fruits">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input 
+                class="text-center form-control"
+                id="period3"
+                name="period3"
+                [ngModel]="schoolPlan.period3"
+                style="width: 100%" 
+                type="text" 
+                placeholder="(3) 10:40-11:25">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control"
+                id="class3"
+                name="class3"
+                [ngModel]="schoolPlan.class3"
+                style="width: 100%" 
+                type="text" 
+                placeholder="3">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control"
+                id="teacher3"
+                name="teacher3"
+                [ngModel]="schoolPlan.teacher3"
+                style="width: 100%" 
+                type="text" 
+                placeholder="Yamada">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="lesson3"
+                name="lesson3"
+                [ngModel]="schoolPlan.lesson3"
+                type="text"
+                style="width: 100%" 
+                placeholder="Animals">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="period4"
+                name="period4"
+                [ngModel]="schoolPlan.period4"
+                style="width: 100%" 
+                type="text" 
+                placeholder="(4) 11:40-12:25">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control"
+                id="class4" 
+                name="class4"
+                [ngModel]="schoolPlan.class4"
+                style="width: 100%" 
+                type="text" 
+                placeholder="4">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="teacher4"
+                name="teacher4"
+                [ngModel]="schoolPlan.teacher4"
+                style="width: 100%" 
+                type="text" 
+                placeholder="Yamada">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="lesson4"
+                name="lesson4"
+                [ngModel]="schoolPlan.lesson4"
+                type="text"
+                style="width: 100%" 
+                placeholder="好きなこと">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input 
+                class="text-center form-control"
+                id="lunch"
+                name="lunch"
+                [ngModel]="schoolPlan.lunch"
+                style="width: 100%" 
+                type="text" 
+                placeholder="Lunch 給食">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control"
+                id="classLunch"
+                name="classLunch"
+                [ngModel]="schoolPlan.classLunch"
+                style="width: 100%" 
+                type="text" 
+                placeholder="6">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="teacherLunch"
+                name="teacherLunch"
+                [ngModel]="schoolPlan.teacherLunch"
+                style="width: 100%" 
+                type="text" 
+                placeholder="Yamada">
+            </td>
+            <td>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input 
+                class="text-center form-control"
+                id="period5"
+                name="period5"
+                [ngModel]="schoolPlan.period5"
+                style="width: 100%" 
+                type="text" 
+                placeholder="(5) 2:20-3:05">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="class5"
+                name="class5"
+                [ngModel]="schoolPlan.class5"
+                style="width: 100%" 
+                type="text" 
+                placeholder="5">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="teacher5"
+                name="teacher5"
+                [ngModel]="schoolPlan.teacher5"
+                style="width: 100%" 
+                type="text" 
+                placeholder="Yamada">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control"
+                id="lesson5"
+                name="lesson5"
+                [ngModel]="schoolPlan.lesson5"
+                type="text"
+                style="width: 100%" 
+                placeholder="Hi Friends 1 Lesson 1 - Hello">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input 
+                class="text-center form-control"
+                id="period6" 
+                name="period6"
+                [ngModel]="schoolPlan.period6"
+                style="width: 100%" 
+                type="text" 
+                placeholder="(6) 3:20-4:05">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="class6"
+                name="class6"
+                [ngModel]="schoolPlan.class6"
+                style="width: 100%" 
+                type="text" 
+                placeholder="6">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control" 
+                id="teacher6"
+                name="teacher6"
+                [ngModel]="schoolPlan.teacher6"
+                style="width: 100%" 
+                type="text" 
+                placeholder="Yamada">
+            </td>
+            <td>
+              <input 
+                class="text-center form-control"
+                id="lesson6"
+                name="lesson6"
+                [ngModel]="schoolPlan.lesson6"
+                type="text"
+                style="width: 100%" 
+                placeholder="Hi Friends 2 Lesson 6 - Let's go to Italy">
+            </td>
+          </tr>
+        </thead>
+      </table>
+  </div>
+</form>
+
+<span *ngIf="weekend" style="color: red;">That's a weekend!</span>
+
+<div style="float: right">
+  <button 
+    class="btn"
+    routerLink="./../"  
+  >Cancel</button>
+  <button 
+    class="btn btn-danger"
+    (click)="onDelete()" 
+  >Request Delete</button>
+  <button 
+    class="btn btn-primary" 
+    (click)="onSave()"
+    [disabled]="weekend || !f.valid"
+  >Save</button>
+</div>
