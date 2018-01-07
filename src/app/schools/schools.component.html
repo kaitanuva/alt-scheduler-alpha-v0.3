@@ -1,6 +1,6 @@
 <div class="container-fluid">
-  <ng-template>
-      <button 
+  <ng-template [ngIf]="authService.userType != main"> 
+    <button 
       type="button" 
       class="btn btn-success" 
       (click)="newSchool()">New School</button>
