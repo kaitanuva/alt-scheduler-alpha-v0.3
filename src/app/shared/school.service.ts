@@ -1,10 +1,14 @@
+import { Injectable } from '@angular/core';
 import { SchoolPair } from './schoolpair.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from "rxjs/Subject";
 import { School } from './school.model';
 import { SchoolPlan } from './schoolplan.model';
 
+@Injectable()
+
 export class SchoolService{
+
   dateChanged = new Subject<{year: number, month: number}>();
   schoolsListChanged = new Subject<SchoolPair[]>();
   approvalListChanged = new Subject<School[]>();
@@ -24,11 +28,11 @@ export class SchoolService{
   private filteredSchools = [];
 
   private schoolsList = [
-    new SchoolPair('坊津学園', 'Mark'),
-    new SchoolPair('長屋小', 'Mark'),
-    new SchoolPair('金峰中', 'Mark'),
-    new SchoolPair('内山田小', 'Mark'),
-    new SchoolPair('加世田小', 'Babo')
+    // new SchoolPair('坊津学園', 'mark'),
+    // new SchoolPair('長屋小', 'mark'),
+    // new SchoolPair('金峰中', 'mark'),
+    // new SchoolPair('内山田小', 'mark'),
+    // new SchoolPair('加世田小', 'babo')
   ];
 
   private approvalList = [];
@@ -140,6 +144,10 @@ export class SchoolService{
   //////////////////////////////////////
 
   ////////schoollist & schoolplans functions/////////
+
+  setSchoolsList(newschoolsList: SchoolPair[]){
+    this.schoolsList = newschoolsList;
+  }
 
   getSchoolsList(){
     return this.schoolsList.slice();

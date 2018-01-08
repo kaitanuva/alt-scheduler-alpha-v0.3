@@ -23,7 +23,7 @@ const appRoutes: Routes = [
   { path: ':id/new', component: SchoolNewComponent, canActivate: [AuthGuard]},
   { path: 'schools', component: SchoolsComponent, canActivate: [AuthGuard], children:[
     { path: ':id', component: SchooldetailComponent},
-    { path: ':id/new', component: SchoolPlanNewComponent},
+    { path: ':id/new', component: SchoolPlanNewComponent, canActivate: [EditGuard]},
     { path: ':id/edit', component: SchoolPlanEditComponent, canActivate: [EditGuard]}
   ]},
   { path: 'login', component: LoginComponent},

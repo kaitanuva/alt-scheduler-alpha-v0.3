@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { SchoolService } from './../shared/school.service';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-schools',
@@ -20,12 +21,22 @@ export class SchoolsComponent implements OnInit, OnDestroy {
   id: number;
 
   constructor(private schoolService: SchoolService,
-              private router: Router) { }
+              private router: Router,
+              private authService: AuthService) { }
 
   ngOnInit() {
     let retrievedList = this.schoolService.getSchoolsList();
-    for (let school of retrievedList){
-      this.schoolsList.push(school.school);
+    const altName = this.authService.altName;
+    if(altName){
+      let filteredList = retrievedList.filter(function(v,i){return (v["alt"] == altName)})
+      for (let school of filteredList){
+        this.schoolsList.push(school.school);
+      }
+    }
+    else if(this.authService.userType == 'school' || this.authService.userType == 'main'){
+      for (let school of retrievedList){
+        this.schoolsList.push(school.school);
+      }
     }
     this.schoolsListSubscription = this.schoolService.schoolsListChanged
       .subscribe(

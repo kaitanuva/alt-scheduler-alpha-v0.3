@@ -1,3 +1,4 @@
+import { DataStorageService } from './shared/data-storage.service';
 import { RedirectGuard } from './redirect/redirect-guard.service';
 import { RedirectService } from './redirect/redirect.service';
 import { EditGuard } from './auth/edit-guard.service';
@@ -56,7 +57,9 @@ import { RedirectComponent } from './redirect/redirect.component';
     RedirectService,
     AuthGuard, 
     EditGuard,
-    RedirectGuard],
+    RedirectGuard,
+    DataStorageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
