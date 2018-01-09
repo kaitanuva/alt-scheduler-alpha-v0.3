@@ -122,12 +122,12 @@ export class SchoolService{
     }
   }
 
-  findSchool(year: number, month: number, date: number, time: string){
-    let school = this.schools.find(function(v,i){
-      return (v["year"] == year && v["month"] == month && v["date"] == date && v["time"] == time);
-    })
-    return school;
-  }
+  // findSchool(year: number, month: number, date: number, time: string){
+  //   let school = this.schools.find(function(v,i){
+  //     return (v["year"] == year && v["month"] == month && v["date"] == date && v["time"] == time);
+  //   })
+  //   return school;
+  // }
 
   findSchoolFiltered(year: number, month: number, date: number, time: string){
     let school = this.filteredSchools.find(function(v,i){

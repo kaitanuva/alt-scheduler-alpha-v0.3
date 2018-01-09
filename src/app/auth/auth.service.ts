@@ -1,3 +1,4 @@
+import { SchoolService } from './../shared/school.service';
 import { DataStorageService } from './../shared/data-storage.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -12,7 +13,8 @@ export class AuthService{
 
   constructor(private router: Router,
               private redirectService: RedirectService,
-              private dataStorageService: DataStorageService){}
+              private dataStorageService: DataStorageService,
+              private schoolService: SchoolService){}
 
   signupUser(username: string, password: string){
     firebase.auth().createUserWithEmailAndPassword(username, password)
@@ -83,6 +85,7 @@ export class AuthService{
       this.userType = 'alt';
       const index = email.indexOf('-alt');
       this.altName = email.slice(0, index);
+      this.schoolService.activeUser = this.altName;
       console.log(this.altName);
 
       this.dataStorageService.filterSchoolsList(this.altName);
@@ -94,6 +97,7 @@ export class AuthService{
     else{
       this.userType = 'main';
       this.altName = this.dataStorageService.alts[0];
+      this.schoolService.activeUser = this.altName;
       this.dataStorageService.filterSchoolsList(null);
     }
   }
