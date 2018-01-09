@@ -66,20 +66,12 @@ export class SchoolNewComponent implements OnInit, OnDestroy{
 
         
     this.schoolsOptionList = this.schoolService.getSchoolsList();
-    // this.schoolSubscription = this.schoolService.schoolsListChanged.subscribe(
-    //   (schools: SchoolPair[]) => {
-    //     let newList = [];
-    //     for (let school of schools){
-    //       newList.push(school.school);
-    //     }
-    //     this.schoolsOptionList = newList;
-    //   }
-    // );
   }
 
   ngOnDestroy(){
-    this.timeSubscription.unsubscribe();
-    // this.schoolSubscription.unsubscribe();
+    if (this.timeSubscription){
+      this.timeSubscription.unsubscribe();
+    }
   }
 
   onSave(){

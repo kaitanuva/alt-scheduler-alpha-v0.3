@@ -54,7 +54,9 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.daySubscription.unsubscribe();
+    if (this.daySubscription){
+      this.daySubscription.unsubscribe();
+    }
     this.editGuard.canEdit = false;
   }
 

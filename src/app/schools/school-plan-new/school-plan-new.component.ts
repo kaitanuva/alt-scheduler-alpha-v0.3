@@ -32,12 +32,6 @@ export class SchoolPlanNewComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    // this.route.params.subscribe(
-    //   (params: Params) => {
-    //     this.id = params['id'];
-    //   }
-    // )
-
     this.schoolName = this.schoolService.selectedSchool;
     this.currentMonth = this.timeService.selectedMonth;
     this.currentYear = this.timeService.selectedYear;
@@ -56,7 +50,9 @@ export class SchoolPlanNewComponent implements OnInit {
   }
 
   ngOnDestroy(){
-    this.daySubscription.unsubscribe();
+    if (this.daySubscription){
+      this.daySubscription.unsubscribe();
+    }
   }
 
   onRequest(){
