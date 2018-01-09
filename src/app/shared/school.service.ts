@@ -15,6 +15,7 @@ export class SchoolService{
   planCounterUpdated = new Subject<number[]>();
   deleteSchoolOn = new Subject<boolean>();
   activeUser: string;
+  loggedInSchool: string;
   selectedSchool: string;
 
   private schools = [
@@ -27,8 +28,7 @@ export class SchoolService{
 
   private filteredSchools = [];
 
-  private schoolsList = [
-  ];
+  private schoolsList = [];
 
   private approvalList = [];
 

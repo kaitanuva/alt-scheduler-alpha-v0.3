@@ -76,7 +76,6 @@ export class SchoolNewComponent implements OnInit, OnDestroy{
 
   onSave(){
     const nameInp = this.editForm.value.name;
-    console.log(nameInp);
     const yearInp = this.editForm.value.year;
     const monthInp = this.editForm.value.month;
     const dateInp = this.editForm.value.date;

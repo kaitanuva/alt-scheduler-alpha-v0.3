@@ -88,17 +88,22 @@ export class AuthService{
       this.schoolService.activeUser = this.altName;
       console.log(this.altName);
 
-      this.dataStorageService.filterSchoolsList(this.altName);
+      this.dataStorageService.filterSchoolsList(this.altName, null);
     }
     else if(email.includes('school')){
       this.userType = 'school';
-      this.dataStorageService.filterSchoolsList(null);
+      const index = email.indexOf('-school');
+      const schoolName = email.slice(0, index);
+      const associatedALT = this.dataStorageService.getALTassociatedWithSchool(schoolName);
+      this.schoolService.loggedInSchool = schoolName;
+      this.schoolService.activeUser = associatedALT;
+      this.dataStorageService.filterSchoolsList(null, schoolName);
     }
     else{
       this.userType = 'main';
       this.altName = this.dataStorageService.alts[0];
       this.schoolService.activeUser = this.altName;
-      this.dataStorageService.filterSchoolsList(null);
+      this.dataStorageService.filterSchoolsList(null, null);
     }
   }
 }

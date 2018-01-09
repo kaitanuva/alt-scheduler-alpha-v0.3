@@ -72,13 +72,16 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
 
   schoolClicked(year: number, month: number, date: number, time: string){
     let foundSchool = this.findSchool(year, month, date, time);
-    if (this.authService.userType != 'main'){
+    if (this.authService.userType == 'alt'){
       if (foundSchool){
         const id = this.schoolService.getIDFromSchoolList(foundSchool.name);
         this.router.navigate(['schools/'+id]);
         this.timeService.altClickedYear = foundSchool.year;
         this.timeService.altClickedMonth = foundSchool.month;
       }
+    }
+    else if (this.authService.userType == 'school'){
+      return;
     }
     else{
       if (foundSchool){
