@@ -47,7 +47,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.redirectSubscription.unsubscribe();
+    if (this.redirectSubscription){
+      this.redirectSubscription.unsubscribe();
+    }
   }
 
   checkTokenKey(){

@@ -59,7 +59,9 @@ export class SchooldetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.timeSubscription.unsubscribe();
+    if (this.timeSubscription){
+      this.timeSubscription.unsubscribe();
+    }
     this.schoolService.deleteSchoolOn.next(false);
   }
 

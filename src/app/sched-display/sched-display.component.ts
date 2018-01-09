@@ -83,7 +83,7 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
     else{
       if (foundSchool){
         let index = this.schoolService.getIndex(foundSchool);
-        this.router.navigate(['/'+index+'/edit'], {queryParams: {allowEdit: '1'}});
+        this.router.navigate(['/'+index+'/edit']);
       }
       else{
         let newSchool = new School('New School', year, month, date, time);
@@ -102,7 +102,9 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.timeSubscription.unsubscribe();
+    if (this.timeSubscription){
+      this.timeSubscription.unsubscribe();
+    }
   }
 
   nextMonth(){

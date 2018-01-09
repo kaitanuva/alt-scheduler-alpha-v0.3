@@ -58,7 +58,9 @@ export class SchoolsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.schoolsListSubscription.unsubscribe();
+    if (this.schoolsListSubscription){
+      this.schoolsListSubscription.unsubscribe();
+    }
   }
 
   newSchool(){
