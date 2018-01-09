@@ -28,11 +28,6 @@ export class SchoolService{
   private filteredSchools = [];
 
   private schoolsList = [
-    // new SchoolPair('坊津学園', 'mark'),
-    // new SchoolPair('長屋小', 'mark'),
-    // new SchoolPair('金峰中', 'mark'),
-    // new SchoolPair('内山田小', 'mark'),
-    // new SchoolPair('加世田小', 'babo')
   ];
 
   private approvalList = [];
@@ -110,6 +105,11 @@ export class SchoolService{
 
   getIndex(school: School){
     let index = this.schools.indexOf(school);
+    return index;
+  }
+
+  getIndexFiltered(school: School){
+    let index = this.filteredSchools.indexOf(school);
     return index;
   }
 

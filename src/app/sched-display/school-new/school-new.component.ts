@@ -80,22 +80,22 @@ export class SchoolNewComponent implements OnInit, OnDestroy{
     const monthInp = this.editForm.value.month;
     const dateInp = this.editForm.value.date;
     const timeInp = this.editForm.value.time;
-    let targetSchool = this.schoolService.findSchool(yearInp, monthInp, dateInp, timeInp);
-    let allDaySchool = this.schoolService.findSchool(yearInp, monthInp, dateInp, '一日中');
-    let morningSchool = this.schoolService.findSchool(yearInp, monthInp, dateInp, '午前');
-    let noonSchool = this.schoolService.findSchool(yearInp, monthInp, dateInp, '午後');
+    let targetSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, timeInp);
+    let allDaySchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '一日中');
+    let morningSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午前');
+    let noonSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午後');
     let editedSchool = new School(nameInp, yearInp, monthInp, dateInp, timeInp);
     
-    if (targetSchool && this.schoolService.getIndex(targetSchool) != this.id){
+    if (targetSchool && this.schoolService.getIndexFiltered(targetSchool) != this.id){
       alert('Another school already exists on that time & date.');
     }
     else if (allDaySchool){
       alert('Another school already exists on that time & date.');
     }
-    else if (timeInp == '一日中' &&  morningSchool && this.schoolService.getIndex(morningSchool) != this.id){
+    else if (timeInp == '一日中' &&  morningSchool && this.schoolService.getIndexFiltered(morningSchool) != this.id){
       alert('Another school already exists on that time & date.');
     }
-    else if (timeInp == '一日中' &&  noonSchool && this.schoolService.getIndex(noonSchool) !=this.id){
+    else if (timeInp == '一日中' &&  noonSchool && this.schoolService.getIndexFiltered(noonSchool) !=this.id){
       alert('Another school already exists on that time & date.');
     }
     else{
