@@ -80,7 +80,6 @@ export class SchooleditComponent implements OnInit, OnDestroy{
     const monthInp = this.editForm.value.month;
     const dateInp = this.editForm.value.date;
     const timeInp = this.editForm.value.time;
-    const filteredSchools = this.schoolService.getfilteredSchools();
     let targetSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, timeInp);
     let allDaySchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '一日中');
     let morningSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午前');
