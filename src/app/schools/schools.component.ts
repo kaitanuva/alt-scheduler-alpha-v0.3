@@ -26,18 +26,28 @@ export class SchoolsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     let retrievedList = this.schoolService.getSchoolsList();
-    const altName = this.authService.altName;
-    if(altName){
-      let filteredList = retrievedList.filter(function(v,i){return (v["alt"] == altName)})
-      for (let school of filteredList){
-        this.schoolsList.push(school.school);
-      }
+    for (let school of retrievedList){
+      this.schoolsList.push(school.school);
     }
-    else if(this.authService.userType == 'school' || this.authService.userType == 'main'){
-      for (let school of retrievedList){
-        this.schoolsList.push(school.school);
-      }
-    }
+    // const altName = this.schoolService.activeUser;
+    // const activeSchool = this.schoolService.loggedInSchool;
+    // if(altName && this.authService.userType == 'alt'){
+    //   let filteredList = retrievedList.filter(function(v,i){return (v["alt"] == altName)})
+    //   for (let school of filteredList){
+    //     this.schoolsList.push(school.school);
+    //   }
+    // }
+    // else if(activeSchool && this.authService.userType == 'school'){
+    //   let filteredList = retrievedList.filter(function(v,i){return (v["id"] == activeSchool)})
+    //   for (let school of filteredList){
+    //     this.schoolsList.push(school.school);
+    //   }
+    // }
+    // else{
+    //   for (let school of retrievedList){
+    //     this.schoolsList.push(school.school);
+    //   }
+    // }
     this.schoolsListSubscription = this.schoolService.schoolsListChanged
       .subscribe(
         (updatedSchoolList: SchoolPair[]) => {
@@ -86,8 +96,9 @@ export class SchoolsComponent implements OnInit, OnDestroy {
 
   onSave(){
     const name = this.newSchoolForm.value.school;
+    const id = this.newSchoolForm.value.id;
     const alt = this.newSchoolForm.value.alt;
-    const newSchool = new SchoolPair(name, alt);
+    const newSchool = new SchoolPair(name, id, alt);
     const found = this.schoolService.checkIfAlreadyExists(name);
     if (found){
       alert('That school already exists.')
