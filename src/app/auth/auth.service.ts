@@ -85,15 +85,16 @@ export class AuthService{
       this.altName = email.slice(0, index);
       console.log(this.altName);
 
-      this.dataStorageService.getSchoolsList(this.altName);
+      this.dataStorageService.filterSchoolsList(this.altName);
     }
     else if(email.includes('school')){
       this.userType = 'school';
-      this.dataStorageService.getSchoolsList(null);
+      this.dataStorageService.filterSchoolsList(null);
     }
     else{
       this.userType = 'main';
-      this.dataStorageService.getSchoolsList(null);
+      this.altName = this.dataStorageService.alts[0];
+      this.dataStorageService.filterSchoolsList(null);
     }
   }
 }

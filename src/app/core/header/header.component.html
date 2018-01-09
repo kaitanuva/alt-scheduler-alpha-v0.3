@@ -23,8 +23,12 @@
             role="button"
             >ALTs<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a style="cursor: pointer;" (click)="onUserChange(user1)">{{user1}}</a></li>
-            <li><a style="cursor: pointer;" (click)="onUserChange(user2)">{{user2}}</a></li>
+            <!-- <li><a style="cursor: pointer;" (click)="onUserChange(user1)">{{user1}}</a></li>
+            <li><a style="cursor: pointer;" (click)="onUserChange(user2)">{{user2}}</a></li> -->
+
+            <li *ngFor="let alt of alts">
+              <a style="cursor: pointer;" (click)="onUserChange(alt)">{{alt}}</a>
+            </li>
           </ul>
         </li>
         <ng-template [ngIf]="!authService.isAuthenticated()">
