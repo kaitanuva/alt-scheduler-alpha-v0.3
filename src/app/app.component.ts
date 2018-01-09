@@ -33,7 +33,6 @@ export class AppComponent implements OnInit, OnDestroy {
         (value: boolean) => {
           this.redirect = value;
           if (!value){
-            // this.redirectService.redirectRoute = null;
             if (!this.redirectService.logout){
               console.log('Logged in');
               this.checkTokenKey();

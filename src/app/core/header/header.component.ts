@@ -8,8 +8,8 @@ import { AuthService } from '../../auth/auth.service';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
-  user1 = 'Mark';
-  user2 = 'Babo';
+  user1 = 'mark';
+  user2 = 'babo';
 
   constructor(private schoolService: SchoolService,
               private router: Router,

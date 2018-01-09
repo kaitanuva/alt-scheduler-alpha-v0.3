@@ -34,7 +34,7 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
               private authService: AuthService) { }
 
   ngOnInit() {
-    this.activeUser = this.schoolService.activeUser;
+    this.activeUser = this.authService.altName;
     this.schoolService.filterSchoolsByUser(this.activeUser);
     this.schoolService.deleteNewSchool();
     this.approvalList = this.schoolService.getApprovalList();
@@ -123,16 +123,6 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
   }
 
   onApprove(){
-    // const id = this.approveForm.value.requestedSchools;
-    // const schoolPlan = this.approvalList[id];
-    // const selectedSchool = this.schoolService.getSchoolInApprovalList(id);
-    // console.log(selectedSchool);
-    // console.log(schoolPlan);
-    // const approvedSchool = new School(selectedSchool.name, selectedSchool.year,
-    //   selectedSchool.month, selectedSchool.date, selectedSchool.time);
-    // this.schoolService.addSchool(approvedSchool);
-    // this.schoolService.addToSchoolPlans(schoolPlan);
-    // this.schoolService.removeFromApprovalList(id);
     const id = this.approveForm.value.requestedSchools;
     const selectedSchool = this.approvalList[id];
     const approvedSchool = new School(selectedSchool.name, selectedSchool.year,

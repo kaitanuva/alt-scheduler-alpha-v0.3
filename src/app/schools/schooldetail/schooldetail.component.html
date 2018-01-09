@@ -4,7 +4,7 @@
   <button class="btn btn-primary" (click)="nextMonth()">Next Month</button>
 </div>
 <br>
-<div class="row">
+<div *ngIf="authService.userType == 'school'" class="row">
   <button class="btn btn-success" routerLink="new" (click)="onAdd()">Add Plan</button>
 </div>
 <hr>
@@ -128,10 +128,12 @@
         </thead>
       </table>
   </div>
-  <button 
-    type="button" 
-    class="btn" 
-    (click)="onEdit(plan.date)"
-    routerLink="./edit"
-  >Edit Plan</button>
+<ng-template [ngIf]="authService.userType == 'school'">
+    <button 
+      type="button" 
+      class="btn" 
+      (click)="onEdit(plan.date)"
+      routerLink="./edit"
+    >Edit Plan</button>
+</ng-template>
 </form>

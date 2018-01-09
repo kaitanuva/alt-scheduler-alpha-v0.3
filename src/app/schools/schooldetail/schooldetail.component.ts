@@ -5,6 +5,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Params, ActivatedRoute } from '@angular/router';
 import { FormControl, NgForm } from '@angular/forms';
 import { TimeService } from '../../shared/time.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-schooldetail',
@@ -25,7 +26,8 @@ export class SchooldetailComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private schoolService: SchoolService,
               private timeService: TimeService,
-              private editGuard: EditGuard) { }
+              private editGuard: EditGuard,
+              private authService: AuthService) { }
 
   ngOnInit() {
     const clickedYear = this.timeService.altClickedYear;

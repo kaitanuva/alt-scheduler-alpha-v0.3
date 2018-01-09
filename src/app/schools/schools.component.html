@@ -1,13 +1,15 @@
 <div class="container-fluid">
-  <button 
-    type="button" 
-    class="btn btn-success" 
-    (click)="newSchool()">New School</button>
-  <button
-    *ngIf="schoolWasClicked"
-    type="button" 
-    class="btn btn-danger"
-    (click)="deleteSchool()">Delete School</button>
+  <ng-template [ngIf]="authService.userType == 'main'"> 
+    <button 
+      type="button" 
+      class="btn btn-success" 
+      (click)="newSchool()">New School</button>
+    <button
+      *ngIf="schoolWasClicked"
+      type="button" 
+      class="btn btn-danger"
+      (click)="deleteSchool()">Delete School</button>
+  </ng-template>
   <br><br>
   <form *ngIf="newClicked" #f="ngForm">
     <div class="form-group">
