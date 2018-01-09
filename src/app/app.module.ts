@@ -8,7 +8,7 @@ import { SchoolService } from './shared/school.service';
 import { HomeComponent } from './core/home/home.component';
 import { SchedDisplayComponent } from './sched-display/sched-display.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -25,6 +25,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { HttpModule } from '@angular/http';
 import { AuthGuard } from './auth/auth-guard.service';
 import { RedirectComponent } from './redirect/redirect.component';
+import { GlobalErrorHandler } from './error-handler';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,8 @@ import { RedirectComponent } from './redirect/redirect.component';
     HttpModule
   ],
   providers: [
+    {provide: ErrorHandler,
+     useClass: GlobalErrorHandler},
     SchoolService, 
     TimeService, 
     AuthService,
