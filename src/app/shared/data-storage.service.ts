@@ -12,11 +12,12 @@ export class DataStorageService{
     new SchoolPair('内山田小', 'mark'),
     new SchoolPair('加世田小', 'babo')
   ];
+  alts = ['mark', 'babo'];
 
   constructor(private http: Http,
               private schoolService: SchoolService){}
 
-  getSchoolsList(altName: any){
+  filterSchoolsList(altName: any){
     if (altName){
       const filteredByAltList = this.schoolsList.filter(function(v,i){return (v["alt"] == altName)})
       this.schoolService.setSchoolsList(filteredByAltList);

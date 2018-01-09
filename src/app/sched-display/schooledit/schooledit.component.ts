@@ -111,7 +111,6 @@ export class SchooleditComponent implements OnInit, OnDestroy{
       this.schoolService.editSchool(this.id, editedSchool);
       this.router.navigate(['schedule']);
     }
-    console.log(this.schoolService.getSchools());
   }
 
   onDelete(){

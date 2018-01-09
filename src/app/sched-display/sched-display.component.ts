@@ -34,7 +34,7 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
               private authService: AuthService) { }
 
   ngOnInit() {
-    this.activeUser = this.authService.altName;
+    this.activeUser = this.schoolService.activeUser;
     this.schoolService.filterSchoolsByUser(this.activeUser);
     this.schoolService.deleteNewSchool();
     this.approvalList = this.schoolService.getApprovalList();

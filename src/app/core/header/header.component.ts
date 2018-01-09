@@ -1,3 +1,4 @@
+import { DataStorageService } from './../../shared/data-storage.service';
 import { Router } from '@angular/router';
 import { SchoolService } from './../../shared/school.service';
 import { Component, OnInit } from '@angular/core';
@@ -8,18 +9,19 @@ import { AuthService } from '../../auth/auth.service';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
-  user1 = 'mark';
-  user2 = 'babo';
+  alts = [];
 
   constructor(private schoolService: SchoolService,
               private router: Router,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private dataStorageService: DataStorageService) { }
 
   ngOnInit() {
+    this.alts = this.dataStorageService.alts;
   }
 
-  onUserChange(user: string){
-    this.schoolService.activeUser = user;
+  onUserChange(alt: string){
+    this.schoolService.activeUser = alt;
     this.router.navigate(['./']);
   }
 
