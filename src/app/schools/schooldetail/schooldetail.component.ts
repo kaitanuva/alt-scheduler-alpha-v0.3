@@ -76,6 +76,7 @@ export class SchooldetailComponent implements OnInit, OnDestroy {
   onAdd(){
     this.timeService.selectedYear = this.currentYear;
     this.timeService.selectedMonth = this.currentMonth;
+    this.editGuard.canEdit = true;
   }
 
   onEdit(date: number){
