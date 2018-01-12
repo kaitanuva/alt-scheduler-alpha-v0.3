@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SchoolService } from '../../shared/school.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private schoolService: SchoolService) { }
 
   ngOnInit() {
+    // const loggedInSchool = this.schoolService.loggedInSchool;
+    // if (loggedInSchool){
+    //   const index = this.schoolService.getIDFromSchoolListbyRomaji(loggedInSchool);
+    //   this.schoolService.loggedInSchoolIndex = index;
+    // }
   }
 
 }

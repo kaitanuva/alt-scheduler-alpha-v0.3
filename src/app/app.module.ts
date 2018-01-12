@@ -1,3 +1,4 @@
+import { SchoolGuard } from './auth/school-guard.service';
 import { DataStorageService } from './shared/data-storage.service';
 import { RedirectGuard } from './redirect/redirect-guard.service';
 import { RedirectService } from './redirect/redirect.service';
@@ -61,6 +62,7 @@ import { GlobalErrorHandler } from './error-handler';
     AuthGuard, 
     EditGuard,
     RedirectGuard,
+    SchoolGuard,
     DataStorageService
   ],
   bootstrap: [AppComponent]

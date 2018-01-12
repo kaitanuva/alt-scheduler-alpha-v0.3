@@ -81,7 +81,7 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
 
   onDelete(){
     if(confirm('Are you sure you want to delete this school plan?')){
-      this.schoolService.addToApprovalList('delete', this.schoolPlan.time, this.schoolPlan);
+      // this.schoolService.addToApprovalList('delete', this.schoolPlan.time, this.schoolPlan);
       this.router.navigate(['./../'], {relativeTo: this.route});
     }
     else{
