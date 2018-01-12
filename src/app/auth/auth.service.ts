@@ -89,12 +89,18 @@ export class AuthService{
   }
 
   authorizeEmail(email: string){
-    // const token = this.getIdToken();
-    // this.dataStorageService.retrieveAndSetSchoolPlans(token)
-    //   .subscribe(
-    //     (schoolPlans: SchoolPlan[]) => console.log(schoolPlans),
-    //     (error) => console.log(error)
-    //   );
+    let schoolPlansList = [];
+    this.dataStorageService.retrieveSchoolPlans(this.token)
+      .subscribe(
+        (schoolPlans) => {
+          Object.keys(schoolPlans).forEach((key,index)=>{
+            const schoolPlan = Object.values(schoolPlans)[index]
+            schoolPlansList.push(schoolPlan);
+          })
+        },
+        (error) => console.log(error)
+      );
+    this.schoolService.setSchoolPlans(schoolPlansList);
     if (email.includes('alt')){
       this.userType = 'alt';
       const index = email.indexOf('-alt');

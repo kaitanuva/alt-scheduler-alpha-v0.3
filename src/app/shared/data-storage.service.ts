@@ -3,6 +3,7 @@ import { SchoolPair } from './schoolpair.model';
 import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
 import { SchoolService } from './school.service';
+import 'rxjs/Rx';
 
 @Injectable()
 export class DataStorageService{
@@ -71,16 +72,15 @@ export class DataStorageService{
     return associatedALT;
   }
 
-  // retrieveAndSetSchoolPlans(token: string){
-  //   return this.http.get('https://ng-alt-scheduler.firebaseio.com/data.json?auth=' + token)
-  //     .map(
-  //       (response: Response) => {
-  //         const schoolPlans = response.json();
-  //         return schoolPlans;
-  //       }
-  //     );
-  //   // this.schoolService.setSchoolPlans(this.schoolPlans);
-  // }
+  retrieveSchoolPlans(token: string){
+    return this.http.get('https://ng-alt-scheduler.firebaseio.com/data.json?auth=' + token)
+      .map(
+        (response: Response) => {
+          const schoolPlans = response.json();
+          return schoolPlans;
+        }
+      );
+  }
 
   requestSchoolPlan(status: string, time: string, schoolPlan: SchoolPlan, token: string){
     schoolPlan.status = status;
