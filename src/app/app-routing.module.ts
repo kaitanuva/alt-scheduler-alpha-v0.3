@@ -14,6 +14,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthGuard } from './auth/auth-guard.service';
 import { RedirectGuard } from './redirect/redirect-guard.service';
+import { SchoolGuard } from './auth/school-guard.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -22,7 +23,7 @@ const appRoutes: Routes = [
   { path: ':id/edit', component: SchooleditComponent, canActivate: [AuthGuard]},
   { path: ':id/new', component: SchoolNewComponent, canActivate: [AuthGuard]},
   { path: 'schools', component: SchoolsComponent, canActivate: [AuthGuard], children:[
-    { path: ':id', component: SchooldetailComponent},
+    { path: ':id', component: SchooldetailComponent, canActivate: [SchoolGuard]},
     { path: ':id/new', component: SchoolPlanNewComponent, canActivate: [EditGuard]},
     { path: ':id/edit', component: SchoolPlanEditComponent, canActivate: [EditGuard]}
   ]},

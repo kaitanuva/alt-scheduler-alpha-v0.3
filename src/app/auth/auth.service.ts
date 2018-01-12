@@ -1,3 +1,4 @@
+import { SchoolPlan } from './../shared/schoolplan.model';
 import { SchoolService } from './../shared/school.service';
 import { DataStorageService } from './../shared/data-storage.service';
 import { Injectable } from '@angular/core';
@@ -70,6 +71,13 @@ export class AuthService{
   logout(){
     firebase.auth().signOut();
     this.token = null;
+    this.altName = null;
+    this.userType = null;
+    this.schoolService.activeUser = null;
+    this.schoolService.loggedInSchool = null;
+    this.schoolService.loggedInSchoolIndex = null;
+    this.schoolService.selectedSchool = null;
+    this.schoolService.selectedSchoolIndex = null;
     this.redirectService.logout = true;
     this.redirectService.canRedirectSwitch.next(true);
     this.router.navigate(['reloading']);
@@ -81,6 +89,12 @@ export class AuthService{
   }
 
   authorizeEmail(email: string){
+    // const token = this.getIdToken();
+    // this.dataStorageService.retrieveAndSetSchoolPlans(token)
+    //   .subscribe(
+    //     (schoolPlans: SchoolPlan[]) => console.log(schoolPlans),
+    //     (error) => console.log(error)
+    //   );
     if (email.includes('alt')){
       this.userType = 'alt';
       const index = email.indexOf('-alt');

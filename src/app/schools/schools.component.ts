@@ -29,25 +29,13 @@ export class SchoolsComponent implements OnInit, OnDestroy {
     for (let school of retrievedList){
       this.schoolsList.push(school.school);
     }
-    // const altName = this.schoolService.activeUser;
-    // const activeSchool = this.schoolService.loggedInSchool;
-    // if(altName && this.authService.userType == 'alt'){
-    //   let filteredList = retrievedList.filter(function(v,i){return (v["alt"] == altName)})
-    //   for (let school of filteredList){
-    //     this.schoolsList.push(school.school);
-    //   }
-    // }
-    // else if(activeSchool && this.authService.userType == 'school'){
-    //   let filteredList = retrievedList.filter(function(v,i){return (v["id"] == activeSchool)})
-    //   for (let school of filteredList){
-    //     this.schoolsList.push(school.school);
-    //   }
-    // }
-    // else{
-    //   for (let school of retrievedList){
-    //     this.schoolsList.push(school.school);
-    //   }
-    // }
+    const loggedInSchool = this.schoolService.loggedInSchool;
+    if (loggedInSchool){
+      const index = this.schoolService.getIDFromSchoolListbyRomaji(loggedInSchool);
+      this.schoolService.loggedInSchoolIndex = index;
+      this.schoolService.selectedSchoolIndex = index;
+      this.router.navigate(['./schools/'+index]);
+    }
     this.schoolsListSubscription = this.schoolService.schoolsListChanged
       .subscribe(
         (updatedSchoolList: SchoolPair[]) => {
@@ -80,6 +68,7 @@ export class SchoolsComponent implements OnInit, OnDestroy {
   schoolClicked(index: number){
     this.schoolService.deleteSchoolOn.next(true);
     this.schoolService.selectedSchool = this.schoolService.getSchoolFromSchoolList(index);
+    this.schoolService.selectedSchoolIndex = index;
     this.id = index;
   }
 

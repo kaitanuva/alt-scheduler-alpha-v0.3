@@ -8,6 +8,7 @@ export class GlobalErrorHandler implements ErrorHandler{
   constructor(private injector: Injector){}
 
   handleError(error){
+    console.log(error)
     alert('That page does not exist.');
     const router = this.injector.get(Router);
     router.navigate(['']);
