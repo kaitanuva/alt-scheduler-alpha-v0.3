@@ -4,6 +4,7 @@ export class School{
   public month: number;
   public date: number;
   public time: string;
+  public key: string;
 
   constructor(
     name: string, 

@@ -131,14 +131,20 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
 
   onApprove(){
     const id = this.approveForm.value.requestedSchools;
+    const token = this.authService.getIdToken();
     const selectedSchool = this.approvalList[id];
     const approvedSchool = new School(selectedSchool.name, selectedSchool.year,
       selectedSchool.month, selectedSchool.date, selectedSchool.time);
     if (selectedSchool.status == 'new'){
       this.schoolService.addSchool(approvedSchool);
+      this.dataStorageService.addToSchoolDispList(approvedSchool, token)
+        .subscribe(
+          (response) => console.log(response),
+          (error) => console.log(error)
+        );
       this.schoolService.filterSchoolsByUser(this.activeUser);
       this.schoolService.addToSchoolPlans(selectedSchool);
-      this.dataStorageService.removeFromApprovalList(selectedSchool, this.authService.getIdToken())
+      this.dataStorageService.removeFromApprovalList(selectedSchool, token)
         .subscribe(
           (response) => console.log(response),
           (error) => console.log(error)
@@ -149,6 +155,11 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
       const deleteSchoolID = this.schoolService.getIndex(approvedSchool);
       this.schoolService.deleteSchool(deleteSchoolID);
       this.schoolService.deleteSchoolPlan(selectedSchool);
+      this.dataStorageService.removeFromApprovalList(selectedSchool, token)
+      .subscribe(
+        (response) => console.log(response),
+        (error) => console.log(error)
+      );
       this.schoolService.removeFromApprovalList(id);
     }
   }
@@ -156,6 +167,12 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
   onReject(){
     const id = this.approveForm.value.requestedSchools;
     const selectedSchool = this.approvalList[id];
+    const token = this.authService.getIdToken();
+    this.dataStorageService.removeFromApprovalList(selectedSchool, token)
+    .subscribe(
+      (response) => console.log(response),
+      (error) => console.log(error)
+    );
     this.schoolService.removeFromApprovalList(id);
   }
 }
