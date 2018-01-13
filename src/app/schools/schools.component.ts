@@ -5,6 +5,7 @@ import { SchoolService } from './../shared/school.service';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from '../auth/auth.service';
+import { DataStorageService } from '../shared/data-storage.service';
 
 @Component({
   selector: 'app-schools',
@@ -21,6 +22,7 @@ export class SchoolsComponent implements OnInit, OnDestroy {
   id: number;
 
   constructor(private schoolService: SchoolService,
+              private dataStorageService: DataStorageService,
               private router: Router,
               private authService: AuthService) { }
 
@@ -37,6 +39,22 @@ export class SchoolsComponent implements OnInit, OnDestroy {
       this.schoolService.selectedSchool = this.schoolService.getSchoolFromSchoolList(index);
       this.router.navigate(['./schools/'+index]);
     }
+    let schoolPlansList = [];
+    const token = this.authService.token;
+    this.dataStorageService.retrieveSchoolPlans(token)
+      .subscribe(
+        (schoolPlans) => {
+          if (schoolPlans){
+            Object.keys(schoolPlans).forEach((key, index) => {
+              const schoolPlan = Object.values(schoolPlans)[index]
+              schoolPlan.key = key;
+              schoolPlansList.push(schoolPlan);
+            })
+            this.schoolService.setSchoolPlans(schoolPlansList);
+          }
+        },
+        (error) => console.log(error)
+      );
     this.schoolsListSubscription = this.schoolService.schoolsListChanged
       .subscribe(
         (updatedSchoolList: SchoolPair[]) => {

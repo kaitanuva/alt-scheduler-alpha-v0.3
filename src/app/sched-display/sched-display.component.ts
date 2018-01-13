@@ -39,7 +39,24 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
     this.activeUser = this.schoolService.activeUser;
     this.schoolService.filterSchoolsByUser(this.activeUser);
     this.schoolService.deleteNewSchool();
-    this.approvalList = this.schoolService.getApprovalList();
+    if (this.authService.userType == 'main'){
+      let schoolPlansList = [];
+      this.dataStorageService.retrieveApprovalList(this.authService.token)
+        .subscribe(
+          (schoolPlans) => {
+            if (schoolPlans){
+              Object.keys(schoolPlans).forEach((key,index)=>{
+                const schoolPlan = Object.values(schoolPlans)[index];
+                schoolPlan.key = key;
+                schoolPlansList.push(schoolPlan);
+              })
+              this.schoolService.setApprovalList(schoolPlansList);
+              this.approvalList = this.schoolService.getApprovalList();
+            }
+          },
+          (error) => console.log(error)
+        );
+    }
     for (let i = 1; i <= this.lastDate; i++){
       this.datesList.push(new DateDay(i, this.getTheDay(i)));
     }
@@ -143,7 +160,11 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
           (error) => console.log(error)
         );
       this.schoolService.filterSchoolsByUser(this.activeUser);
-      this.schoolService.addToSchoolPlans(selectedSchool);
+      this.dataStorageService.addToSchoolPlans(selectedSchool, token)
+        .subscribe(
+          (response) => console.log(response),
+          (error) => console.log(error)
+        );
       this.dataStorageService.removeFromApprovalList(selectedSchool, token)
         .subscribe(
           (response) => console.log(response),
