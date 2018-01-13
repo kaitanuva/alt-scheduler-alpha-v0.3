@@ -34,6 +34,7 @@ export class SchoolPlan{
   public status: string;
   public time: string;
   public comment: string;
+  public key: string;
 
   constructor(
     name: string,

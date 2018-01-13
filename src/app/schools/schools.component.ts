@@ -34,6 +34,7 @@ export class SchoolsComponent implements OnInit, OnDestroy {
       const index = this.schoolService.getIDFromSchoolListbyRomaji(loggedInSchool);
       this.schoolService.loggedInSchoolIndex = index;
       this.schoolService.selectedSchoolIndex = index;
+      this.schoolService.selectedSchool = this.schoolService.getSchoolFromSchoolList(index);
       this.router.navigate(['./schools/'+index]);
     }
     this.schoolsListSubscription = this.schoolService.schoolsListChanged

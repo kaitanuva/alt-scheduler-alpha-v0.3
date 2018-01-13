@@ -1,3 +1,4 @@
+import { DataStorageService } from './../shared/data-storage.service';
 import { SchoolPlan } from './../shared/schoolplan.model';
 import { NgForm } from '@angular/forms';
 import { School } from './../shared/school.model';
@@ -29,6 +30,7 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
   approvalListSubscription: Subscription;
 
   constructor(private schoolService: SchoolService,
+              private dataStorageService: DataStorageService,
               private router: Router,
               private timeService: TimeService,
               private authService: AuthService) { }
@@ -136,6 +138,11 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
       this.schoolService.addSchool(approvedSchool);
       this.schoolService.filterSchoolsByUser(this.activeUser);
       this.schoolService.addToSchoolPlans(selectedSchool);
+      this.dataStorageService.removeFromApprovalList(selectedSchool, this.authService.getIdToken())
+        .subscribe(
+          (response) => console.log(response),
+          (error) => console.log(error)
+        );
       this.schoolService.removeFromApprovalList(id);
     }
     else{

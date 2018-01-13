@@ -1,3 +1,4 @@
+import { DataStorageService } from './data-storage.service';
 import { Injectable } from '@angular/core';
 import { SchoolPair } from './schoolpair.model';
 import { Subscription } from 'rxjs/Subscription';
@@ -34,7 +35,15 @@ export class SchoolService{
 
   private approvalList = [];
 
-  private schoolPlans = [];
+  private schoolPlans = [
+    new SchoolPlan('長屋小', 2018, 1, 11, '木', '(1) 8:40-9:25',
+    '(2) 9:40-10:25', '(3) 10:40-11:25', '(4) 11:40-12:25',
+    '(5) 2:20-3:05', '(6) 3:20-4:05', '1', '2', '3', '4', '5', '6',
+    'Suzuki' , 'Yamada', 'Hamada', 'Ueda', 'Ueno', 'Hashimoto',
+    'Numbers', 'Fruits', 'Animals', '好きなこと',
+    'Hi Friends 1 Lesson 1 - Hello',
+    'Hi Friends 2 Lesson 6 - Lets go to Italy', 'Lunch', '6', 'Yamada'),
+  ];
 
   constructor(){}
 
@@ -132,6 +141,11 @@ export class SchoolService{
     return this.schoolsList[id].school;
   }
 
+  getSchoolNameUsingLoggedIn(){
+    const school = this.schoolsList.find((v,i) => {return (v["id"] == this.loggedInSchool)})
+    return school.school;
+  }
+
   getIDFromSchoolList(schoolName: string){
     const school = this.schoolsList.find(function(v,i){
       return (v["school"] == schoolName)
@@ -222,6 +236,10 @@ export class SchoolService{
 
   getApprovalList(){
     return this.approvalList.slice();
+  }
+
+  setApprovalList(schoolPlans: SchoolPlan[]){
+    this.approvalList = schoolPlans;
   }
 
   removeFromApprovalList(id: number){
