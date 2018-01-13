@@ -22,11 +22,11 @@ export class SchoolService{
   selectedSchoolIndex: number;
 
   private schools = [
-    new School('坊津学園', 2017, 12, 1, '午前'),
-    new School('長屋小', 2017, 12, 1, '午後'),
-    new School('金峰中', 2017, 12, 5, '一日中'),
-    new School('長屋小', 2018, 1, 11, '午後'),
-    new School('加世田小', 2017, 12, 4, '午前')
+    // new School('坊津学園', 2017, 12, 1, '午前'),
+    // new School('長屋小', 2017, 12, 1, '午後'),
+    // new School('金峰中', 2017, 12, 5, '一日中'),
+    // new School('長屋小', 2018, 1, 11, '午後'),
+    // new School('加世田小', 2017, 12, 4, '午前')
   ];
 
   private filteredSchools = [];
@@ -35,19 +35,15 @@ export class SchoolService{
 
   private approvalList = [];
 
-  private schoolPlans = [
-    new SchoolPlan('長屋小', 2018, 1, 11, '木', '(1) 8:40-9:25',
-    '(2) 9:40-10:25', '(3) 10:40-11:25', '(4) 11:40-12:25',
-    '(5) 2:20-3:05', '(6) 3:20-4:05', '1', '2', '3', '4', '5', '6',
-    'Suzuki' , 'Yamada', 'Hamada', 'Ueda', 'Ueno', 'Hashimoto',
-    'Numbers', 'Fruits', 'Animals', '好きなこと',
-    'Hi Friends 1 Lesson 1 - Hello',
-    'Hi Friends 2 Lesson 6 - Lets go to Italy', 'Lunch', '6', 'Yamada'),
-  ];
+  private schoolPlans = [];
 
   constructor(){}
 
   ////////school functions/////////
+
+  setSchools(schools: School[]){
+    this.schools = schools;
+  }
 
   getSchools(){
     return this.schools.slice();
