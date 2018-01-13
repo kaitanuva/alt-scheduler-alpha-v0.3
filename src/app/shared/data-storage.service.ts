@@ -46,7 +46,7 @@ export class DataStorageService{
   //~~~~~~~~~~Approval List Methods~~~~~~~~~~~~~~//
 
   retrieveApprovalList(token: string){
-    return this.http.get('https://ng-alt-scheduler.firebaseio.com/data.json?auth=' + token)
+    return this.http.get('https://ng-alt-scheduler.firebaseio.com/approvallist.json?auth=' + token)
       .map(
         (response: Response) => {
           const schoolPlans = response.json();
@@ -82,6 +82,28 @@ export class DataStorageService{
   addToSchoolDispList(approvedSchool: School, token: string){
     return this.http.post('https://ng-alt-scheduler.firebaseio.com/schooldisp.json?auth=' + token
       , approvedSchool);
+  }
+  
+  //~~~~~~~~~~School Plans List Methods~~~~~~~~~~~~~~//
+
+  retrieveSchoolPlans(token: string){
+    return this.http.get('https://ng-alt-scheduler.firebaseio.com/schoolplans.json?auth=' + token)
+      .map(
+        (response: Response) => {
+          const schoolPlans = response.json();
+          return schoolPlans;
+        }
+      );
+  }
+
+  addToSchoolPlans(schoolPlan: SchoolPlan, token: string){
+    return this.http.post('https://ng-alt-scheduler.firebaseio.com/schoolplans.json?auth=' + token
+    , schoolPlan);
+  }
+
+  removeFromSchoolPlans(schoolPlan: SchoolPlan, token: string){
+    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/schoolplans/' + schoolPlan.key
+     + '.json?auth=' + token);
   }
 
 }

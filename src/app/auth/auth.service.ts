@@ -104,7 +104,6 @@ export class AuthService{
         },
         (error) => console.log(error)
       );
-    // this.schoolService.setSchoolPlans(schoolPlansList);
     if (email.includes('alt')){
       this.userType = 'alt';
       const index = email.indexOf('-alt');
@@ -128,22 +127,6 @@ export class AuthService{
       this.altName = this.dataStorageService.alts[0];
       this.schoolService.activeUser = this.altName;
       this.dataStorageService.filterSchoolsList(null, null);
-
-      let schoolPlansList = [];
-      this.dataStorageService.retrieveApprovalList(this.token)
-        .subscribe(
-          (schoolPlans) => {
-            if (schoolPlans){
-              Object.keys(schoolPlans).forEach((key,index)=>{
-                const schoolPlan = Object.values(schoolPlans)[index];
-                schoolPlan.key = key;
-                schoolPlansList.push(schoolPlan);
-              })
-              this.schoolService.setApprovalList(schoolPlansList);
-            }
-          },
-          (error) => console.log(error)
-        );
     }
   }
 }
