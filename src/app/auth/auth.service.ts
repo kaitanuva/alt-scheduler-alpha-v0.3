@@ -90,17 +90,19 @@ export class AuthService{
 
   authorizeEmail(email: string){
     let schoolPlansList = [];
-    this.dataStorageService.retrieveSchoolPlans(this.token)
+    this.dataStorageService.retrieveApprovalList(this.token)
       .subscribe(
         (schoolPlans) => {
           Object.keys(schoolPlans).forEach((key,index)=>{
-            const schoolPlan = Object.values(schoolPlans)[index]
+            const schoolPlan = Object.values(schoolPlans)[index];
+            schoolPlan.key = key;
             schoolPlansList.push(schoolPlan);
           })
         },
         (error) => console.log(error)
       );
-    this.schoolService.setSchoolPlans(schoolPlansList);
+    this.schoolService.setApprovalList(schoolPlansList);
+    // this.schoolService.setSchoolPlans(schoolPlansList);
     if (email.includes('alt')){
       this.userType = 'alt';
       const index = email.indexOf('-alt');

@@ -72,7 +72,7 @@ export class DataStorageService{
     return associatedALT;
   }
 
-  retrieveSchoolPlans(token: string){
+  retrieveApprovalList(token: string){
     return this.http.get('https://ng-alt-scheduler.firebaseio.com/data.json?auth=' + token)
       .map(
         (response: Response) => {
@@ -82,11 +82,17 @@ export class DataStorageService{
       );
   }
 
-  requestSchoolPlan(status: string, time: string, schoolPlan: SchoolPlan, token: string){
+  addToApprovalList(status: string, time: string, schoolPlan: SchoolPlan, token: string){
     schoolPlan.status = status;
     schoolPlan.time = time;
     return this.http.post('https://ng-alt-scheduler.firebaseio.com/data.json?auth=' + token
     , schoolPlan);
+  }
+
+  removeFromApprovalList(schoolPlan: SchoolPlan, token: string){
+    console.log(schoolPlan.key);
+    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/data/' + schoolPlan.key
+     + '.json?auth=' + token);
   }
 
 }

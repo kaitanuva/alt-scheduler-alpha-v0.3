@@ -70,7 +70,7 @@ export class SchoolPlanNewComponent implements OnInit {
       form.classLunch, form.teacherLunch);
     // this.schoolService.addToApprovalList('new', form.time, schoolPlan);
     const token = this.authService.getIdToken();
-    this.dataStorageService.requestSchoolPlan('new', form.time, schoolPlan, token)
+    this.dataStorageService.addToApprovalList('new', form.time, schoolPlan, token)
       .subscribe(
         (response) => console.log(response),
         (error) => console.log(error)

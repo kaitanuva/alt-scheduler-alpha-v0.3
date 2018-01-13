@@ -31,7 +31,7 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
               private editGuard: EditGuard) { }
 
   ngOnInit() {
-    this.schoolName = this.schoolService.selectedSchool;
+    this.schoolName = this.schoolService.getSchoolNameUsingLoggedIn();
     this.year = this.timeService.selectedYear;
     this.month = this.timeService.selectedMonth;
     const date = this.timeService.selectedDate;
@@ -87,6 +87,11 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
     else{
       return;
     }
+  }
+
+  onCancel(){
+    this.schoolService.selectedSchoolIndex = this.schoolService.loggedInSchoolIndex;
+    this.router.navigate(['./../'], {relativeTo: this.route});
   }
 
   onChangeDate(){
