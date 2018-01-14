@@ -1,3 +1,4 @@
+import { DataStorageService } from './../../shared/data-storage.service';
 import { EditGuard } from './../../auth/edit-guard.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -6,6 +7,7 @@ import { SchoolService } from './../../shared/school.service';
 import { TimeService } from './../../shared/time.service';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { SchoolPlan } from '../../shared/schoolplan.model';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-school-plan-edit',
@@ -20,12 +22,15 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
   year: number;
   month: number;
   time: string;
+  date: number;
   weekend = false;
   theDay: string;
   daySubscription: Subscription;
 
   constructor(private timeService: TimeService,
               private schoolService: SchoolService,
+              private dataStorageService: DataStorageService,
+              private authService: AuthService,
               private route: ActivatedRoute,
               private router: Router,
               private editGuard: EditGuard) { }
@@ -34,11 +39,15 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
     this.schoolName = this.schoolService.getSchoolNameUsingLoggedIn();
     this.year = this.timeService.selectedYear;
     this.month = this.timeService.selectedMonth;
-    const date = this.timeService.selectedDate;
+    this.date = this.timeService.selectedDate;
     this.schoolPlan = this.schoolService.getSchoolPlanUsingName(this.schoolName, 
-      this.year, this.month, date);
+      this.year, this.month, this.date);
     this.theDay = this.schoolPlan.day;
     this.time = this.schoolPlan.time;
+
+    // console.log(this.schoolPlan.key)
+    // const school = this.schoolService.findSchoolFiltered(this.year, this.month, date, this.time)
+    // console.log(school.key)
   
     const lastDate = this.timeService.getLastDate(this.year, this.month);
     for (let i = 1; i <= lastDate; i++){
@@ -81,7 +90,15 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
 
   onDelete(){
     if(confirm('Are you sure you want to delete this school plan?')){
-      // this.schoolService.addToApprovalList('delete', this.schoolPlan.time, this.schoolPlan);
+      const token = this.authService.token;
+      const school = this.schoolService.findSchoolFiltered(this.year, this.month, this.date, this.time);
+      this.schoolPlan.deleteSchoolKey = school.key;
+      this.schoolPlan.deleteSchoolPlanKey = this.schoolPlan.key;
+      this.dataStorageService.addToApprovalList('delete', this.schoolPlan.time, this.schoolPlan, token)
+        .subscribe(
+          (response) => console.log(response),
+          (error) => console.log(error)
+        );
       this.router.navigate(['./../'], {relativeTo: this.route});
     }
     else{

@@ -35,6 +35,8 @@ export class SchoolPlan{
   public time: string;
   public comment: string;
   public key: string;
+  public deleteSchoolKey: string;
+  public deleteSchoolPlanKey: string;
 
   constructor(
     name: string,
