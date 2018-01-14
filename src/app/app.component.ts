@@ -1,8 +1,10 @@
+import { DataStorageService } from './shared/data-storage.service';
 import { Subscription } from 'rxjs/Subscription';
 import { RedirectService } from './redirect/redirect.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as firebase from 'firebase';
 import { AuthService } from './auth/auth.service';
+import { SchoolService } from './shared/school.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +18,9 @@ export class AppComponent implements OnInit, OnDestroy {
   email: string;
 
   constructor(private authService: AuthService,
-              private redirectService: RedirectService){}
+              private schoolService: SchoolService,
+              private redirectService: RedirectService,
+              private dataStorageService: DataStorageService){}
 
   ngOnInit(){
     this.redirect = this.redirectService.canRedirect;
@@ -25,6 +29,11 @@ export class AppComponent implements OnInit, OnDestroy {
       apiKey: "AIzaSyA16Mv1_4fGvVO05XY_M1G2WQ6gQ68wfKI",
       authDomain: "ng-alt-scheduler.firebaseapp.com"
     });
+
+    // firebase.auth().onAuthStateChanged(
+    //   (user) => {return true},
+    //   (error) => console.log(error.message)
+    // );
 
     this.checkTokenKey();
 
@@ -44,6 +53,23 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         }
       )
+
+    // let schoolPlansList = [];
+    // const token = this.authService.token;
+    // this.dataStorageService.retrieveSchoolPlans(token)
+    // .subscribe(
+    //   (schoolPlans) => {
+    //     if (schoolPlans){
+    //       Object.keys(schoolPlans).forEach((key, index) => {
+    //         const schoolPlan = Object.values(schoolPlans)[index]
+    //         schoolPlan.key = key;
+    //         schoolPlansList.push(schoolPlan);
+    //       })
+    //       this.schoolService.setSchoolPlans(schoolPlansList);
+    //     }
+    //   },
+    //   (error) => console.log(error._body)
+    // );
   }
 
   ngOnDestroy(){

@@ -57,7 +57,8 @@ export class SchoolService{
     return this.schools[id];
   }
 
-  filterSchoolsByUser(user: string){
+  filterSchoolsByUser(){
+    const user = this.activeUser;
     let filteredByName = this.schoolsList.filter(function(v,i){
       return (v["alt"] == user)
     })

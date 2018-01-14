@@ -62,8 +62,8 @@ export class DataStorageService{
     , schoolPlan);
   }
 
-  removeFromApprovalList(schoolPlan: SchoolPlan, token: string){
-    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/approvallist/' + schoolPlan.key
+  removeFromApprovalList(key: string, token: string){
+    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/approvallist/' + key
      + '.json?auth=' + token);
   }
 
@@ -83,6 +83,11 @@ export class DataStorageService{
     return this.http.post('https://ng-alt-scheduler.firebaseio.com/schooldisp.json?auth=' + token
       , approvedSchool);
   }
+
+  removeFromDispList(key: string, token: string){
+    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/schooldisp/'
+    + key + '.json?auth=' + token);
+  }
   
   //~~~~~~~~~~School Plans List Methods~~~~~~~~~~~~~~//
 
@@ -101,9 +106,9 @@ export class DataStorageService{
     , schoolPlan);
   }
 
-  removeFromSchoolPlans(schoolPlan: SchoolPlan, token: string){
-    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/schoolplans/' + schoolPlan.key
-     + '.json?auth=' + token);
+  removeFromSchoolPlans(key: string, token: string){
+    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/schoolplans/'
+    + key + '.json?auth=' + token);
   }
 
 }

@@ -17,7 +17,6 @@ import { AuthService } from '../auth/auth.service';
 })
 export class SchedDisplayComponent implements OnInit, OnDestroy {
   @ViewChild('f') approveForm: NgForm;
-  activeUser: string;
   theDate = new Date();
   months = ['1月', '2月', '3月', '4月', '5月', '6月',
    '7月', '8月', '9月', '10月', '11月', '12月'];
@@ -25,6 +24,7 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
   currentYear = this.theDate.getFullYear();
   lastDate = this.retrieveLastDate();
   datesList = [];
+  activeUser: string;
   approvalList: SchoolPlan[];
   timeSubscription: Subscription;
   approvalListSubscription: Subscription;
@@ -36,8 +36,9 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
               private authService: AuthService) { }
 
   ngOnInit() {
+    let schools = [];
     this.activeUser = this.schoolService.activeUser;
-    this.schoolService.filterSchoolsByUser(this.activeUser);
+    this.schoolService.filterSchoolsByUser();
     this.schoolService.deleteNewSchool();
     if (this.authService.userType == 'main'){
       let schoolPlansList = [];
@@ -150,22 +151,22 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
     const id = this.approveForm.value.requestedSchools;
     const token = this.authService.getIdToken();
     const selectedSchool = this.approvalList[id];
-    const approvedSchool = new School(selectedSchool.name, selectedSchool.year,
+    const approveSchool = new School(selectedSchool.name, selectedSchool.year,
       selectedSchool.month, selectedSchool.date, selectedSchool.time);
     if (selectedSchool.status == 'new'){
-      this.schoolService.addSchool(approvedSchool);
-      this.dataStorageService.addToSchoolDispList(approvedSchool, token)
+      this.schoolService.addSchool(approveSchool);
+      this.dataStorageService.addToSchoolDispList(approveSchool, token)
         .subscribe(
           (response) => console.log(response),
           (error) => console.log(error)
         );
-      this.schoolService.filterSchoolsByUser(this.activeUser);
+      this.schoolService.filterSchoolsByUser();
       this.dataStorageService.addToSchoolPlans(selectedSchool, token)
         .subscribe(
           (response) => console.log(response),
           (error) => console.log(error)
         );
-      this.dataStorageService.removeFromApprovalList(selectedSchool, token)
+      this.dataStorageService.removeFromApprovalList(selectedSchool.key, token)
         .subscribe(
           (response) => console.log(response),
           (error) => console.log(error)
@@ -173,14 +174,26 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
       this.schoolService.removeFromApprovalList(id);
     }
     else{
-      const deleteSchoolID = this.schoolService.getIndex(approvedSchool);
+      const deleteSchoolID = this.schoolService.getIndex(approveSchool);
+      this.dataStorageService.removeFromDispList(selectedSchool.deleteSchoolKey, token)
+        .subscribe(
+          (response) => console.log(response),
+          (error) => console.log(error)
+        );
       this.schoolService.deleteSchool(deleteSchoolID);
+      this.schoolService.filterSchoolsByUser();
+      this.dataStorageService.removeFromSchoolPlans(selectedSchool.deleteSchoolPlanKey, token)
+        .subscribe(
+          (response) => console.log(response),
+          (error) => console.log(error)
+        );
       this.schoolService.deleteSchoolPlan(selectedSchool);
-      this.dataStorageService.removeFromApprovalList(selectedSchool, token)
-      .subscribe(
-        (response) => console.log(response),
-        (error) => console.log(error)
-      );
+      this.schoolService.filterSchoolsByUser();
+      this.dataStorageService.removeFromApprovalList(selectedSchool.key, token)
+        .subscribe(
+          (response) => console.log(response),
+          (error) => console.log(error)
+        );
       this.schoolService.removeFromApprovalList(id);
     }
   }
@@ -189,7 +202,7 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
     const id = this.approveForm.value.requestedSchools;
     const selectedSchool = this.approvalList[id];
     const token = this.authService.getIdToken();
-    this.dataStorageService.removeFromApprovalList(selectedSchool, token)
+    this.dataStorageService.removeFromApprovalList(selectedSchool.key, token)
     .subscribe(
       (response) => console.log(response),
       (error) => console.log(error)

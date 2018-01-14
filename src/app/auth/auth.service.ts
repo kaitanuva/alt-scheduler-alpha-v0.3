@@ -100,9 +100,25 @@ export class AuthService{
               schools.push(school);
             })
             this.schoolService.setSchools(schools);
+            this.schoolService.filterSchoolsByUser();
           }
         },
-        (error) => console.log(error)
+        (error) => console.log(error._body)
+      );
+    let schoolPlansList = [];
+    this.dataStorageService.retrieveSchoolPlans(this.token)
+      .subscribe(
+        (schoolPlans) => {
+          if (schoolPlans){
+            Object.keys(schoolPlans).forEach((key, index) => {
+              const schoolPlan = Object.values(schoolPlans)[index]
+              schoolPlan.key = key;
+              schoolPlansList.push(schoolPlan);
+            })
+            this.schoolService.setSchoolPlans(schoolPlansList);
+          }
+        },
+        (error) => console.log(error._body)
       );
     if (email.includes('alt')){
       this.userType = 'alt';
@@ -128,5 +144,6 @@ export class AuthService{
       this.schoolService.activeUser = this.altName;
       this.dataStorageService.filterSchoolsList(null, null);
     }
+    this.schoolService.filterSchoolsByUser();
   }
 }
