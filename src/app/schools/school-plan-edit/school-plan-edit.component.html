@@ -2,17 +2,18 @@
   <div 
     class="form-group">
     <br>
-    <!-- <div class="col-xs-2">
+    <div class="col-xs-2">
       <div class="radio">
-          <input type="radio" name="time" value="午前" [ngModel]="time" required>午前
+          <input 
+            type="radio" 
+            name="time" 
+            [value]="time" 
+            [ngModel]="time" 
+            disabled 
+            checked
+          >{{time}}
       </div>
-      <div class="radio">
-        <input type="radio" name="time" value="午後" [ngModel]="time">午後
-      </div>
-      <div class="radio">
-        <input type="radio" name="time" value="一日中" [ngModel]="time">一日中
-      </div>
-    </div> -->
+    </div>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>

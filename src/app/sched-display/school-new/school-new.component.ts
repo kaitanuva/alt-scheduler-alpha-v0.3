@@ -1,3 +1,4 @@
+import { DataStorageService } from './../../shared/data-storage.service';
 import { SchoolPair } from './../../shared/schoolpair.model';
 import { School } from './../../shared/school.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -6,6 +7,7 @@ import { SchoolService } from '../../shared/school.service';
 import { NgForm} from '@angular/forms';
 import { TimeService } from '../../shared/time.service';
 import { Subscription } from 'rxjs/Subscription';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-school-new',
@@ -23,13 +25,15 @@ export class SchoolNewComponent implements OnInit, OnDestroy{
   theDate = new Date();
   lastDate: number;
   datesList = [];
-  schoolsOptionList = [];
+  // schoolsOptionList = [];
   timeSubscription: Subscription;
   schoolSubscription: Subscription;
 
   weekend = false;
 
   constructor(private schoolService: SchoolService,
+              private dataStorageService: DataStorageService,
+              private authService: AuthService,
               private timeService: TimeService,
               private route: ActivatedRoute,
               private router: Router) { }
@@ -65,7 +69,7 @@ export class SchoolNewComponent implements OnInit, OnDestroy{
     );
 
         
-    this.schoolsOptionList = this.schoolService.getSchoolsList();
+    // this.schoolsOptionList = this.schoolService.getSchoolsList();
   }
 
   ngOnDestroy(){
@@ -75,33 +79,55 @@ export class SchoolNewComponent implements OnInit, OnDestroy{
   }
 
   onSave(){
-    const nameInp = this.editForm.value.name;
-    const yearInp = this.editForm.value.year;
-    const monthInp = this.editForm.value.month;
-    const dateInp = this.editForm.value.date;
-    const timeInp = this.editForm.value.time;
-    let targetSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, timeInp);
-    let allDaySchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '一日中');
-    let morningSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午前');
-    let noonSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午後');
-    let editedSchool = new School(nameInp, yearInp, monthInp, dateInp, timeInp);
+    // // const nameInp = this.editForm.value.name;
+    // // const yearInp = this.editForm.value.year;
+    // // const monthInp = this.editForm.value.month;
+    // // const dateInp = this.editForm.value.date;
+    // // const timeInp = this.editForm.value.time;
+    // // let targetSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, timeInp);
+    // // let allDaySchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '一日中');
+    // // let morningSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午前');
+    // // let noonSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午後');
+    // // let editedSchool = new School(nameInp, yearInp, monthInp, dateInp, timeInp);
+    // let editedSchool = new School(this.name, this.year, this.month, this.date, this.time);
     
-    if (targetSchool && this.schoolService.getIndexFiltered(targetSchool) != this.id){
-      alert('Another school already exists on that time & date.');
-    }
-    else if (allDaySchool){
-      alert('Another school already exists on that time & date.');
-    }
-    else if (timeInp == '一日中' &&  morningSchool && this.schoolService.getIndexFiltered(morningSchool) != this.id){
-      alert('Another school already exists on that time & date.');
-    }
-    else if (timeInp == '一日中' &&  noonSchool && this.schoolService.getIndexFiltered(noonSchool) !=this.id){
-      alert('Another school already exists on that time & date.');
-    }
-    else{
-      this.schoolService.editSchool(this.id, editedSchool);
-      this.router.navigate(['schedule']);
-    }
+    // if (targetSchool && this.schoolService.getIndexFiltered(targetSchool) != this.id){
+    //   alert('Another school already exists on that time & date.');
+    // }
+    // else if (allDaySchool){
+    //   alert('Another school already exists on that time & date.');
+    // }
+    // else if (timeInp == '一日中' &&  morningSchool && this.schoolService.getIndexFiltered(morningSchool) != this.id){
+    //   alert('Another school already exists on that time & date.');
+    // }
+    // else if (timeInp == '一日中' &&  noonSchool && this.schoolService.getIndexFiltered(noonSchool) !=this.id){
+    //   alert('Another school already exists on that time & date.');
+    // }
+    // else{
+      // this.schoolService.editSchool(this.id, editedSchool);
+      // const token = this.authService.token;
+      // this.dataStorageService.addToSchoolDispList(editedSchool, token)
+      //   .subscribe(
+      //     (response) => console.log(response),
+      //     (error) => console.log(error)
+      //   );
+    //   console.log(editedSchool)
+    //   this.router.navigate(['schedule']);
+    // }
+    let editedSchool = new School(this.editForm.value.name, this.year, this.month, this.date, this.time,
+      this.schoolService.activeUser);
+    editedSchool.alt = this.schoolService.activeUser;
+    const token = this.authService.token;
+    this.schoolService.editSchool(this.id, editedSchool);
+    this.dataStorageService.addToSchoolDispList(editedSchool, token)
+    .subscribe(
+      (response) => console.log(response),
+      (error) => console.log(error)
+    );
+    console.log(this.schoolService.getSchools())
+    this.schoolService.filterSchoolsByUser()
+    console.log(this.schoolService.getfilteredSchools())
+    this.router.navigate(['schedule']);
   }
 
   checkWeekend(){

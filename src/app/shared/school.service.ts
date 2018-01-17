@@ -12,7 +12,7 @@ export class SchoolService{
 
   dateChanged = new Subject<{year: number, month: number}>();
   schoolsListChanged = new Subject<SchoolPair[]>();
-  approvalListChanged = new Subject<School[]>();
+  approvalListChanged = new Subject<SchoolPlan[]>();
   planCounterUpdated = new Subject<number[]>();
   deleteSchoolOn = new Subject<boolean>();
   activeUser: string;
@@ -58,16 +58,27 @@ export class SchoolService{
   }
 
   filterSchoolsByUser(){
-    const user = this.activeUser;
-    let filteredByName = this.schoolsList.filter(function(v,i){
-      return (v["alt"] == user)
-    })
+    // const user = this.activeUser;
+    // let filteredByName = this.schoolsList.filter(function(v,i){
+    //   return (v["alt"] == user)
+    // })
+    // let newSchools = [];
+    // for (let school of filteredByName){
+    //   newSchools.push.apply(newSchools, this.schools.filter(function(v,i){
+    //     return (v["name"] == school.school)
+    //   }))
+    // }
+    // let others = ["Office", "勤務不可日", "祝日"]
+    // for (let other of others){
+    //   newSchools.push.apply(newSchools, this.schools.filter((v,i)=>{
+    //     return (v["alt"] ==)
+    //   }))
+    // }
+    // this.filteredSchools = newSchools;
     let newSchools = [];
-    for (let school of filteredByName){
-      newSchools.push.apply(newSchools, this.schools.filter(function(v,i){
-        return (v["name"] == school.school)
-      }))
-    }
+    newSchools.push.apply(newSchools, this.schools.filter((v,i) => {
+      return (v["alt"] == this.activeUser);
+    }));
     this.filteredSchools = newSchools;
   }
 
