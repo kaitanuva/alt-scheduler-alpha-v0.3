@@ -118,15 +118,17 @@ export class SchoolNewComponent implements OnInit, OnDestroy{
       this.schoolService.activeUser);
     editedSchool.alt = this.schoolService.activeUser;
     const token = this.authService.token;
-    this.schoolService.editSchool(this.id, editedSchool);
     this.dataStorageService.addToSchoolDispList(editedSchool, token)
-    .subscribe(
-      (response) => console.log(response),
-      (error) => console.log(error)
-    );
-    console.log(this.schoolService.getSchools())
-    this.schoolService.filterSchoolsByUser()
-    console.log(this.schoolService.getfilteredSchools())
+      .subscribe(
+        (response) => console.log(response),
+        (error) => console.log(error),
+        () => {
+          this.schoolService.editSchool(this.id, editedSchool);
+          this.schoolService.filterSchoolsByUser();
+        }
+      );
+    // this.schoolService.editSchool(this.id, editedSchool)
+    // this.schoolService.filterSchoolsByUser()
     this.router.navigate(['schedule']);
   }
 

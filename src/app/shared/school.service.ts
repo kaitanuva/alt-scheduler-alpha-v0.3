@@ -21,13 +21,7 @@ export class SchoolService{
   selectedSchool: string;
   selectedSchoolIndex: number;
 
-  private schools = [
-    // new School('坊津学園', 2017, 12, 1, '午前'),
-    // new School('長屋小', 2017, 12, 1, '午後'),
-    // new School('金峰中', 2017, 12, 5, '一日中'),
-    // new School('長屋小', 2018, 1, 11, '午後'),
-    // new School('加世田小', 2017, 12, 4, '午前')
-  ];
+  private schools = [];
 
   private filteredSchools = [];
 

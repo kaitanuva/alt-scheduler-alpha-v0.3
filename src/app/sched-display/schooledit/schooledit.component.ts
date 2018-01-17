@@ -118,8 +118,16 @@ export class SchooleditComponent implements OnInit, OnDestroy{
     let school = this.schoolService.getSchool(this.id);
     if (confirm('Are you sure you want to delete this school? :'
      + school.name + ' ' + school.year + '/' + school.month + '/' + school.date)){
+      this.dataStorageService.removeFromDispList(school.key, this.authService.token)
+        .subscribe(
+          (response) => console.log(response),
+          (error) => console.log(error),
+          () => {
+            this.schoolService.deleteSchool(this.id);
+            this.schoolService.filterSchoolsByUser();
+          }
+        );
       this.router.navigate(['schedule']);
-      this.schoolService.deleteSchool(this.id);
     }
     else{
       return;
