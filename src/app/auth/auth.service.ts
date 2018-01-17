@@ -103,7 +103,7 @@ export class AuthService{
             this.schoolService.filterSchoolsByUser();
           }
         },
-        (error) => console.log(error._body)
+        (error) => console.log(error)
       );
     let schoolPlansList = [];
     this.dataStorageService.retrieveSchoolPlans(this.token)
@@ -118,7 +118,7 @@ export class AuthService{
             this.schoolService.setSchoolPlans(schoolPlansList);
           }
         },
-        (error) => console.log(error._body)
+        (error) => console.log(error)
       );
     if (email.includes('alt')){
       this.userType = 'alt';

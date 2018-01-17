@@ -44,10 +44,6 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
       this.year, this.month, this.date);
     this.theDay = this.schoolPlan.day;
     this.time = this.schoolPlan.time;
-
-    // console.log(this.schoolPlan.key)
-    // const school = this.schoolService.findSchoolFiltered(this.year, this.month, date, this.time)
-    // console.log(school.key)
   
     const lastDate = this.timeService.getLastDate(this.year, this.month);
     for (let i = 1; i <= lastDate; i++){
@@ -71,6 +67,7 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
 
   onSave(){
     const form = this.planForm.value;
+    const token = this.authService.token;
     if(confirm('Are you sure you want to save the edited changes?')){
       let time: string;
       let newSchoolPlan = new SchoolPlan(this.schoolPlan.name, 
@@ -80,6 +77,11 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
         form.teacher3, form.teacher4, form.teacher5, form.teacher6, form.lesson1, form.lesson2, 
         form.lesson3, form.lesson4, form.lesson5, form.lesson6, form.lunch, form.classLunch,
         form.teacherLunch);
+      this.dataStorageService.editSchoolPlan(this.schoolPlan.key, token, newSchoolPlan)
+        .subscribe(
+          (response) => console.log(response),
+          (error) => console.log(error)
+        );
       this.schoolService.editSchoolPlan(this.schoolPlan, newSchoolPlan);
       this.router.navigate(['./../'], {relativeTo: this.route});
     }

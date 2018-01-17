@@ -37,6 +37,7 @@ export class SchoolPlan{
   public key: string;
   public deleteSchoolKey: string;
   public deleteSchoolPlanKey: string;
+  public alt: string;
 
   constructor(
     name: string,

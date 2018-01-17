@@ -42,6 +42,7 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
     this.schoolService.deleteNewSchool();
     if (this.authService.userType == 'main'){
       let schoolPlansList = [];
+      let filteredList = [];
       this.dataStorageService.retrieveApprovalList(this.authService.token)
         .subscribe(
           (schoolPlans) => {
@@ -51,7 +52,11 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
                 schoolPlan.key = key;
                 schoolPlansList.push(schoolPlan);
               })
-              this.schoolService.setApprovalList(schoolPlansList);
+              // this.schoolService.setApprovalList(schoolPlansList);
+              filteredList = schoolPlansList.filter((v,i) => {
+                return (v["alt"] == this.schoolService.activeUser);
+              });
+              this.schoolService.setApprovalList(filteredList);
               this.approvalList = this.schoolService.getApprovalList();
             }
           },
@@ -109,7 +114,7 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
         this.router.navigate(['/'+index+'/edit']);
       }
       else{
-        let newSchool = new School('New School', year, month, date, time);
+        let newSchool = new School('New School', year, month, date, time, null);
         this.schoolService.addSchool(newSchool);
         let index = this.schoolService.getIndex(newSchool);
         this.router.navigate(['/'+index+'/new']);
@@ -117,12 +122,12 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
     }
   }
 
-  onAddSchool(year: number, month: number, date: number, time: string){
-    let newSchool = new School('New School', year, month, date, time);
-    this.schoolService.addSchool(newSchool);
-    let index = this.schoolService.getIndex(newSchool);
-    this.router.navigate(['/'+index+'/new']);
-  }
+  // onAddSchool(year: number, month: number, date: number, time: string){
+  //   let newSchool = new School('New School', year, month, date, time);
+  //   this.schoolService.addSchool(newSchool);
+  //   let index = this.schoolService.getIndex(newSchool);
+  //   this.router.navigate(['/'+index+'/new']);
+  // }
 
   ngOnDestroy(){
     if (this.timeSubscription){
@@ -152,7 +157,7 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
     const token = this.authService.getIdToken();
     const selectedSchool = this.approvalList[id];
     const approveSchool = new School(selectedSchool.name, selectedSchool.year,
-      selectedSchool.month, selectedSchool.date, selectedSchool.time);
+      selectedSchool.month, selectedSchool.date, selectedSchool.time, selectedSchool.alt);
     if (selectedSchool.status == 'new'){
       this.schoolService.addSchool(approveSchool);
       this.dataStorageService.addToSchoolDispList(approveSchool, token)

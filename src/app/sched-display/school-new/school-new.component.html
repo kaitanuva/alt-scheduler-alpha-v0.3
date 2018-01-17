@@ -12,14 +12,14 @@
         [ngModel]="name"
         name="name"
         required>
-          <option value="New School">New School</option>
-          <option value="休日">休日</option>
+          <option value="New School">New</option>
+          <option value="勤務不可日">勤務不可日</option>
           <option value="祝日">祝日</option>
-          <option value="祝日">Office</option>
-          <option
+          <option value="Office">Office</option>
+          <!-- <option
             *ngFor="let school of schoolsOptionList"
             [value]="school.school"
-          >{{school.school}}</option>
+          >{{school.school}}</option> -->
         </select>
         </div>
       </div>
@@ -33,7 +33,7 @@
             [ngModel]="year"
             name="year"
             (change)="onChangeYear()"
-            required
+            disabled
           >
         </div>
       </div>
@@ -46,7 +46,7 @@
             [ngModel]="month"
             name="month"
             (change)="onChangeMonth()"
-            required>
+            disabled>
               <option value="1">January</option>
               <option value="2">February</option>
               <option value="3">March</option>
@@ -71,7 +71,7 @@
             [ngModel]="date"
             name="date"
             (change)="checkWeekend()"
-            required>
+            disabled>
               <option 
                 *ngFor="let theDate of datesList"
                 [value]="theDate"
@@ -87,7 +87,7 @@
             class="form-control"
             [ngModel]="time"
             name="time"
-            required>
+            disabled>
               <option value="午前">午前</option>
               <option value="午後">午後</option>
               <option value="一日中">一日中</option>

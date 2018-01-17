@@ -68,6 +68,7 @@ export class SchoolPlanNewComponent implements OnInit {
       form.teacher4, form.teacher5, form.teacher6, form.lesson1, form.lesson2, 
       form.lesson3, form.lesson4, form.lesson5, form.lesson6, form.lunch, 
       form.classLunch, form.teacherLunch);
+    schoolPlan.alt = this.schoolService.activeUser;
     const token = this.authService.getIdToken();
     this.dataStorageService.addToApprovalList('new', form.time, schoolPlan, token)
       .subscribe(

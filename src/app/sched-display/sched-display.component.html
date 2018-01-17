@@ -10,11 +10,11 @@
         <button class="btn btn-primary" (click)="prevMonth()">Prev Month</button>
         <button class="btn btn-primary" (click)="nextMonth()">Next Month</button>
       <br><br>
-        <button 
+        <!-- <button 
           *ngIf="authService.userType == 'main'"
           class="btn btn-success" 
           (click)="onAddSchool(currentYear, currentMonth+1, '', '')">
-          New School</button>
+          New School</button> -->
     </div>
     <div *ngIf="authService.userType == 'main'" class="col-xs-8">
       <br>

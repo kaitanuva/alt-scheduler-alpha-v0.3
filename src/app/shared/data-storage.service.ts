@@ -106,6 +106,11 @@ export class DataStorageService{
     , schoolPlan);
   }
 
+  editSchoolPlan(key: string, token: string, newSchoolPlan: SchoolPlan){
+    return this.http.patch('https://ng-alt-scheduler.firebaseio.com/schoolplans/'
+    + key + '.json?auth=' + token, newSchoolPlan);
+  }
+
   removeFromSchoolPlans(key: string, token: string){
     return this.http.delete('https://ng-alt-scheduler.firebaseio.com/schoolplans/'
     + key + '.json?auth=' + token);
