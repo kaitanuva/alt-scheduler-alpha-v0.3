@@ -163,9 +163,9 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
       this.dataStorageService.addToSchoolDispList(approveSchool, token)
         .subscribe(
           (response) => console.log(response),
-          (error) => console.log(error)
+          (error) => console.log(error),
+          () => this.schoolService.filterSchoolsByUser()
         );
-      this.schoolService.filterSchoolsByUser();
       this.dataStorageService.addToSchoolPlans(selectedSchool, token)
         .subscribe(
           (response) => console.log(response),
@@ -174,32 +174,36 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
       this.dataStorageService.removeFromApprovalList(selectedSchool.key, token)
         .subscribe(
           (response) => console.log(response),
-          (error) => console.log(error)
+          (error) => console.log(error),
+          () => this.schoolService.removeFromApprovalList(id)
         );
-      this.schoolService.removeFromApprovalList(id);
     }
     else{
       const deleteSchoolID = this.schoolService.getIndex(approveSchool);
       this.dataStorageService.removeFromDispList(selectedSchool.deleteSchoolKey, token)
         .subscribe(
           (response) => console.log(response),
-          (error) => console.log(error)
+          (error) => console.log(error),
+          () => {
+            this.schoolService.deleteSchool(deleteSchoolID);
+            this.schoolService.filterSchoolsByUser();
+          }
         );
-      this.schoolService.deleteSchool(deleteSchoolID);
-      this.schoolService.filterSchoolsByUser();
       this.dataStorageService.removeFromSchoolPlans(selectedSchool.deleteSchoolPlanKey, token)
         .subscribe(
           (response) => console.log(response),
-          (error) => console.log(error)
+          (error) => console.log(error),
+          () => {
+            this.schoolService.deleteSchoolPlan(selectedSchool);
+            this.schoolService.filterSchoolsByUser();
+          }
         );
-      this.schoolService.deleteSchoolPlan(selectedSchool);
-      this.schoolService.filterSchoolsByUser();
       this.dataStorageService.removeFromApprovalList(selectedSchool.key, token)
         .subscribe(
           (response) => console.log(response),
-          (error) => console.log(error)
+          (error) => console.log(error),
+          () => this.schoolService.removeFromApprovalList(id)
         );
-      this.schoolService.removeFromApprovalList(id);
     }
   }
 
@@ -210,8 +214,8 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
     this.dataStorageService.removeFromApprovalList(selectedSchool.key, token)
     .subscribe(
       (response) => console.log(response),
-      (error) => console.log(error)
+      (error) => console.log(error),
+      () => this.schoolService.removeFromApprovalList(id)
     );
-    this.schoolService.removeFromApprovalList(id);
   }
 }
