@@ -84,6 +84,11 @@ export class DataStorageService{
       , approvedSchool);
   }
 
+  editSchoolDisp(key: string, token: string, newSchool: School){
+    return this.http.patch('https://ng-alt-scheduler.firebaseio.com/schooldisp/' + key
+    + '.json?auth=' + token, newSchool);
+  }
+
   removeFromDispList(key: string, token: string){
     return this.http.delete('https://ng-alt-scheduler.firebaseio.com/schooldisp/'
     + key + '.json?auth=' + token);

@@ -80,7 +80,7 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
       this.dataStorageService.editSchoolPlan(this.schoolPlan.key, token, newSchoolPlan)
         .subscribe(
           (response) => console.log(response),
-          (error) => console.log(error),
+          (error) => { throw error },
           () => this.schoolService.editSchoolPlan(this.schoolPlan, newSchoolPlan)
         );
       this.router.navigate(['./../'], {relativeTo: this.route});
@@ -99,7 +99,7 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
       this.dataStorageService.addToApprovalList('delete', this.schoolPlan.time, this.schoolPlan, token)
         .subscribe(
           (response) => console.log(response),
-          (error) => console.log(error)
+          (error) => { throw error }
         );
       this.router.navigate(['./../'], {relativeTo: this.route});
     }

@@ -122,12 +122,12 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
     }
   }
 
-  // onAddSchool(year: number, month: number, date: number, time: string){
-  //   let newSchool = new School('New School', year, month, date, time);
-  //   this.schoolService.addSchool(newSchool);
-  //   let index = this.schoolService.getIndex(newSchool);
-  //   this.router.navigate(['/'+index+'/new']);
-  // }
+  onAddSchool(year: number, month: number, date: number, time: string){
+    let newSchool = new School('New School', year, month, date, time, this.activeUser);
+    this.schoolService.addSchool(newSchool);
+    let index = this.schoolService.getIndex(newSchool);
+    this.router.navigate(['/'+index+'/new']);
+  }
 
   ngOnDestroy(){
     if (this.timeSubscription){

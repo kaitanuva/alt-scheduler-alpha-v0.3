@@ -79,30 +79,30 @@ export class SchoolNewComponent implements OnInit, OnDestroy{
   }
 
   onSave(){
-    // // const nameInp = this.editForm.value.name;
-    // // const yearInp = this.editForm.value.year;
-    // // const monthInp = this.editForm.value.month;
-    // // const dateInp = this.editForm.value.date;
-    // // const timeInp = this.editForm.value.time;
-    // // let targetSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, timeInp);
-    // // let allDaySchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '一日中');
-    // // let morningSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午前');
-    // // let noonSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午後');
-    // // let editedSchool = new School(nameInp, yearInp, monthInp, dateInp, timeInp);
+    const nameInp = this.editForm.value.name;
+    const yearInp = this.editForm.value.year;
+    const monthInp = this.editForm.value.month;
+    const dateInp = this.editForm.value.date;
+    const timeInp = this.editForm.value.time;
+    let targetSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, timeInp);
+    let allDaySchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '一日中');
+    let morningSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午前');
+    let noonSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午後');
+    // let editedSchool = new School(nameInp, yearInp, monthInp, dateInp, timeInp);
     // let editedSchool = new School(this.name, this.year, this.month, this.date, this.time);
     
-    // if (targetSchool && this.schoolService.getIndexFiltered(targetSchool) != this.id){
-    //   alert('Another school already exists on that time & date.');
-    // }
-    // else if (allDaySchool){
-    //   alert('Another school already exists on that time & date.');
-    // }
-    // else if (timeInp == '一日中' &&  morningSchool && this.schoolService.getIndexFiltered(morningSchool) != this.id){
-    //   alert('Another school already exists on that time & date.');
-    // }
-    // else if (timeInp == '一日中' &&  noonSchool && this.schoolService.getIndexFiltered(noonSchool) !=this.id){
-    //   alert('Another school already exists on that time & date.');
-    // }
+    if (targetSchool && this.schoolService.getIndexFiltered(targetSchool) != this.id){
+      alert('Another school already exists on that time & date.');
+    }
+    else if (allDaySchool){
+      alert('Another school already exists on that time & date.');
+    }
+    else if (timeInp == '一日中' &&  morningSchool && this.schoolService.getIndexFiltered(morningSchool) != this.id){
+      alert('Another school already exists on that time & date.');
+    }
+    else if (timeInp == '一日中' &&  noonSchool && this.schoolService.getIndexFiltered(noonSchool) !=this.id){
+      alert('Another school already exists on that time & date.');
+    }
     // else{
       // this.schoolService.editSchool(this.id, editedSchool);
       // const token = this.authService.token;
@@ -114,22 +114,21 @@ export class SchoolNewComponent implements OnInit, OnDestroy{
     //   console.log(editedSchool)
     //   this.router.navigate(['schedule']);
     // }
-    let editedSchool = new School(this.editForm.value.name, this.year, this.month, this.date, this.time,
-      this.schoolService.activeUser);
-    editedSchool.alt = this.schoolService.activeUser;
-    const token = this.authService.token;
-    this.dataStorageService.addToSchoolDispList(editedSchool, token)
-      .subscribe(
-        (response) => console.log(response),
-        (error) => console.log(error),
-        () => {
-          this.schoolService.editSchool(this.id, editedSchool);
-          this.schoolService.filterSchoolsByUser();
-        }
-      );
-    // this.schoolService.editSchool(this.id, editedSchool)
-    // this.schoolService.filterSchoolsByUser()
-    this.router.navigate(['schedule']);
+    else{
+      let editedSchool = new School(this.editForm.value.name, yearInp, monthInp, dateInp, timeInp,
+        this.schoolService.activeUser);
+      const token = this.authService.token;
+      this.dataStorageService.addToSchoolDispList(editedSchool, token)
+        .subscribe(
+          (response) => console.log(response),
+          (error) => { throw error },
+          () => {
+            this.schoolService.editSchool(this.id, editedSchool);
+            this.schoolService.filterSchoolsByUser();
+          }
+        );
+      this.router.navigate(['schedule']);
+    }
   }
 
   checkWeekend(){

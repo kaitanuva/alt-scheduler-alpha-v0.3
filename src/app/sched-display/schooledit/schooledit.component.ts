@@ -22,6 +22,7 @@ export class SchooleditComponent implements OnInit, OnDestroy{
   month: number;
   date: number;
   time: string;
+  key: string;
   theDate = new Date();
   lastDate: number;
   datesList = [];
@@ -50,6 +51,7 @@ export class SchooleditComponent implements OnInit, OnDestroy{
     this.month = school.month;
     this.date = school.date;
     this.time = school.time;
+    this.key = school.key;
 
     this.lastDate = this.timeService.getLastDate(school.year, school.month-1);
     for (let i = 1; i <= this.lastDate; i++){
@@ -79,39 +81,46 @@ export class SchooleditComponent implements OnInit, OnDestroy{
   }
 
   onSave(){
-    const nameInp = this.editForm.value.name;
-    const yearInp = this.editForm.value.year;
-    const monthInp = this.editForm.value.month;
-    const dateInp = this.editForm.value.date;
-    const timeInp = this.editForm.value.time;
-    let targetSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, timeInp);
-    let allDaySchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '一日中');
-    let morningSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午前');
-    let noonSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午後');
+    // const nameInp = this.editForm.value.name;
+    // const yearInp = this.editForm.value.year;
+    // const monthInp = this.editForm.value.month;
+    // const dateInp = this.editForm.value.date;
+    // const timeInp = this.editForm.value.time;
+    // let targetSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, timeInp);
+    // let allDaySchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '一日中');
+    // let morningSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午前');
+    // let noonSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午後');
     // let editedSchool = new School(nameInp, yearInp, monthInp, dateInp, timeInp);
     
-    if (targetSchool && this.schoolService.getIndexFiltered(targetSchool) != this.id){
-      alert('Another school already exists on that time & date.');
-    }
-    else if (allDaySchool){
-      alert('Another school already exists on that time & date.');
-    }
-    else if (timeInp == '一日中' &&  morningSchool && this.schoolService.getIndexFiltered(morningSchool) != this.id){
-      alert('Another school already exists on that time & date.');
-    }
-    else if (timeInp == '一日中' &&  noonSchool && this.schoolService.getIndexFiltered(noonSchool) !=this.id){
-      alert('Another school already exists on that time & date.');
-    }
-    else{
-      // this.schoolService.editSchool(this.id, editedSchool);
-      const token = this.authService.token;
-      // this.dataStorageService.addToSchoolDispList(editedSchool, token)
-      // .subscribe(
-      //   (response) => console.log(response),
-      //   (error) => console.log(error)
-      // );
-      this.router.navigate(['schedule']);
-    }
+    // if (targetSchool && this.schoolService.getIndexFiltered(targetSchool) != this.id){
+    //   alert('Another school already exists on that time & date.');
+    // }
+    // else if (allDaySchool){
+    //   alert('Another school already exists on that time & date.');
+    // }
+    // else if (timeInp == '一日中' &&  morningSchool && this.schoolService.getIndexFiltered(morningSchool) != this.id){
+    //   alert('Another school already exists on that time & date.');
+    // }
+    // else if (timeInp == '一日中' &&  noonSchool && this.schoolService.getIndexFiltered(noonSchool) !=this.id){
+    //   alert('Another school already exists on that time & date.');
+    // }
+    // else{
+    //   this.schoolService.editSchool(this.id, editedSchool);
+    //   this.router.navigate(['schedule']);
+    // }
+    let editedSchool = new School(this.editForm.value.name, this.year, this.month, this.date, this.time,
+      this.schoolService.activeUser);
+    const token = this.authService.token;
+    this.dataStorageService.editSchoolDisp(this.key, token, editedSchool)
+      .subscribe(
+        (response) => console.log(response),
+        (error) => { throw error },
+        () => {
+          this.schoolService.editSchool(this.id, editedSchool);
+          this.schoolService.filterSchoolsByUser();
+        }
+      );
+    this.router.navigate(['schedule']);
   }
 
   onDelete(){
@@ -121,7 +130,7 @@ export class SchooleditComponent implements OnInit, OnDestroy{
       this.dataStorageService.removeFromDispList(school.key, this.authService.token)
         .subscribe(
           (response) => console.log(response),
-          (error) => console.log(error),
+          (error) => { throw error },
           () => {
             this.schoolService.deleteSchool(this.id);
             this.schoolService.filterSchoolsByUser();

@@ -33,7 +33,7 @@
             [ngModel]="year"
             name="year"
             (change)="onChangeYear()"
-            disabled
+            required
           >
         </div>
       </div>
@@ -46,7 +46,7 @@
             [ngModel]="month"
             name="month"
             (change)="onChangeMonth()"
-            disabled>
+            required>
               <option value="1">January</option>
               <option value="2">February</option>
               <option value="3">March</option>
@@ -71,7 +71,7 @@
             [ngModel]="date"
             name="date"
             (change)="checkWeekend()"
-            disabled>
+            required>
               <option 
                 *ngFor="let theDate of datesList"
                 [value]="theDate"
@@ -87,7 +87,7 @@
             class="form-control"
             [ngModel]="time"
             name="time"
-            disabled>
+            required>
               <option value="午前">午前</option>
               <option value="午後">午後</option>
               <option value="一日中">一日中</option>

@@ -73,7 +73,7 @@ export class SchoolPlanNewComponent implements OnInit {
     this.dataStorageService.addToApprovalList('new', form.time, schoolPlan, token)
       .subscribe(
         (response) => console.log(response),
-        (error) => console.log(error)
+        (error) => { throw error }
       );
     this.schoolService.selectedSchoolIndex = this.schoolService.loggedInSchoolIndex;
     this.router.navigate(['./../'], {relativeTo: this.route});
