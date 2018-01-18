@@ -154,61 +154,83 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
 
   onApprove(){
     const id = this.approveForm.value.requestedSchools;
+    if (!id) return;
     const token = this.authService.getIdToken();
     const selectedSchool = this.approvalList[id];
     const approveSchool = new School(selectedSchool.name, selectedSchool.year,
       selectedSchool.month, selectedSchool.date, selectedSchool.time, selectedSchool.alt);
-    if (selectedSchool.status == 'new'){
-      this.schoolService.addSchool(approveSchool);
-      this.dataStorageService.addToSchoolDispList(approveSchool, token)
-        .subscribe(
-          (response) => console.log(response),
-          (error) => console.log(error),
-          () => this.schoolService.filterSchoolsByUser()
-        );
-      this.dataStorageService.addToSchoolPlans(selectedSchool, token)
-        .subscribe(
-          (response) => console.log(response),
-          (error) => console.log(error)
-        );
-      this.dataStorageService.removeFromApprovalList(selectedSchool.key, token)
-        .subscribe(
-          (response) => console.log(response),
-          (error) => console.log(error),
-          () => this.schoolService.removeFromApprovalList(id)
-        );
+
+    const year = selectedSchool.year;
+    const month = selectedSchool.month;
+    const date = selectedSchool.date;
+    let allDaySchool = this.schoolService.findSchoolFiltered(year, month, date, '一日中');
+    let morningSchool = this.schoolService.findSchoolFiltered(year, month, date, '午前');
+    let noonSchool = this.schoolService.findSchoolFiltered(year, month, date, '午後');
+
+    if (allDaySchool){
+      alert('Another school already exists on that time & date.');
+    }
+    else if (morningSchool){
+      alert('Another school already exists on that time & date.');
+    }
+    else if (noonSchool){
+      alert('Another school already exists on that time & date.');
     }
     else{
-      const deleteSchoolID = this.schoolService.getIndex(approveSchool);
-      this.dataStorageService.removeFromDispList(selectedSchool.deleteSchoolKey, token)
-        .subscribe(
-          (response) => console.log(response),
-          (error) => console.log(error),
-          () => {
-            this.schoolService.deleteSchool(deleteSchoolID);
-            this.schoolService.filterSchoolsByUser();
-          }
-        );
-      this.dataStorageService.removeFromSchoolPlans(selectedSchool.deleteSchoolPlanKey, token)
-        .subscribe(
-          (response) => console.log(response),
-          (error) => console.log(error),
-          () => {
-            this.schoolService.deleteSchoolPlan(selectedSchool);
-            this.schoolService.filterSchoolsByUser();
-          }
-        );
-      this.dataStorageService.removeFromApprovalList(selectedSchool.key, token)
-        .subscribe(
-          (response) => console.log(response),
-          (error) => console.log(error),
-          () => this.schoolService.removeFromApprovalList(id)
-        );
+      if (selectedSchool.status == 'new'){
+        this.schoolService.addSchool(approveSchool);
+        this.dataStorageService.addToSchoolDispList(approveSchool, token)
+          .subscribe(
+            (response) => console.log(response),
+            (error) => console.log(error),
+            () => this.schoolService.filterSchoolsByUser()
+          );
+        this.schoolService.addToSchoolPlans(selectedSchool);
+        this.dataStorageService.addToSchoolPlans(selectedSchool, token)
+          .subscribe(
+            (response) => console.log(response),
+            (error) => console.log(error)
+          );
+        this.dataStorageService.removeFromApprovalList(selectedSchool.key, token)
+          .subscribe(
+            (response) => console.log(response),
+            (error) => console.log(error),
+            () => this.schoolService.removeFromApprovalList(id)
+          );
+      }
+      else{
+        const deleteSchoolID = this.schoolService.getIndex(approveSchool);
+        this.dataStorageService.removeFromDispList(selectedSchool.deleteSchoolKey, token)
+          .subscribe(
+            (response) => console.log(response),
+            (error) => console.log(error),
+            () => {
+              this.schoolService.deleteSchool(deleteSchoolID);
+              this.schoolService.filterSchoolsByUser();
+            }
+          );
+        this.dataStorageService.removeFromSchoolPlans(selectedSchool.deleteSchoolPlanKey, token)
+          .subscribe(
+            (response) => console.log(response),
+            (error) => console.log(error),
+            () => {
+              this.schoolService.deleteSchoolPlan(selectedSchool);
+              this.schoolService.filterSchoolsByUser();
+            }
+          );
+        this.dataStorageService.removeFromApprovalList(selectedSchool.key, token)
+          .subscribe(
+            (response) => console.log(response),
+            (error) => console.log(error),
+            () => this.schoolService.removeFromApprovalList(id)
+          );
+      }
     }
   }
 
   onReject(){
     const id = this.approveForm.value.requestedSchools;
+    if (!id) return;
     const selectedSchool = this.approvalList[id];
     const token = this.authService.getIdToken();
     this.dataStorageService.removeFromApprovalList(selectedSchool.key, token)

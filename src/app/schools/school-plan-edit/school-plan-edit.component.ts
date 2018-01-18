@@ -76,7 +76,7 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
         form.class3, form.class4, form.class5, form.class6, form.teacher1, form.teacher2, 
         form.teacher3, form.teacher4, form.teacher5, form.teacher6, form.lesson1, form.lesson2, 
         form.lesson3, form.lesson4, form.lesson5, form.lesson6, form.lunch, form.classLunch,
-        form.teacherLunch);
+        form.teacherLunch, form.teachercomment);
       this.dataStorageService.editSchoolPlan(this.schoolPlan.key, token, newSchoolPlan)
         .subscribe(
           (response) => console.log(response),

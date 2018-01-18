@@ -40,7 +40,10 @@ export class SchooldetailComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(
       (params: Params) => {
         this.id = params['id'];
-        this.schoolPlansList = this.schoolService.getSchoolPlansUsingID(this.id, this.currentYear, this.currentMonth+1);        
+        this.schoolPlansList = this.schoolService.getSchoolPlansUsingID(this.id, this.currentYear, this.currentMonth+1);
+        if (!this.schoolService.getSchoolPlansCopy()){
+          throw new Error;
+        }
         let sortedPlans = this.schoolService.sortPlansByDate(this.schoolPlansList);
         this.schoolPlansList = sortedPlans;
       }
