@@ -71,7 +71,8 @@ export class SchoolPlan{
     lesson6: string,
     lunch: string,
     classLunch: string,
-    teacherLunch: string
+    teacherLunch: string,
+    comment: string,
   ){
     this.name = name;
     this.year = year;
@@ -105,5 +106,6 @@ export class SchoolPlan{
     this.lunch = lunch;
     this.classLunch = classLunch;
     this.teacherLunch = teacherLunch;
+    this.comment = comment;
   }
 }

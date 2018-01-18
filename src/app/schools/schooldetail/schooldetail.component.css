@@ -5,3 +5,8 @@
 #bgWhite{
   background-color: white;
 }
+
+textarea.readonly{
+  resize: none;
+  background-color:#FFF !important;
+}
