@@ -127,14 +127,38 @@
           </tr>
         </thead>
       </table>
-      <label for="teachercomment">Teacher Comments</label>
-      <textarea 
-        class="form-control readonly"
-        name="teachercomment" 
-        id="teachercomment"
-        readonly
-        cols="30" rows="5"
-      >{{plan.comment}}</textarea>
+      <div>
+        <label for="teachercomment">Teacher Comments</label>
+        <textarea 
+          class="form-control readonly"
+          name="teachercomment" 
+          id="teachercomment"
+          readonly
+          cols="30" rows="5"
+        >{{plan.comment}}</textarea>
+      </div>
+      <div 
+        class="altnotes"
+        *ngIf="authService.userType == 'alt'">
+        <br>
+        <label for="teachercomment">ALT Notes</label>
+        <textarea 
+          class="form-control"
+          name="altnotes" 
+          id="altnotes"
+          [ngModel]="plan.altnotes"
+          cols="110" rows="3"
+        ></textarea>
+        <br><br>
+      </div>
+      <div
+        class="altnotesbtn"
+        *ngIf="authService.userType == 'alt'"
+      >
+        <br><br>
+        <button class="btn btn-primary" (click)="saveNotes(plan)">Save Notes</button>
+        <hr>
+      </div>
   </div>
 <ng-template [ngIf]="authService.userType == 'school'">
     <button 

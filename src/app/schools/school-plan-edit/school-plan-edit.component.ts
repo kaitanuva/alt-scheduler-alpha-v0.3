@@ -81,9 +81,11 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
         .subscribe(
           (response) => console.log(response),
           (error) => { throw error },
-          () => this.schoolService.editSchoolPlan(this.schoolPlan, newSchoolPlan)
+          () => {
+            this.schoolService.editSchoolPlan(this.schoolPlan, newSchoolPlan);
+            this.router.navigate(['./../'], {relativeTo: this.route});
+          }
         );
-      this.router.navigate(['./../'], {relativeTo: this.route});
     }
     else{
       return;

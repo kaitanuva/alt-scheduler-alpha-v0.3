@@ -1,8 +1,28 @@
 <div class="container-fluid">
-    <div class="row">
-      <div class="Absolute-Center">
-        <div class="col-sm-12 col-md-10 col-md-offset-1">
-          <form (ngSubmit)="onSignup(f)" #f="ngForm">
+  <div class="row">
+    <div class="container">	
+      <div class="wrapper">	
+        <div class="arrow-steps clearfix">
+          <div class="step current"> <span> Step 1: School System</span> </div>
+          <div class="step"> <span>Step 2: ALT</span> </div>
+          <div class="step"> <span> Step 3: Schools</span> </div>
+          <div class="step"> <span>Step 4: Confirmation & Submit</span> </div>
+        </div>
+      </div>
+  </div>
+  <div class="row">
+    <div class="Absolute-Center">
+        <h1 *ngIf="activePage == 'schoolsysPage'">Step 1: School System Setup - Main Account</h1>
+        <h2 *ngIf="activePage == 'altPage'">Step 2: ALT Setup</h2>
+        <h3 *ngIf="activePage == 'schoolPage'">Step 3: Schools Setup</h3>
+        <h4 *ngIf="activePage == 'submitPage'">Step 4: Confirmation and Submit!</h4>
+      </div>
+  </div>
+  <div class="row">
+    <div class="Absolute-Center-box">
+      <div class="col-sm-12 col-md-10 col-md-offset-1">
+        <form (ngSubmit)="onSignup(f)" #f="ngForm">
+          <div class="form-group" *ngIf="activePage == 'schoolsysPage'">
             <div class="form-group input-group">
               <span class="input-group-addon">
                 <i class="glyphicon glyphicon-user"></i>
@@ -10,12 +30,25 @@
               <input 
                 type="text"
                 name="username"
-                placeholder="username"
-                class="form-control"
+                placeholder="Ex: shigenobu"
+                class="form-control text-lowercase"
                 ngModel
                 required
                 #username="ngModel">
             </div>
+            <div class="form-group input-group">
+              <span class="input-group-addon">
+                <i class="fa fa-users fa"></i>
+              </span>
+              <input 
+                type="text"
+                name="schoolsys"
+                placeholder="Ex: minamisatsuma"
+                class="form-control text-lowercase"
+                ngModel
+                required
+                #schoolsys="ngModel">
+              </div>
             <div class="form-group input-group">
               <span class="input-group-addon">
                 <i class="glyphicon glyphicon-lock"></i>
@@ -37,13 +70,23 @@
             >Please enter a password with 6 or more characters.</span>
             <div class="form-group">
               <button 
-                type="submit"
                 [disabled]="!f.valid && username.touched && password.touched"
-                class="btn btn-block">Signup
+                class="btn btn-block btn-primary"
+                (click)="onNext()">Next
               </button>
             </div>
-          </form>
-        </div>
+          </div>
+          <div class="form-group" *ngIf="activePage == 'altPage'">
+            altpage
+          </div>
+          <div class="form-group" *ngIf="activePage == 'schoolPage'">
+            schoolspage
+          </div>
+          <div class="form-group" *ngIf="activePage == 'submitPage'">
+            submit
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>

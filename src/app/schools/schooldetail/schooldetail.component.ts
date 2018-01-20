@@ -1,3 +1,5 @@
+import { SchoolPlan } from './../../shared/schoolplan.model';
+import { DataStorageService } from './../../shared/data-storage.service';
 import { EditGuard } from './../../auth/edit-guard.service';
 import { SchoolService } from './../../shared/school.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -26,6 +28,7 @@ export class SchooldetailComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private schoolService: SchoolService,
               private timeService: TimeService,
+              private dataStorageService: DataStorageService,
               private editGuard: EditGuard,
               private authService: AuthService) { }
 
@@ -87,5 +90,17 @@ export class SchooldetailComponent implements OnInit, OnDestroy {
     this.timeService.selectedMonth = this.currentMonth+1;
     this.timeService.selectedDate = date;
     this.editGuard.canEdit = true;
+  }
+
+  saveNotes(schoolPlan: SchoolPlan){
+    const token = this.authService.token;
+    const newSchoolPlan = schoolPlan;
+    newSchoolPlan.altnotes = this.planForm.value.altnotes;
+    this.dataStorageService.editSchoolPlan(schoolPlan.key, token, newSchoolPlan)
+      .subscribe(
+        (response) => console.log(response),
+        (error) => {throw error},
+        () => alert('Notes saved.')
+      )
   }
 }
