@@ -125,7 +125,6 @@ export class AuthService{
       const index = email.indexOf('-alt');
       this.altName = email.slice(0, index);
       this.schoolService.activeUser = this.altName;
-      console.log(this.altName);
 
       this.dataStorageService.filterSchoolsList(this.altName, null);
     }

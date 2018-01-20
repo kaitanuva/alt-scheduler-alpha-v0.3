@@ -333,7 +333,7 @@
         class="form-control"
         name="teachercomment" 
         id="teachercomment"
-        ngModel
+        [ngModel]="schoolPlan.comment"
         cols="30" rows="5"
       ></textarea>
   </div>

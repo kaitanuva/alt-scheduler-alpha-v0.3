@@ -34,6 +34,7 @@ export class SchoolPlan{
   public status: string;
   public time: string;
   public comment: string;
+  public altnotes: string;
   public key: string;
   public deleteSchoolKey: string;
   public deleteSchoolPlanKey: string;

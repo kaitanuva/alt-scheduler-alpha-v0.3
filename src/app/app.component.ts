@@ -30,11 +30,6 @@ export class AppComponent implements OnInit, OnDestroy {
       authDomain: "ng-alt-scheduler.firebaseapp.com"
     });
 
-    // firebase.auth().onAuthStateChanged(
-    //   (user) => {return true},
-    //   (error) => console.log(error.message)
-    // );
-
     this.checkTokenKey();
 
     this.redirectSubscription = this.redirectService.canRedirectSwitch
@@ -53,23 +48,6 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         }
       )
-
-    // let schoolPlansList = [];
-    // const token = this.authService.token;
-    // this.dataStorageService.retrieveSchoolPlans(token)
-    // .subscribe(
-    //   (schoolPlans) => {
-    //     if (schoolPlans){
-    //       Object.keys(schoolPlans).forEach((key, index) => {
-    //         const schoolPlan = Object.values(schoolPlans)[index]
-    //         schoolPlan.key = key;
-    //         schoolPlansList.push(schoolPlan);
-    //       })
-    //       this.schoolService.setSchoolPlans(schoolPlansList);
-    //     }
-    //   },
-    //   (error) => console.log(error._body)
-    // );
   }
 
   ngOnDestroy(){
@@ -88,7 +66,6 @@ export class AppComponent implements OnInit, OnDestroy {
   
       this.authService.token = this.authtoken;
       this.authService.authorizeEmail(this.email);
-      console.log(this.authService.isAuthenticated());
       console.log(this.email);
       console.log(this.authService.userType);
     }
