@@ -1,5 +1,7 @@
-import { NgForm, FormGroup } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { NgForm, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -7,23 +9,69 @@ import { AuthService } from '../auth.service';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   signupForm: FormGroup;
+  onPagesChange = new Subject<any[]>();
   pages = [
     {page: 'schoolsysPage', on: true},
     {page: 'altPage', on: false},
     {page: 'schoolsPage', on: false},
     {page: 'submitPage', on: false}
   ]
+  pagesSubscription = new Subscription;
   activePage = this.findActivePage().page;
-  progress = '25';
+  displayedALT = 1;
+  displayedSchl = 1;
+  altNames = [];
+  emails = [];
 
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    // this.signupForm = new FormGroup({
-    //   'username': new FormControl()
-    // });
+    this.signupForm = new FormGroup({
+      'schoolsysPage': new FormGroup({
+        'username': new FormControl(null, Validators.required),
+        'schoolsys': new FormControl(null, Validators.required),
+        'password': new FormControl(null, Validators.required),
+        'reenterpw': new FormControl(null, Validators.required)
+      }),
+      'altPage': new FormGroup({
+        'alts': new FormArray([
+          new FormGroup({
+            'name': new FormControl(null, Validators.required),
+            'altpw': new FormControl(null, Validators.required),
+            'reenteraltpw': new FormControl(null, Validators.required)
+          })
+        ])
+      }),
+      'schoolsPage': new FormGroup({
+        'schools': new FormArray([
+          new FormGroup({
+            'schlname': new FormControl(null, Validators.required),
+            'schlnamekanji': new FormControl(null, Validators.required),
+            'schlpw': new FormControl(null, Validators.required),
+            'reenterschlpw': new FormControl(null, Validators.required),
+            'associatedALT': new FormControl(null, Validators.required)
+          })
+        ])
+      })
+    });
+
+    this.pagesSubscription = this.onPagesChange.subscribe(
+      (newPages: any[]) => {
+        this.pages = newPages;
+        this.activePage = this.findActivePage().page;
+      }
+    )
+  }
+
+  ngOnDestroy(){
+    this.pagesSubscription.unsubscribe();
+  }
+
+  preventSpaces(event){
+    var k = event.which || event.keyCode;
+    if (k == 32) return false;
   }
 
   findActivePage(){
@@ -32,16 +80,181 @@ export class SignupComponent implements OnInit {
   }
 
   onNext(){
-    console.log('hi')
-    // console.log(form.value.username)
-    // console.log(form.value.schoolsys)
-    // console.log(form.value.password)
+    const password = this.signupForm.get('schoolsysPage.password').value;
+    const reenteredpw = this.signupForm.get('schoolsysPage.reenterpw').value;
+    if (password != reenteredpw){
+      alert('The entered passwords are not equal.')
+    }
+    // else if (!this.signupForm.get('schoolsysPage').valid){
+    //   alert('Please fill out the required fields.')
+    // }
+    else{
+      const pagesCopy = this.pages.slice();
+      const index = pagesCopy.indexOf(this.findActivePage());
+      pagesCopy[index].on = false;
+      pagesCopy[index+1].on = true;
+      this.onPagesChange.next(pagesCopy);
+    }
   }
 
-  onSignup(form: NgForm){
-    // const username = form.value.username;
-    // const password = form.value.password;
-    // this.authService.signupUser(username, password);
+  addALT(){
+    (<FormArray>this.signupForm.get('altPage.alts')).push(
+      new FormGroup({
+        'name': new FormControl(null, Validators.required),
+        'altpw': new FormControl(null, Validators.required),
+        'reenteraltpw': new FormControl(null, Validators.required)
+    }));
+    this.displayedALT = this.displayedALT+1;
+  }
+
+  deleteALT(index: number){
+    (<FormArray>this.signupForm.get('altPage.alts')).removeAt(index);
+    this.displayedALT = this.displayedALT-1;
+  }
+
+  prevActiveALT(){
+    if (this.displayedALT == 1) {return false;}
+    else {this.displayedALT = this.displayedALT-1;}
+  }
+
+  nextActiveALT(){
+    const length = (<FormArray>this.signupForm.get('altPage.alts')).length;
+    if (this.displayedALT == length) {return false;}
+    else {this.displayedALT = this.displayedALT+1;}
+  }
+
+  onNextALT(){
+    // let canContinue = false;
+    const length = (<FormArray>this.signupForm.get('altPage.alts')).length;
+    // for (let i = 0; i < length; i++){
+    //   const pw = (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('altpw').value
+    //   const reenteredpw = (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('reenteraltpw').value
+    //   const name = (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('name').value;
+    //   if (pw != reenteredpw){
+    //     alert('The entered passwords are not equal for: ' + name)
+    //     canContinue = false;
+    //   }
+    //   else{
+    //     canContinue = true;
+    //   }
+    // }
+
+    // if (canContinue){
+    //   if (!this.signupForm.get('altPage').valid){
+    //     alert('Please fill out the required fields.')
+    //   }
+    //   else{
+        const pagesCopy = this.pages.slice();
+        const index = pagesCopy.indexOf(this.findActivePage());
+        pagesCopy[index].on = false;
+        pagesCopy[index+1].on = true;
+        this.onPagesChange.next(pagesCopy);
+      
+        for (let i = 0; i < length; i++){
+          this.altNames.splice(i, 1, (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('name').value)
+        }
+    //   }
+    // }
+  }
+
+  onBack(){
+    const pagesCopy = this.pages.slice();
+    const index = pagesCopy.indexOf(this.findActivePage());
+    pagesCopy[index].on = false;
+    pagesCopy[index-1].on = true;
+    this.onPagesChange.next(pagesCopy);
+  }
+
+  addSchool(){
+    (<FormArray>this.signupForm.get('schoolsPage.schools')).push(
+      new FormGroup({
+        'schlname': new FormControl(null, Validators.required),
+        'schlnamekanji': new FormControl(null, Validators.required),
+        'schlpw': new FormControl(null, Validators.required),
+        'reenterschlpw': new FormControl(null, Validators.required),
+        'associatedALT': new FormControl(null, Validators.required)
+    }));
+    this.displayedSchl = this.displayedSchl+1;
+  }
+
+  deleteSchl(index: number){
+    (<FormArray>this.signupForm.get('schoolsPage.schools')).removeAt(index);
+    this.displayedSchl = this.displayedSchl-1;
+  }
+
+  prevActiveSchl(){
+    if (this.displayedSchl == 1) {return false;}
+    else {this.displayedSchl = this.displayedSchl-1;}
+  }
+
+  nextActiveSchl(){
+    const length = (<FormArray>this.signupForm.get('schoolsPage.schools')).length;
+    if (this.displayedSchl == length) {return false;}
+    else {this.displayedSchl = this.displayedSchl+1;}
+  }
+
+  onNextSchl(){
+    // let canContinue = false;
+    // const length = (<FormArray>this.signupForm.get('schoolsPage.schools')).length;
+    // for (let i = 0; i < length; i++){
+    //   const schlpw = (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlpw').value
+    //   const reenteredschlpw = (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('reenterschlpw').value
+    //   const name = (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlname').value;
+    //   if (schlpw != reenteredschlpw){
+    //     alert('The entered passwords are not equal for: ' + name)
+    //     canContinue = false;
+    //   }
+    //   else{
+    //     canContinue = true;
+    //   }
+    // }
+
+    // if (canContinue){
+      // if (!this.signupForm.get('schoolsPage').valid){
+      //   alert('Please fill out the required fields.')
+      // }
+      // else{
+        const pagesCopy = this.pages.slice();
+        const index = pagesCopy.indexOf(this.findActivePage());
+        pagesCopy[index].on = false;
+        pagesCopy[index+1].on = true;
+        this.onPagesChange.next(pagesCopy);
+    //   }
+    // }
+
+    const schoolsys = this.signupForm.get('schoolsysPage.schoolsys').value + '.jp';
+
+    this.emails.push({
+      type: 'main',
+      email: this.signupForm.get('schoolsysPage.username').value+ '-main@' + schoolsys,
+      password: this.signupForm.get('schoolsysPage.password').value
+    });
+
+    const altlength = (<FormArray>this.signupForm.get('altPage.alts')).length;
+    for (let i = 0; i < altlength; i++){
+      this.emails.push({
+        type: 'alt',
+        email: (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('name') + '-alt@' + schoolsys,
+        password: (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('altpw').value
+      })
+    }
+
+    const schllength = (<FormArray>this.signupForm.get('schoolsPage.schools')).length;
+    for (let i = 0; i < altlength; i++){
+      this.emails.push({
+        type: 'school',
+        email: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlname') +
+          '-school@' + schoolsys,
+        password: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlpw').value,
+        associatedALT: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('associatedALT').value
+      })
+    }
+
+    console.log(this.emails)
+
+  }
+
+  onSubmit(){
   }
 
 }
