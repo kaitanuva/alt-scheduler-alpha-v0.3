@@ -6,8 +6,12 @@
   text-align: center;
 }
 
-h1{
+h1, h2, h3, h4{
   font-size: 25px;
+}
+
+h5{
+  font-size: 20px;
 }
 
 .Absolute-Center-box{
@@ -17,6 +21,38 @@ h1{
   min-width: 200px;
   max-width: 400px;
   padding: 40px;
+}
+
+i {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.arrowbtn {
+  position: relative;
+  top: 4px;
+}
+
+.scrollbox{
+  position: relative;
+  top: 4px;
+}
+
+.scroll{
+  position: relative;
+  right: -40px;
 }
 
 .form-control.ng-invalid.ng-touched{
