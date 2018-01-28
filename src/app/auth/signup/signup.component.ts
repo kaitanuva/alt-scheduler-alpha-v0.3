@@ -23,7 +23,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   displayedALT = 1;
   displayedSchl = 1;
   altNames = [];
-  emails = [];
+  users = [];
+  show = [];
 
   constructor(private authService: AuthService) { }
 
@@ -222,9 +223,10 @@ export class SignupComponent implements OnInit, OnDestroy {
     //   }
     // }
 
+    let usersArray = [];
     const schoolsys = this.signupForm.get('schoolsysPage.schoolsys').value + '.jp';
 
-    this.emails.push({
+    usersArray.push({
       type: 'main',
       email: this.signupForm.get('schoolsysPage.username').value+ '-main@' + schoolsys,
       password: this.signupForm.get('schoolsysPage.password').value
@@ -232,26 +234,29 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     const altlength = (<FormArray>this.signupForm.get('altPage.alts')).length;
     for (let i = 0; i < altlength; i++){
-      this.emails.push({
+      usersArray.push({
         type: 'alt',
-        email: (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('name') + '-alt@' + schoolsys,
+        email: (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('name').value + '-alt@' + schoolsys,
         password: (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('altpw').value
       })
     }
 
     const schllength = (<FormArray>this.signupForm.get('schoolsPage.schools')).length;
     for (let i = 0; i < altlength; i++){
-      this.emails.push({
+      usersArray.push({
         type: 'school',
-        email: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlname') +
+        email: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlname').value +
           '-school@' + schoolsys,
         password: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlpw').value,
         associatedALT: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('associatedALT').value
       })
     }
+    this.users = usersArray;
 
-    console.log(this.emails)
+  }
 
+  showPW(index: number){
+    this.show.push(index)
   }
 
   onSubmit(){

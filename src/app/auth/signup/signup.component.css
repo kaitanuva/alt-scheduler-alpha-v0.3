@@ -23,6 +23,18 @@ h5{
   padding: 40px;
 }
 
+.Absolute-Center-submit{
+  margin: auto;
+  position: relative;
+  top: 100px; left: 0; bottom: 0; right: 0;
+  min-width: 200px;
+  max-width: 600px;
+}
+
+td {
+  vertical-align: bottom;
+}
+
 i {
   border: solid black;
   border-width: 0 3px 3px 0;

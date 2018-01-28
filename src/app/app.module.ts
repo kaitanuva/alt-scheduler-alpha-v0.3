@@ -28,6 +28,7 @@ import { HttpModule } from '@angular/http';
 import { AuthGuard } from './auth/auth-guard.service';
 import { RedirectComponent } from './redirect/redirect.component';
 import { GlobalErrorHandler } from './error-handler';
+import { PasswordPipe } from './shared/password.pipe';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { GlobalErrorHandler } from './error-handler';
     DropdownDirective,
     LoginComponent,
     SignupComponent,
-    RedirectComponent
+    RedirectComponent,
+    PasswordPipe
   ],
   imports: [
     BrowserModule,
