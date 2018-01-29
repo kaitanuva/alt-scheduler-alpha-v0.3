@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import { NgForm, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth.service';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-signup',
@@ -86,15 +87,27 @@ export class SignupComponent implements OnInit, OnDestroy {
     if (password != reenteredpw){
       alert('The entered passwords are not equal.')
     }
-    // else if (!this.signupForm.get('schoolsysPage').valid){
-    //   alert('Please fill out the required fields.')
-    // }
+    else if (!this.signupForm.get('schoolsysPage').valid){
+      alert('Please fill out the required fields.')
+    }
     else{
-      const pagesCopy = this.pages.slice();
-      const index = pagesCopy.indexOf(this.findActivePage());
-      pagesCopy[index].on = false;
-      pagesCopy[index+1].on = true;
-      this.onPagesChange.next(pagesCopy);
+      const schoolsys = this.signupForm.get('schoolsysPage.schoolsys').value + '.jp';
+      const username = this.signupForm.get('schoolsysPage.username').value + '-main@' + schoolsys;
+      firebase.auth().fetchProvidersForEmail(username)
+        .then(
+          (response: string[]) => {
+            if (response.length == 0){
+              const pagesCopy = this.pages.slice();
+              const index = pagesCopy.indexOf(this.findActivePage());
+              pagesCopy[index].on = false;
+              pagesCopy[index+1].on = true;
+              this.onPagesChange.next(pagesCopy);
+            }
+            else {
+              alert('That email address is not available.');
+            }
+          }
+        )
     }
   }
 
@@ -125,37 +138,62 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   onNextALT(){
-    // let canContinue = false;
+    let canContinue = false;
+    const schoolsys = this.signupForm.get('schoolsysPage.schoolsys').value + '.jp';
     const length = (<FormArray>this.signupForm.get('altPage.alts')).length;
-    // for (let i = 0; i < length; i++){
-    //   const pw = (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('altpw').value
-    //   const reenteredpw = (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('reenteraltpw').value
-    //   const name = (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('name').value;
-    //   if (pw != reenteredpw){
-    //     alert('The entered passwords are not equal for: ' + name)
-    //     canContinue = false;
-    //   }
-    //   else{
-    //     canContinue = true;
-    //   }
-    // }
+    for (let i = 0; i < length; i++){
+      const pw = (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('altpw').value
+      const reenteredpw = (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('reenteraltpw').value
+      const name = (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('name').value;
+      if (pw != reenteredpw){
+        alert('The entered passwords are not equal for: ' + name)
+        canContinue = false;
+      }
+      else{
+        canContinue = true;
+      }
+    }
 
-    // if (canContinue){
-    //   if (!this.signupForm.get('altPage').valid){
-    //     alert('Please fill out the required fields.')
-    //   }
-    //   else{
-        const pagesCopy = this.pages.slice();
-        const index = pagesCopy.indexOf(this.findActivePage());
-        pagesCopy[index].on = false;
-        pagesCopy[index+1].on = true;
-        this.onPagesChange.next(pagesCopy);
-      
+    if (canContinue){
+      if (!this.signupForm.get('altPage').valid){
+        alert('Please fill out the required fields.')
+      }
+      else{
+        let promises = [];
+
         for (let i = 0; i < length; i++){
-          this.altNames.splice(i, 1, (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('name').value)
+          const altEmail = (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('name').value +
+            '-alt@' + schoolsys;
+          promises.push(firebase.auth().fetchProvidersForEmail(altEmail)
+            .then(
+              (response: string[]) => {
+                if (response.length != 0) {
+                  alert('The email address \'' + altEmail + '\' is not available.');
+                  canContinue = false;
+                }
+              }
+            )
+          )
         }
-    //   }
-    // }
+
+        Promise.all(promises)
+        .then(
+          () => {
+            if (canContinue){
+              const pagesCopy = this.pages.slice();
+              const index = pagesCopy.indexOf(this.findActivePage());
+              pagesCopy[index].on = false;
+              pagesCopy[index+1].on = true;
+              this.onPagesChange.next(pagesCopy);
+            
+              for (let i = 0; i < length; i++){
+                this.altNames.splice(i, 1, (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('name').value)
+              }
+            }
+          }
+        )
+      }
+    }
   }
 
   onBack(){
@@ -195,64 +233,88 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   onNextSchl(){
-    // let canContinue = false;
-    // const length = (<FormArray>this.signupForm.get('schoolsPage.schools')).length;
-    // for (let i = 0; i < length; i++){
-    //   const schlpw = (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlpw').value
-    //   const reenteredschlpw = (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('reenterschlpw').value
-    //   const name = (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlname').value;
-    //   if (schlpw != reenteredschlpw){
-    //     alert('The entered passwords are not equal for: ' + name)
-    //     canContinue = false;
-    //   }
-    //   else{
-    //     canContinue = true;
-    //   }
-    // }
-
-    // if (canContinue){
-      // if (!this.signupForm.get('schoolsPage').valid){
-      //   alert('Please fill out the required fields.')
-      // }
-      // else{
-        const pagesCopy = this.pages.slice();
-        const index = pagesCopy.indexOf(this.findActivePage());
-        pagesCopy[index].on = false;
-        pagesCopy[index+1].on = true;
-        this.onPagesChange.next(pagesCopy);
-    //   }
-    // }
-
-    let usersArray = [];
+    let canContinue = false;
     const schoolsys = this.signupForm.get('schoolsysPage.schoolsys').value + '.jp';
-
-    usersArray.push({
-      type: 'main',
-      email: this.signupForm.get('schoolsysPage.username').value+ '-main@' + schoolsys,
-      password: this.signupForm.get('schoolsysPage.password').value
-    });
-
-    const altlength = (<FormArray>this.signupForm.get('altPage.alts')).length;
-    for (let i = 0; i < altlength; i++){
-      usersArray.push({
-        type: 'alt',
-        email: (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('name').value + '-alt@' + schoolsys,
-        password: (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('altpw').value
-      })
+    const length = (<FormArray>this.signupForm.get('schoolsPage.schools')).length;
+    for (let i = 0; i < length; i++){
+      const schlpw = (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlpw').value
+      const reenteredschlpw = (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('reenterschlpw').value
+      const name = (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlname').value;
+      if (schlpw != reenteredschlpw){
+        alert('The entered passwords are not equal for: ' + name)
+        canContinue = false;
+      }
+      else{
+        canContinue = true;
+      }
     }
 
-    const schllength = (<FormArray>this.signupForm.get('schoolsPage.schools')).length;
-    for (let i = 0; i < altlength; i++){
-      usersArray.push({
-        type: 'school',
-        email: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlname').value +
-          '-school@' + schoolsys,
-        password: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlpw').value,
-        associatedALT: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('associatedALT').value
-      })
-    }
-    this.users = usersArray;
+    if (canContinue){
+      if (!this.signupForm.get('schoolsPage').valid){
+        alert('Please fill out the required fields.')
+      }
+      else{
+        let promises = [];
 
+        for (let i = 0; i < length; i++){
+          const schlEmail = (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlname').value +
+            '-school@' + schoolsys;
+          promises.push(firebase.auth().fetchProvidersForEmail(schlEmail)
+            .then(
+              (response: string[]) => {
+                if (response.length != 0) {
+                  alert('The email address \'' + schlEmail + '\' is not available.');
+                  canContinue = false;
+                }
+              }
+            )
+          )
+        }
+
+        Promise.all(promises)
+        .then(
+          () => {
+            if (canContinue){
+              const pagesCopy = this.pages.slice();
+              const index = pagesCopy.indexOf(this.findActivePage());
+              pagesCopy[index].on = false;
+              pagesCopy[index+1].on = true;
+              this.onPagesChange.next(pagesCopy);
+
+              let usersArray = [];
+              const schoolsys = this.signupForm.get('schoolsysPage.schoolsys').value + '.jp';
+          
+              usersArray.push({
+                type: 'main',
+                email: this.signupForm.get('schoolsysPage.username').value + '-main@' + schoolsys,
+                password: this.signupForm.get('schoolsysPage.password').value
+              });
+          
+              const altlength = (<FormArray>this.signupForm.get('altPage.alts')).length;
+              for (let i = 0; i < altlength; i++){
+                usersArray.push({
+                  type: 'alt',
+                  email: (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('name').value + '-alt@' + schoolsys,
+                  password: (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('altpw').value
+                })
+              }
+          
+              const schllength = (<FormArray>this.signupForm.get('schoolsPage.schools')).length;
+              for (let i = 0; i < schllength; i++){
+                usersArray.push({
+                  type: 'school',
+                  email: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlname').value +
+                    '-school@' + schoolsys,
+                  password: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlpw').value,
+                  associatedALT: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('associatedALT').value
+                })
+              }
+              this.users = usersArray;
+            }
+          }
+        )
+      }
+    }
   }
 
   showPW(index: number){
