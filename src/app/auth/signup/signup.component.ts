@@ -1,3 +1,4 @@
+import { DataStorageService } from './../../shared/data-storage.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { NgForm, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
@@ -27,7 +28,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   users = [];
   show = [];
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+              private dataStorageService: DataStorageService) { }
 
   ngOnInit() {
     this.signupForm = new FormGroup({
@@ -322,6 +324,17 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(){
+    //sign up the emails
+    for (let user of this.users){
+      // this.authService.signupUser(user.email, user.password);
+      console.log(user.email + user.password);
+    }
+
+    //make schoolsys data folder
+
+    //make alt list
+
+    //make schoolslist
   }
 
 }
