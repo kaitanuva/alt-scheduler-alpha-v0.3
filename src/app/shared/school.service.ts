@@ -15,6 +15,7 @@ export class SchoolService{
   approvalListChanged = new Subject<SchoolPlan[]>();
   planCounterUpdated = new Subject<number[]>();
   deleteSchoolOn = new Subject<boolean>();
+  schoolSys: string;
   activeUser: string;
   loggedInSchool: string;
   loggedInSchoolIndex: number;
@@ -29,7 +30,7 @@ export class SchoolService{
 
   private approvalList = [];
 
-  private schoolPlans = null;
+  private schoolPlans = [];
 
   constructor(){}
 

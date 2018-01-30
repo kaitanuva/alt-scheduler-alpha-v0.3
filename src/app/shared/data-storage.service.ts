@@ -80,8 +80,9 @@ export class DataStorageService{
   }
 
   addToSchoolDispList(approvedSchool: School, token: string){
-    return this.http.post('https://ng-alt-scheduler.firebaseio.com/schooldisp.json?auth=' + token
-      , approvedSchool);
+    // return this.http.post('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+    //  '/schooldisp.json?auth=' + token, approvedSchool);
+    return this.http.post('https://ng-alt-scheduler.firebaseio.com/schooldisp.json?auth=' + token, approvedSchool);
   }
 
   editSchoolDisp(key: string, token: string, newSchool: School){

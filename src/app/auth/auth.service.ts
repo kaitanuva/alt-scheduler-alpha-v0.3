@@ -10,7 +10,6 @@ import { RedirectService } from '../redirect/redirect.service';
 export class AuthService{
   token: string;
   userType: string;
-  schoolSys: string;
   altName: string;
 
   constructor(private router: Router,
@@ -92,7 +91,7 @@ export class AuthService{
   authorizeEmail(email: string){
     const startindex = email.indexOf('@') + 1;
     const endindex = email.indexOf('.jp');
-    this.schoolSys = email.substring(startindex, endindex);
+    this.schoolService.schoolSys = email.substring(startindex, endindex);
 
     let schools = [];
     this.dataStorageService.retrieveSchoolDispList(this.token)

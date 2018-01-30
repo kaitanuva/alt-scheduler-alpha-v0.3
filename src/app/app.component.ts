@@ -68,7 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.authService.authorizeEmail(this.email);
       console.log(this.email);
       console.log(this.authService.userType);
-      console.log(this.authService.schoolSys);
+      console.log(this.schoolService.schoolSys);
     }
   }
 }
