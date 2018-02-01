@@ -134,9 +134,10 @@ export class AuthService{
         .subscribe(
           (altList) => {
             this.altName = Object.values(altList)[0][0];
+            this.schoolService.activeUser = this.altName;
+            this.schoolService.setAltList(Object.values(altList)[0])
           }
         );
-      this.schoolService.activeUser = this.altName;
       this.dataStorageService.filterSchoolsList(null, null);
     }
     this.schoolService.filterSchoolsByUser();

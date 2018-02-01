@@ -11,6 +11,7 @@ import { SchoolPlan } from './schoolplan.model';
 export class SchoolService{
 
   dateChanged = new Subject<{year: number, month: number}>();
+  altListChanged = new Subject<string[]>();
   schoolsListChanged = new Subject<SchoolPair[]>();
   approvalListChanged = new Subject<SchoolPlan[]>();
   planCounterUpdated = new Subject<number[]>();
@@ -33,6 +34,16 @@ export class SchoolService{
   private schoolPlans = [];
 
   constructor(){}
+
+  ////////~~~Alt Functions~~~////////
+
+  setAltList(altList: string[]){
+    this.altListChanged.next(altList);
+  }
+
+  // getAltList(){
+  //   return this.altList;
+  // }
 
   ////////school functions/////////
 
