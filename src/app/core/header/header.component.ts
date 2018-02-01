@@ -17,7 +17,14 @@ export class HeaderComponent implements OnInit {
               private dataStorageService: DataStorageService) { }
 
   ngOnInit() {
-    this.alts = this.dataStorageService.alts;
+    this.dataStorageService.retrieveAltList(this.authService.token)
+      .subscribe(
+        (altList) => {
+          this.alts = Object.values(altList)[0];
+          console.log(this.alts)
+        }
+      );
+      
   }
 
   onUserChange(alt: string){

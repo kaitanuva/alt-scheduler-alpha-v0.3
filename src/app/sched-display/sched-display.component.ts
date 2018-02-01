@@ -52,7 +52,6 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
                 schoolPlan.key = key;
                 schoolPlansList.push(schoolPlan);
               })
-              // this.schoolService.setApprovalList(schoolPlansList);
               filteredList = schoolPlansList.filter((v,i) => {
                 return (v["alt"] == this.schoolService.activeUser);
               });

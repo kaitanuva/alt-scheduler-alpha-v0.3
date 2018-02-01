@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { DataStorageService } from './../../shared/data-storage.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
@@ -5,6 +6,7 @@ import { NgForm, FormGroup, FormControl, Validators, FormArray } from '@angular/
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth.service';
 import * as firebase from 'firebase';
+import { SchoolPair } from '../../shared/schoolpair.model';
 
 @Component({
   selector: 'app-signup',
@@ -27,9 +29,12 @@ export class SignupComponent implements OnInit, OnDestroy {
   altNames = [];
   users = [];
   show = [];
+  altList = [];
+  schoolList = [];
 
   constructor(private authService: AuthService,
-              private dataStorageService: DataStorageService) { }
+              private dataStorageService: DataStorageService,
+              private router: Router) { }
 
   ngOnInit() {
     this.signupForm = new FormGroup({
@@ -284,6 +289,8 @@ export class SignupComponent implements OnInit, OnDestroy {
               this.onPagesChange.next(pagesCopy);
 
               let usersArray = [];
+              let altArray = [];
+              let schoolArray = [];
               const schoolsys = this.signupForm.get('schoolsysPage.schoolsys').value + '.jp';
           
               usersArray.push({
@@ -299,6 +306,7 @@ export class SignupComponent implements OnInit, OnDestroy {
                   email: (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('name').value + '-alt@' + schoolsys,
                   password: (<FormArray>this.signupForm.get('altPage.alts')).at(i).get('altpw').value
                 })
+                altArray.push((<FormArray>this.signupForm.get('altPage.alts')).at(i).get('name').value);
               }
           
               const schllength = (<FormArray>this.signupForm.get('schoolsPage.schools')).length;
@@ -310,8 +318,18 @@ export class SignupComponent implements OnInit, OnDestroy {
                   password: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlpw').value,
                   associatedALT: (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('associatedALT').value
                 })
+                schoolArray.push(
+                  new SchoolPair(
+                    (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlnamekanji').value,
+                    (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('schlname').value,
+                    (<FormArray>this.signupForm.get('schoolsPage.schools')).at(i).get('associatedALT').value
+                  )
+                );
+                
               }
               this.users = usersArray;
+              this.altList = altArray;
+              this.schoolList = schoolArray;
             }
           }
         )
@@ -325,16 +343,55 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   onSubmit(){
     //sign up the emails
+    const schoolsys = this.signupForm.get('schoolsysPage.schoolsys').value;
+    let signupPromises = [];
     for (let user of this.users){
-      // this.authService.signupUser(user.email, user.password);
-      console.log(user.email + user.password);
+      signupPromises.push(firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+        .catch(
+          error => console.log(error)
+        )
+      );
     }
-
-    //make schoolsys data folder
-
-    //make alt list
-
-    //make schoolslist
+    Promise.all(signupPromises)
+      .then(
+        response => {
+          alert('You have successfully signed up! You will be taken to the login page shortly.');
+          firebase.auth().signInWithEmailAndPassword(this.users[0].email, this.users[0].password)
+            .catch(
+              (error) => console.log(error)
+            )
+            .then(
+              (response) => {
+                console.log(response);
+                firebase.auth().currentUser.getIdToken()
+                  .then(
+                    (token: string) => {
+                      this.authService.token = token;
+                      //make alt list
+                      this.dataStorageService.createAltList(this.altList, schoolsys, token)
+                      .subscribe(
+                        (response) => console.log(response),
+                        (error) => console.log(error),
+                        () => console.log('altlist success'),
+                      )
+                      // make school list
+                      this.dataStorageService.createSchoolList(this.schoolList, schoolsys, token)
+                      .subscribe(
+                        (response) => console.log(response),
+                        (error) => console.log(error),
+                        () => console.log('schoollist success')
+                      )
+                    }
+                  )
+                  .then(
+                    () => {
+                      this.authService.logout();
+                    }
+                  )
+              }
+            )
+        }
+      )
   }
 
 }

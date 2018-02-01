@@ -17,25 +17,6 @@ export class AuthService{
               private dataStorageService: DataStorageService,
               private schoolService: SchoolService){}
 
-  signupUser(username: string, password: string){
-    firebase.auth().createUserWithEmailAndPassword(username, password)
-      .catch(
-        error => {
-          switch (error.code){
-            case "auth/email-already-in-use":
-              alert('That email is already taken.');
-              break;
-          }
-        }
-      );
-      // .then(
-      //   response => {
-      //     alert('You have successfully signed up! Please log in.');
-      //     this.router.navigate(['login']);
-      //   }
-      // );
-  }
-
   signinUser(username: string, password: string){
     firebase.auth().signInWithEmailAndPassword(username, password)
       .then(
@@ -89,10 +70,12 @@ export class AuthService{
   }
 
   authorizeEmail(email: string){
+    //Set schoolsys property
     const startindex = email.indexOf('@') + 1;
     const endindex = email.indexOf('.jp');
     this.schoolService.schoolSys = email.substring(startindex, endindex);
 
+    //RetrieveSchldsplist
     let schools = [];
     this.dataStorageService.retrieveSchoolDispList(this.token)
       .subscribe(
@@ -109,6 +92,8 @@ export class AuthService{
         },
         (error) => { throw error }
       );
+
+    //RetrieveSchlplans
     let schoolPlansList = [];
     this.dataStorageService.retrieveSchoolPlans(this.token)
       .subscribe(
@@ -124,6 +109,8 @@ export class AuthService{
         },
         (error) => { throw error }
       );
+
+    //Set previleges
     if (email.includes('alt')){
       this.userType = 'alt';
       const index = email.indexOf('-alt');
@@ -143,7 +130,12 @@ export class AuthService{
     }
     else{
       this.userType = 'main';
-      this.altName = this.dataStorageService.alts[0];
+      this.dataStorageService.retrieveAltList(this.token)
+        .subscribe(
+          (altList) => {
+            this.altName = Object.values(altList)[0][0];
+          }
+        );
       this.schoolService.activeUser = this.altName;
       this.dataStorageService.filterSchoolsList(null, null);
     }

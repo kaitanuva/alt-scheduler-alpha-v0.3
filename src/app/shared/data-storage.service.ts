@@ -43,6 +43,32 @@ export class DataStorageService{
     return associatedALT;
   }
 
+  //~~~~~~~~~~~~~~Alt List Methods~~~~~~~~~~~~~~~//
+
+  retrieveAltList(token: string){
+    return this.http.get('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+      '/altlist.json?auth=' + token)
+      .map(
+        (response: Response) => {
+          const altList = response.json();
+          return altList;
+        }
+      )
+  }
+
+  //~~~~~~~~~~~~~~School List Methods~~~~~~~~~~~~~~~//
+
+  retrieveSchoolList(token: string){
+    return this.http.get('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+      '/schoollist.json?auth=' + token)
+      .map(
+        (response: Response) => {
+          const schoolList = response.json();
+          return schoolList;
+        }
+      )
+  }
+
   //~~~~~~~~~~Approval List Methods~~~~~~~~~~~~~~//
 
   retrieveApprovalList(token: string){
@@ -125,4 +151,15 @@ export class DataStorageService{
       '/schoolplans/' + key + '.json?auth=' + token);
   }
 
+  ///~~~~~~~~ Signup Methods ~~~~~~~~~~//
+
+  createAltList(altList: string[], schoolSys: string, token: string){
+    return this.http.post('https://ng-alt-scheduler.firebaseio.com/' + schoolSys +
+      '/altlist.json?auth=' + token, altList);
+  }
+
+  createSchoolList(schoolList: SchoolPair[], schoolSys: string, token: string){
+    return this.http.post('https://ng-alt-scheduler.firebaseio.com/' + schoolSys +
+      '/schoollist.json?auth=' + token, schoolList);
+  }
 }
