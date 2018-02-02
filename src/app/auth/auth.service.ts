@@ -117,7 +117,12 @@ export class AuthService{
       this.altName = email.slice(0, index);
       this.schoolService.activeUser = this.altName;
 
-      this.dataStorageService.filterSchoolsList(this.altName, null);
+      this.dataStorageService.retrieveSchoolList(this.token)
+        .subscribe(
+          () => {
+            this.dataStorageService.filterSchoolsList(this.altName, null);
+          }
+        );
     }
     else if(email.includes('school')){
       this.userType = 'school';
@@ -126,7 +131,12 @@ export class AuthService{
       const associatedALT = this.dataStorageService.getALTassociatedWithSchool(schoolName);
       this.schoolService.loggedInSchool = schoolName;
       this.schoolService.activeUser = associatedALT;
-      this.dataStorageService.filterSchoolsList(null, schoolName);
+      this.dataStorageService.retrieveSchoolList(this.token)
+        .subscribe(
+          () => {
+            this.dataStorageService.filterSchoolsList(null, schoolName);
+          }
+        );
     }
     else{
       this.userType = 'main';
@@ -138,7 +148,12 @@ export class AuthService{
             this.schoolService.setAltList(Object.values(altList)[0])
           }
         );
-      this.dataStorageService.filterSchoolsList(null, null);
+      this.dataStorageService.retrieveSchoolList(this.token)
+        .subscribe(
+          () => {
+            this.dataStorageService.filterSchoolsList(null, null);
+          }
+        );
     }
     this.schoolService.filterSchoolsByUser();
   }

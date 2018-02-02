@@ -8,14 +8,14 @@ import { School } from './school.model';
 
 @Injectable()
 export class DataStorageService{
-  alts = ['mark', 'babo'];
+  // alts = ['mark', 'babo'];
 
   private schoolsList = [    
-    new SchoolPair('坊津学園', 'bounotsu', 'mark'),
-    new SchoolPair('長屋小', 'nagaya', 'mark'),
-    new SchoolPair('金峰中', 'kinpou', 'mark'),
-    new SchoolPair('内山田小', 'uchiyamada', 'mark'),
-    new SchoolPair('加世田小', 'kasedashou', 'babo')
+    // new SchoolPair('坊津学園', 'bounotsu', 'mark'),
+    // new SchoolPair('長屋小', 'nagaya', 'mark'),
+    // new SchoolPair('金峰中', 'kinpou', 'mark'),
+    // new SchoolPair('内山田小', 'uchiyamada', 'mark'),
+    // new SchoolPair('加世田小', 'kasedashou', 'babo')
   ];
 
   constructor(private http: Http,
@@ -63,8 +63,8 @@ export class DataStorageService{
       '/schoollist.json?auth=' + token)
       .map(
         (response: Response) => {
-          const schoolList = response.json();
-          return schoolList;
+          const schoolListObj = response.json();
+          this.schoolsList = Object.values(schoolListObj)[0];
         }
       )
   }
