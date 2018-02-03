@@ -11,10 +11,12 @@ import { SchoolPlan } from './schoolplan.model';
 export class SchoolService{
 
   dateChanged = new Subject<{year: number, month: number}>();
+  altListChanged = new Subject<string[]>();
   schoolsListChanged = new Subject<SchoolPair[]>();
   approvalListChanged = new Subject<SchoolPlan[]>();
   planCounterUpdated = new Subject<number[]>();
   deleteSchoolOn = new Subject<boolean>();
+  schoolSys: string;
   activeUser: string;
   loggedInSchool: string;
   loggedInSchoolIndex: number;
@@ -29,9 +31,19 @@ export class SchoolService{
 
   private approvalList = [];
 
-  private schoolPlans = null;
+  private schoolPlans = [];
 
   constructor(){}
+
+  ////////~~~Alt Functions~~~////////
+
+  setAltList(altList: string[]){
+    this.altListChanged.next(altList);
+  }
+
+  // getAltList(){
+  //   return this.altList;
+  // }
 
   ////////school functions/////////
 

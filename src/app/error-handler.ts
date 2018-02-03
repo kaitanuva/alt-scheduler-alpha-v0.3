@@ -10,7 +10,6 @@ export class GlobalErrorHandler implements ErrorHandler{
   handleError(error){
     console.log(error);
     if (error.status == '401'){
-      alert('Please login again');
       const authService = this.injector.get(AuthService);
       authService.logout();
     }

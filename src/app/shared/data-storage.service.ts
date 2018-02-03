@@ -8,14 +8,14 @@ import { School } from './school.model';
 
 @Injectable()
 export class DataStorageService{
-  alts = ['mark', 'babo'];
+  // alts = ['mark', 'babo'];
 
   private schoolsList = [    
-    new SchoolPair('坊津学園', 'bounotsu', 'mark'),
-    new SchoolPair('長屋小', 'nagaya', 'mark'),
-    new SchoolPair('金峰中', 'kinpou', 'mark'),
-    new SchoolPair('内山田小', 'uchiyamada', 'mark'),
-    new SchoolPair('加世田小', 'kasedashou', 'babo')
+    // new SchoolPair('坊津学園', 'bounotsu', 'mark'),
+    // new SchoolPair('長屋小', 'nagaya', 'mark'),
+    // new SchoolPair('金峰中', 'kinpou', 'mark'),
+    // new SchoolPair('内山田小', 'uchiyamada', 'mark'),
+    // new SchoolPair('加世田小', 'kasedashou', 'babo')
   ];
 
   constructor(private http: Http,
@@ -38,15 +38,41 @@ export class DataStorageService{
 
   getALTassociatedWithSchool(schoolName: string){
     const associatedALT = this.schoolsList.find(
-      (v,i)=>{return (v["id"] == schoolName)}
-    ).alt;
+      (v,i)=>{return (v["id"] == schoolName)}).alt;
     return associatedALT;
+  }
+
+  //~~~~~~~~~~~~~~Alt List Methods~~~~~~~~~~~~~~~//
+
+  retrieveAltList(token: string){
+    return this.http.get('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+      '/altlist.json?auth=' + token)
+      .map(
+        (response: Response) => {
+          const altList = response.json();
+          return altList;
+        }
+      )
+  }
+
+  //~~~~~~~~~~~~~~School List Methods~~~~~~~~~~~~~~~//
+
+  retrieveSchoolList(token: string){
+    return this.http.get('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+      '/schoollist.json?auth=' + token)
+      .map(
+        (response: Response) => {
+          const schoolListObj = response.json();
+          this.schoolsList = Object.values(schoolListObj)[0];
+        }
+      )
   }
 
   //~~~~~~~~~~Approval List Methods~~~~~~~~~~~~~~//
 
   retrieveApprovalList(token: string){
-    return this.http.get('https://ng-alt-scheduler.firebaseio.com/approvallist.json?auth=' + token)
+    return this.http.get('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+      '/approvallist.json?auth=' + token)
       .map(
         (response: Response) => {
           const schoolPlans = response.json();
@@ -58,19 +84,20 @@ export class DataStorageService{
   addToApprovalList(status: string, time: string, schoolPlan: SchoolPlan, token: string){
     schoolPlan.status = status;
     schoolPlan.time = time;
-    return this.http.post('https://ng-alt-scheduler.firebaseio.com/approvallist.json?auth=' + token
-    , schoolPlan);
+    return this.http.post('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+      '/approvallist.json?auth=' + token, schoolPlan);
   }
 
   removeFromApprovalList(key: string, token: string){
-    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/approvallist/' + key
-     + '.json?auth=' + token);
+    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+      '/approvallist/' + key + '.json?auth=' + token);
   }
 
   //~~~~~~~~~~School Disp List Methods~~~~~~~~~~~~~~//
   
   retrieveSchoolDispList(token: string){
-    return this.http.get('https://ng-alt-scheduler.firebaseio.com/schooldisp.json?auth=' + token)
+    return this.http.get('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+      '/schooldisp.json?auth=' + token)
       .map(
         (response: Response) => {
           const schoolDispList = response.json();
@@ -80,24 +107,26 @@ export class DataStorageService{
   }
 
   addToSchoolDispList(approvedSchool: School, token: string){
-    return this.http.post('https://ng-alt-scheduler.firebaseio.com/schooldisp.json?auth=' + token
-      , approvedSchool);
+    return this.http.post('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+      '/schooldisp.json?auth=' + token, approvedSchool);
+    // return this.http.post('https://ng-alt-scheduler.firebaseio.com/schooldisp.json?auth=' + token, approvedSchool);
   }
 
   editSchoolDisp(key: string, token: string, newSchool: School){
-    return this.http.patch('https://ng-alt-scheduler.firebaseio.com/schooldisp/' + key
-    + '.json?auth=' + token, newSchool);
+    return this.http.patch('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+      '/schooldisp.json?auth=' + token, newSchool);
   }
 
   removeFromDispList(key: string, token: string){
-    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/schooldisp/'
-    + key + '.json?auth=' + token);
+    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys + 
+      '/schooldisp/' + key + '.json?auth=' + token);
   }
   
   //~~~~~~~~~~School Plans List Methods~~~~~~~~~~~~~~//
 
   retrieveSchoolPlans(token: string){
-    return this.http.get('https://ng-alt-scheduler.firebaseio.com/schoolplans.json?auth=' + token)
+    return this.http.get('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+      '/schoolplans.json?auth=' + token)
       .map(
         (response: Response) => {
           const schoolPlans = response.json();
@@ -107,18 +136,29 @@ export class DataStorageService{
   }
 
   addToSchoolPlans(schoolPlan: SchoolPlan, token: string){
-    return this.http.post('https://ng-alt-scheduler.firebaseio.com/schoolplans.json?auth=' + token
-    , schoolPlan);
+    return this.http.post('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+      '/schoolplans.json?auth=' + token, schoolPlan);
   }
 
   editSchoolPlan(key: string, token: string, newSchoolPlan: SchoolPlan){
-    return this.http.patch('https://ng-alt-scheduler.firebaseio.com/schoolplans/'
-    + key + '.json?auth=' + token, newSchoolPlan);
+    return this.http.patch('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+      '/schoolplans/' + key + '.json?auth=' + token, newSchoolPlan);
   }
 
   removeFromSchoolPlans(key: string, token: string){
-    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/schoolplans/'
-    + key + '.json?auth=' + token);
+    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+      '/schoolplans/' + key + '.json?auth=' + token);
   }
 
+  ///~~~~~~~~ Signup Methods ~~~~~~~~~~//
+
+  createAltList(altList: string[], schoolSys: string, token: string){
+    return this.http.post('https://ng-alt-scheduler.firebaseio.com/' + schoolSys +
+      '/altlist.json?auth=' + token, altList);
+  }
+
+  createSchoolList(schoolList: SchoolPair[], schoolSys: string, token: string){
+    return this.http.post('https://ng-alt-scheduler.firebaseio.com/' + schoolSys +
+      '/schoollist.json?auth=' + token, schoolList);
+  }
 }

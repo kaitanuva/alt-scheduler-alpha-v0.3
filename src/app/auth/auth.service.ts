@@ -17,25 +17,6 @@ export class AuthService{
               private dataStorageService: DataStorageService,
               private schoolService: SchoolService){}
 
-  signupUser(username: string, password: string){
-    firebase.auth().createUserWithEmailAndPassword(username, password)
-      .catch(
-        error => {
-          switch (error.code){
-            case "auth/email-already-in-use":
-              alert('That email is already taken.');
-              break;
-          }
-        }
-      )
-      .then(
-        response => {
-          alert('You have successfully signed up! Please log in.');
-          this.router.navigate(['login']);
-        }
-      );
-  }
-
   signinUser(username: string, password: string){
     firebase.auth().signInWithEmailAndPassword(username, password)
       .then(
@@ -89,6 +70,12 @@ export class AuthService{
   }
 
   authorizeEmail(email: string){
+    //Set schoolsys property
+    const startindex = email.indexOf('@') + 1;
+    const endindex = email.indexOf('.jp');
+    this.schoolService.schoolSys = email.substring(startindex, endindex);
+
+    //RetrieveSchldsplist
     let schools = [];
     this.dataStorageService.retrieveSchoolDispList(this.token)
       .subscribe(
@@ -105,6 +92,8 @@ export class AuthService{
         },
         (error) => { throw error }
       );
+
+    //RetrieveSchlplans
     let schoolPlansList = [];
     this.dataStorageService.retrieveSchoolPlans(this.token)
       .subscribe(
@@ -120,28 +109,53 @@ export class AuthService{
         },
         (error) => { throw error }
       );
+
+    //Set previleges
     if (email.includes('alt')){
       this.userType = 'alt';
       const index = email.indexOf('-alt');
       this.altName = email.slice(0, index);
       this.schoolService.activeUser = this.altName;
 
-      this.dataStorageService.filterSchoolsList(this.altName, null);
+      this.dataStorageService.retrieveSchoolList(this.token)
+        .subscribe(
+          () => {
+            this.dataStorageService.filterSchoolsList(this.altName, null);
+          }
+        );
     }
     else if(email.includes('school')){
       this.userType = 'school';
       const index = email.indexOf('-school');
       const schoolName = email.slice(0, index);
-      const associatedALT = this.dataStorageService.getALTassociatedWithSchool(schoolName);
+      // const associatedALT = this.dataStorageService.getALTassociatedWithSchool(schoolName);
       this.schoolService.loggedInSchool = schoolName;
-      this.schoolService.activeUser = associatedALT;
-      this.dataStorageService.filterSchoolsList(null, schoolName);
+      // this.schoolService.activeUser = associatedALT;
+      this.dataStorageService.retrieveSchoolList(this.token)
+        .subscribe(
+          () => {
+            const associatedALT = this.dataStorageService.getALTassociatedWithSchool(schoolName);
+            this.schoolService.activeUser = associatedALT;
+            this.dataStorageService.filterSchoolsList(null, schoolName);
+          }
+        );
     }
     else{
       this.userType = 'main';
-      this.altName = this.dataStorageService.alts[0];
-      this.schoolService.activeUser = this.altName;
-      this.dataStorageService.filterSchoolsList(null, null);
+      this.dataStorageService.retrieveAltList(this.token)
+        .subscribe(
+          (altList) => {
+            this.altName = Object.values(altList)[0][0];
+            this.schoolService.activeUser = this.altName;
+            this.schoolService.setAltList(Object.values(altList)[0])
+          }
+        );
+      this.dataStorageService.retrieveSchoolList(this.token)
+        .subscribe(
+          () => {
+            this.dataStorageService.filterSchoolsList(null, null);
+          }
+        );
     }
     this.schoolService.filterSchoolsByUser();
   }

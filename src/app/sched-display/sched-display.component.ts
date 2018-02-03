@@ -28,6 +28,7 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
   approvalList: SchoolPlan[];
   timeSubscription: Subscription;
   approvalListSubscription: Subscription;
+  altListSubscription: Subscription;
 
   constructor(private schoolService: SchoolService,
               private dataStorageService: DataStorageService,
@@ -36,7 +37,6 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
               private authService: AuthService) { }
 
   ngOnInit() {
-    let schools = [];
     this.activeUser = this.schoolService.activeUser;
     this.schoolService.filterSchoolsByUser();
     this.schoolService.deleteNewSchool();
@@ -52,7 +52,6 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
                 schoolPlan.key = key;
                 schoolPlansList.push(schoolPlan);
               })
-              // this.schoolService.setApprovalList(schoolPlansList);
               filteredList = schoolPlansList.filter((v,i) => {
                 return (v["alt"] == this.schoolService.activeUser);
               });
@@ -62,6 +61,9 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
           },
           (error) => console.log(error)
         );
+    }
+    if (this.authService.userType == 'school' && !this.schoolService.activeUser){
+      this.router.navigate(['']);
     }
     for (let i = 1; i <= this.lastDate; i++){
       this.datesList.push(new DateDay(i, this.getTheDay(i)));
@@ -79,6 +81,13 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
           this.datesList = newDatesList;
         }
       );
+    this.altListSubscription = this.schoolService.altListChanged
+      .subscribe(
+        (altList: string[]) => {
+          this.activeUser = altList[0];
+          this.schoolService.filterSchoolsByUser();
+        }
+      )
     this.approvalListSubscription = this.schoolService.approvalListChanged
       .subscribe(
         (newApprovalList: SchoolPlan[]) => {
@@ -99,10 +108,19 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
     let foundSchool = this.findSchool(year, month, date, time);
     if (this.authService.userType == 'alt'){
       if (foundSchool){
-        const id = this.schoolService.getIDFromSchoolList(foundSchool.name);
-        this.router.navigate(['schools/'+id]);
-        this.timeService.altClickedYear = foundSchool.year;
-        this.timeService.altClickedMonth = foundSchool.month;
+        switch (foundSchool.name){
+          case 'Office':
+            break;
+          case '勤務不可日':
+            break;
+          case '祝日':
+            break;
+          default:
+            const id = this.schoolService.getIDFromSchoolList(foundSchool.name);
+            this.router.navigate(['schools/'+id]);
+            this.timeService.altClickedYear = foundSchool.year;
+            this.timeService.altClickedMonth = foundSchool.month;
+        }
       }
     }
     else if (this.authService.userType == 'school'){
@@ -132,6 +150,9 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     if (this.timeSubscription){
       this.timeSubscription.unsubscribe();
+    }
+    else if (this.altListSubscription){
+      this.altListSubscription.unsubscribe();
     }
   }
 
