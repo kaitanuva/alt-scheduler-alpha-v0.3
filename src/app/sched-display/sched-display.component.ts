@@ -62,6 +62,9 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
           (error) => console.log(error)
         );
     }
+    if (this.authService.userType == 'school' && !this.schoolService.activeUser){
+      this.router.navigate(['']);
+    }
     for (let i = 1; i <= this.lastDate; i++){
       this.datesList.push(new DateDay(i, this.getTheDay(i)));
     }

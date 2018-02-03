@@ -124,7 +124,9 @@ export class SchooleditComponent implements OnInit, OnDestroy{
   }
 
   onDelete(){
-    let school = this.schoolService.getSchool(this.id);
+    const school = this.schoolService.getSchool(this.id);
+    const schoolPlan = this.schoolService.getSchoolPlanUsingName(school.name, school.year,
+      school.month, school.date); 
     if (confirm('Are you sure you want to delete this school? :'
      + school.name + ' ' + school.year + '/' + school.month + '/' + school.date)){
       this.dataStorageService.removeFromDispList(school.key, this.authService.token)
@@ -133,6 +135,15 @@ export class SchooleditComponent implements OnInit, OnDestroy{
           (error) => { throw error },
           () => {
             this.schoolService.deleteSchool(this.id);
+            this.schoolService.filterSchoolsByUser();
+          }
+        );
+      this.dataStorageService.removeFromSchoolPlans(schoolPlan.key, this.authService.token)
+        .subscribe(
+          (response) => console.log(response),
+          (error) => console.log(error),
+          () => {
+            this.schoolService.deleteSchoolPlan(schoolPlan);
             this.schoolService.filterSchoolsByUser();
           }
         );

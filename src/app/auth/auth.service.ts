@@ -128,12 +128,14 @@ export class AuthService{
       this.userType = 'school';
       const index = email.indexOf('-school');
       const schoolName = email.slice(0, index);
-      const associatedALT = this.dataStorageService.getALTassociatedWithSchool(schoolName);
+      // const associatedALT = this.dataStorageService.getALTassociatedWithSchool(schoolName);
       this.schoolService.loggedInSchool = schoolName;
-      this.schoolService.activeUser = associatedALT;
+      // this.schoolService.activeUser = associatedALT;
       this.dataStorageService.retrieveSchoolList(this.token)
         .subscribe(
           () => {
+            const associatedALT = this.dataStorageService.getALTassociatedWithSchool(schoolName);
+            this.schoolService.activeUser = associatedALT;
             this.dataStorageService.filterSchoolsList(null, schoolName);
           }
         );

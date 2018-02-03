@@ -38,8 +38,7 @@ export class DataStorageService{
 
   getALTassociatedWithSchool(schoolName: string){
     const associatedALT = this.schoolsList.find(
-      (v,i)=>{return (v["id"] == schoolName)}
-    ).alt;
+      (v,i)=>{return (v["id"] == schoolName)}).alt;
     return associatedALT;
   }
 
