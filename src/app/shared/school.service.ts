@@ -33,17 +33,20 @@ export class SchoolService{
 
   private schoolPlans = [];
 
+  private altList = [];
+
   constructor(){}
 
   ////////~~~Alt Functions~~~////////
 
   setAltList(altList: string[]){
+    this.altList = altList;
     this.altListChanged.next(altList);
   }
 
-  // getAltList(){
-  //   return this.altList;
-  // }
+  getAltList(){
+    return this.altList.slice();
+  }
 
   ////////school functions/////////
 
@@ -141,6 +144,7 @@ export class SchoolService{
 
   setSchoolsList(newschoolsList: SchoolPair[]){
     this.schoolsList = newschoolsList;
+    this.schoolsListChanged.next(newschoolsList);
   }
 
   getSchoolsList(){
@@ -174,12 +178,12 @@ export class SchoolService{
     return this.schoolsList.indexOf(school)
   }
 
-  checkIfAlreadyExists(schoolName: string){
-    let found = this.schoolsList.find(function(v,i){
-      return (v["school"] == schoolName)
-    })
-    return found ? true : false;
-  }
+  // checkIfAlreadyExists(schoolName: string){
+  //   let found = this.schoolsList.find(function(v,i){
+  //     return (v["school"] == schoolName)
+  //   })
+  //   return found ? true : false;
+  // }
 
   addToSchoolList(school: SchoolPair){
     this.schoolsList.push(school);

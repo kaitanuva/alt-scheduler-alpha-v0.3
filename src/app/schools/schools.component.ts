@@ -14,6 +14,8 @@ import { AuthService } from '../auth/auth.service';
 export class SchoolsComponent implements OnInit, OnDestroy {
   @ViewChild('f') newSchoolForm: NgForm
   schoolsList = [];
+  alts = [];
+  altListSubscription: Subscription;
   schoolsListSubscription: Subscription;
   deleteBtnSubscription: Subscription;
   newClicked = false;
@@ -25,6 +27,7 @@ export class SchoolsComponent implements OnInit, OnDestroy {
               private authService: AuthService) { }
 
   ngOnInit() {
+    this.alts = this.schoolService.getAltList();
     let retrievedList = this.schoolService.getSchoolsList();
     for (let school of retrievedList){
       this.schoolsList.push(school.school);
@@ -46,24 +49,43 @@ export class SchoolsComponent implements OnInit, OnDestroy {
           }
           this.schoolsList = newList;
         }
-      )
+      );
 
     this.deleteBtnSubscription = this.schoolService.deleteSchoolOn
       .subscribe(
         (onOff: boolean) => {
           this.schoolWasClicked = onOff;
         }
-      )
+      );
+
+    this.altListSubscription = this.schoolService.altListChanged.subscribe(
+      (altList: string[]) => {
+        this.alts = altList;
+      }
+    );
   }
 
   ngOnDestroy(){
     if (this.schoolsListSubscription){
       this.schoolsListSubscription.unsubscribe();
     }
+
+    if (this.deleteBtnSubscription){
+      this.deleteBtnSubscription.unsubscribe();
+    }
+
+    if (this.altListSubscription){
+      this.altListSubscription.unsubscribe();
+    }
   }
 
   newSchool(){
     this.newClicked = !this.newClicked;
+  }
+
+  preventSpaces(event){
+    var k = event.which || event.keyCode;
+    if (k == 32) return false;
   }
 
   schoolClicked(index: number){
@@ -88,20 +110,22 @@ export class SchoolsComponent implements OnInit, OnDestroy {
     const name = this.newSchoolForm.value.school;
     const id = this.newSchoolForm.value.id;
     const alt = this.newSchoolForm.value.alt;
+    const email = id + '-school@' + this.schoolService.schoolSys + '.jp';
     const newSchool = new SchoolPair(name, id, alt);
-    const found = this.schoolService.checkIfAlreadyExists(name);
-    if (found){
-      alert('That school already exists.')
-    }
-    else{
+    // const found = this.schoolService.checkIfAlreadyExists(name);
+    // if (found){
+    //   alert('That school already exists.')
+    // }
+    // else{
       if(confirm("Are you sure you want to add the school " + "'" + name +
-      "'" + " assigned to ALT '" + alt + "?")){
-        this.schoolService.addToSchoolList(newSchool);
+      "'" + " assigned to ALT '" + alt + "'?")){
+        // this.schoolService.addToSchoolList(newSchool);
+        console.log(email)
       }
       else{
         return;
       }
-    }
+    // }
   }
 
 }

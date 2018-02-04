@@ -204,7 +204,7 @@
                 *ngFor="let alt of signupForm.get('schoolsPage.schools').controls; let i = index"
                 [formGroupName]="i">
                 <div [hidden]="displayedSchl != i+1">
-                  <label for="schlname">School Name (Romaji): </label>
+                  <label for="schlname">School Name (English): </label>
                   <input type="text" 
                     class="form-control text-lowercase"
                     (keydown)="preventSpaces($event)"

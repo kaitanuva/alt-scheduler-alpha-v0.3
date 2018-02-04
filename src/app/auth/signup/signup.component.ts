@@ -31,6 +31,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   show = [];
   altList = [];
   schoolList = [];
+  schoolSystems = [];
 
   constructor(private authService: AuthService,
               private dataStorageService: DataStorageService,
@@ -66,6 +67,14 @@ export class SignupComponent implements OnInit, OnDestroy {
       })
     });
 
+    this.dataStorageService.retrieveSchoolSystems().subscribe(
+      (schoolSysList) => {
+        let schoolSystems = [];
+        Object.values(schoolSysList).forEach((schoolSys, index) => {schoolSystems.push(schoolSys)})
+        this.schoolSystems = schoolSystems;
+      }
+    )
+
     this.pagesSubscription = this.onPagesChange.subscribe(
       (newPages: any[]) => {
         this.pages = newPages;
@@ -89,6 +98,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   onNext(){
+    const schoolsys = this.signupForm.get('schoolsysPage.schoolsys').value;
+    const username = this.signupForm.get('schoolsysPage.username').value + '-main@' + schoolsys + '.jp';
     const password = this.signupForm.get('schoolsysPage.password').value;
     const reenteredpw = this.signupForm.get('schoolsysPage.reenterpw').value;
     if (password != reenteredpw){
@@ -97,9 +108,10 @@ export class SignupComponent implements OnInit, OnDestroy {
     else if (!this.signupForm.get('schoolsysPage').valid){
       alert('Please fill out the required fields.')
     }
+    else if (this.schoolSystems.indexOf(schoolsys) != -1){
+      alert('That school system is already registered.')
+    }
     else{
-      const schoolsys = this.signupForm.get('schoolsysPage.schoolsys').value + '.jp';
-      const username = this.signupForm.get('schoolsysPage.username').value + '-main@' + schoolsys;
       firebase.auth().fetchProvidersForEmail(username)
         .then(
           (response: string[]) => {
@@ -367,20 +379,27 @@ export class SignupComponent implements OnInit, OnDestroy {
                   .then(
                     (token: string) => {
                       this.authService.token = token;
+                      //register schoolsys
+                      this.dataStorageService.registerSchoolSys(schoolsys, token)
+                        .subscribe(
+                          (response) => console.log(response),
+                          (error) => console.log(error),
+                          () => console.log('schoolsys success')
+                        )
                       //make alt list
                       this.dataStorageService.createAltList(this.altList, schoolsys, token)
-                      .subscribe(
-                        (response) => console.log(response),
-                        (error) => console.log(error),
-                        () => console.log('altlist success'),
-                      )
+                        .subscribe(
+                          (response) => console.log(response),
+                          (error) => console.log(error),
+                          () => console.log('altlist success'),
+                        )
                       // make school list
                       this.dataStorageService.createSchoolList(this.schoolList, schoolsys, token)
-                      .subscribe(
-                        (response) => console.log(response),
-                        (error) => console.log(error),
-                        () => console.log('schoollist success')
-                      )
+                        .subscribe(
+                          (response) => console.log(response),
+                          (error) => console.log(error),
+                          () => console.log('schoollist success')
+                        )
                     }
                   )
                   .then(
