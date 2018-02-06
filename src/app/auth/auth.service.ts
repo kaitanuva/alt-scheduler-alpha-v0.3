@@ -145,9 +145,11 @@ export class AuthService{
       this.dataStorageService.retrieveAltList(this.token)
         .subscribe(
           (altList) => {
-            this.altName = Object.values(altList)[0][0];
-            this.schoolService.activeUser = this.altName;
-            this.schoolService.setAltList(Object.values(altList)[0])
+            if (altList){
+              this.altName = Object.values(altList)[0][0];
+              this.schoolService.activeUser = this.altName;
+              this.schoolService.setAltList(Object.values(altList)[0])
+            }
           }
         );
       this.dataStorageService.retrieveSchoolList(this.token)

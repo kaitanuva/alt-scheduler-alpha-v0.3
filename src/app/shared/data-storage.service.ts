@@ -8,7 +8,6 @@ import { School } from './school.model';
 
 @Injectable()
 export class DataStorageService{
-
   private schoolsList = [];
 
   constructor(private http: Http,
@@ -56,9 +55,21 @@ export class DataStorageService{
       .map(
         (response: Response) => {
           const schoolListObj = response.json();
-          this.schoolsList = Object.values(schoolListObj)[0];
+          if (schoolListObj){
+            this.schoolsList = schoolListObj;
+          }
         }
       )
+  }
+
+  createSchoolList(schoolList: SchoolPair[], schoolSys: string, token: string){
+    return this.http.post('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
+      '/schoollist.json?auth=' + token, schoolList);
+  }
+
+  addtoSchoolList(newSchoolList: SchoolPair[], schoolSys: string, token: string){
+    return this.http.put('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
+    '/schoollist.json?auth=' + token, newSchoolList);
   }
 
   //~~~~~~~~~~Approval List Methods~~~~~~~~~~~~~~//
@@ -148,11 +159,6 @@ export class DataStorageService{
   createAltList(altList: string[], schoolSys: string, token: string){
     return this.http.post('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
       '/altlist.json?auth=' + token, altList);
-  }
-
-  createSchoolList(schoolList: SchoolPair[], schoolSys: string, token: string){
-    return this.http.post('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
-      '/schoollist.json?auth=' + token, schoolList);
   }
 
   registerSchoolSys(schoolSys: string, token: string){

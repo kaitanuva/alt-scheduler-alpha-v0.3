@@ -178,12 +178,12 @@ export class SchoolService{
     return this.schoolsList.indexOf(school)
   }
 
-  // checkIfAlreadyExists(schoolName: string){
-  //   let found = this.schoolsList.find(function(v,i){
-  //     return (v["school"] == schoolName)
-  //   })
-  //   return found ? true : false;
-  // }
+  checkIfAlreadyExists(schoolName: string){
+    let found = this.schoolsList.find(function(v,i){
+      return (v["school"] == schoolName)
+    })
+    return found ? true : false;
+  }
 
   addToSchoolList(school: SchoolPair){
     this.schoolsList.push(school);

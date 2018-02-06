@@ -128,6 +128,7 @@
                   <label for="name">Name: </label>
                   <input type="text" 
                     class="form-control text-lowercase"
+                    placeholder="ex: johns"
                     (keydown)="preventSpaces($event)"
                     formControlName="name">
                   <p style="font-style: italic;">Lowercase and no spaces.</p>
@@ -136,6 +137,8 @@
                   <input type="text" 
                     class="form-control"
                     type="password"
+                    name="altpw"
+                    placeholder="password"
                     (keydown)="preventSpaces($event)"
                     minlength=6
                     formControlName="altpw">
@@ -152,6 +155,12 @@
                     type="button" 
                     class="btn btn-block btn-danger"
                     (click)="deleteALT(i)">Delete</button>
+                  <span 
+                    *ngIf="!signupForm.get('altPage.alts').at(i).get('altpw').valid
+                    && signupForm.get('altPage.alts').at(i).get('altpw').touched"
+                    style="color:red;" 
+                    class="help-block"
+                  >Please enter a password with 6 or more characters.</span>
                   <hr>
                 </div>
               </div>
@@ -201,12 +210,13 @@
               <br>
               <div 
                 class="form-group" 
-                *ngFor="let alt of signupForm.get('schoolsPage.schools').controls; let i = index"
+                *ngFor="let school of signupForm.get('schoolsPage.schools').controls; let i = index"
                 [formGroupName]="i">
                 <div [hidden]="displayedSchl != i+1">
                   <label for="schlname">School Name (English): </label>
                   <input type="text" 
                     class="form-control text-lowercase"
+                    placeholder="ex: kasedashou"
                     (keydown)="preventSpaces($event)"
                     formControlName="schlname">
                   <p style="font-style: italic;">Lowercase and no spaces.</p>
@@ -214,12 +224,14 @@
                   <label for="schlnamekanji">School Name (日本語): </label>
                   <input type="text" 
                     class="form-control"
+                    placeholder="ex: 加世田小"
                     (keydown)="preventSpaces($event)"
                     formControlName="schlnamekanji">
                   <label for="schlpw">Password: (6 or more characters)</label>
                   <input type="text" 
                     class="form-control"
                     type="password"
+                    placeholder="password"
                     (keydown)="preventSpaces($event)"
                     minlength=6
                     formControlName="schlpw">
@@ -245,6 +257,12 @@
                     type="button" 
                     class="btn btn-block btn-danger"
                     (click)="deleteSchl(i)">Delete</button>
+                  <span 
+                    *ngIf="!signupForm.get('schoolsPage.schools').at(i).get('schlpw').valid
+                    && signupForm.get('schoolsPage.schools').at(i).get('schlpw').touched"
+                    style="color:red;" 
+                    class="help-block"
+                  >Please enter a password with 6 or more characters.</span>
                   <hr> 
                 </div>
 

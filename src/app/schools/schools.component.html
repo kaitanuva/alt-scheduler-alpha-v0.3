@@ -20,6 +20,7 @@
             type="text"
             id="school"
             name="school"
+            placeholder="ex: 加世田小"
             (keydown)="preventSpaces($event)"
             class="form-control"
             ngModel
@@ -35,6 +36,7 @@
             type="text"
             id="id"
             name="id"
+            placeholder="ex: kasedashou"
             (keydown)="preventSpaces($event)"
             class="form-control text-lowercase"
             ngModel
@@ -49,8 +51,11 @@
           <input
             type="password"
             name="password"
+            minlength=6
+            placeholder="password"
             (keydown)="preventSpaces($event)"
             class="form-control"
+            #password="ngModel"
             ngModel
             required
           >
@@ -63,6 +68,7 @@
           <input
             type="password"
             name="reenterpw"
+            minlength=6
             (keydown)="preventSpaces($event)"
             class="form-control"
             ngModel
@@ -85,6 +91,11 @@
           </select>
         </div>
       </div>
+      <span 
+        *ngIf="!password.valid && password.touched"
+        style="color:red;" 
+        class="help-block"
+      >Please enter a password with 6 or more characters.</span>
       <br>
       <button 
         type="submit"

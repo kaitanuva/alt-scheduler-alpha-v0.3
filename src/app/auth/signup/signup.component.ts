@@ -69,9 +69,11 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     this.dataStorageService.retrieveSchoolSystems().subscribe(
       (schoolSysList) => {
-        let schoolSystems = [];
-        Object.values(schoolSysList).forEach((schoolSys, index) => {schoolSystems.push(schoolSys)})
-        this.schoolSystems = schoolSystems;
+        if (schoolSysList){
+          let schoolSystems = [];
+          Object.values(schoolSysList).forEach((schoolSys, index) => {schoolSystems.push(schoolSys)})
+          this.schoolSystems = schoolSystems;
+        }
       }
     )
 

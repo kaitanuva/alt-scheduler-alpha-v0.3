@@ -1,3 +1,4 @@
+import { DataStorageService } from './../shared/data-storage.service';
 import { SchoolPair } from './../shared/schoolpair.model';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
@@ -5,6 +6,7 @@ import { SchoolService } from './../shared/school.service';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from '../auth/auth.service';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-schools',
@@ -23,6 +25,7 @@ export class SchoolsComponent implements OnInit, OnDestroy {
   id: number;
 
   constructor(private schoolService: SchoolService,
+              private dataStorageService: DataStorageService,
               private router: Router,
               private authService: AuthService) { }
 
@@ -109,23 +112,62 @@ export class SchoolsComponent implements OnInit, OnDestroy {
   onSave(){
     const name = this.newSchoolForm.value.school;
     const id = this.newSchoolForm.value.id;
-    const alt = this.newSchoolForm.value.alt;
+    const password = this.newSchoolForm.value.password;
+    const reenterpw = this.newSchoolForm.value.reenterpw;
+    const alt = this.newSchoolForm.value.associatedALT;
     const email = id + '-school@' + this.schoolService.schoolSys + '.jp';
-    const newSchool = new SchoolPair(name, id, alt);
-    // const found = this.schoolService.checkIfAlreadyExists(name);
-    // if (found){
-    //   alert('That school already exists.')
-    // }
-    // else{
+    const found = this.schoolService.checkIfAlreadyExists(name);
+    if (found){
+      alert('That school already exists.')
+    }
+    else if (password != reenterpw){
+      alert('The entered passwords are not equal.')
+    }
+    else{
       if(confirm("Are you sure you want to add the school " + "'" + name +
       "'" + " assigned to ALT '" + alt + "'?")){
-        // this.schoolService.addToSchoolList(newSchool);
-        console.log(email)
+        firebase.auth().fetchProvidersForEmail(email)
+        .then(
+          (response: string[]) => {
+            if (response.length == 0){
+              const token = this.authService.token;
+              const schoolSys = this.schoolService.schoolSys;
+              const newSchool = new SchoolPair(name, id, alt);
+              this.schoolService.addToSchoolList(newSchool);
+              const newSchoolList = this.schoolService.getSchoolsList()
+              this.dataStorageService.addtoSchoolList(newSchoolList, schoolSys, token)
+                .subscribe(
+                  (response) => console.log(response),
+                  (error) => console.log(error),
+                  () => {
+                    firebase.auth().createUserWithEmailAndPassword(email, password)
+                      .then(
+                        () => {
+                          console.log('school successfully registered');
+                          this.newSchoolForm.reset();
+                          alert('School was successfully added!');
+                        }
+                      )
+                      .catch(
+                        (error) => {
+                          console.log(error);
+                          alert('There was an error in registering the email.');
+                        }
+                      )
+
+                  }
+                )
+            }
+            else {
+              alert('That email address is not available.');
+            }
+          }
+        )
       }
       else{
         return;
       }
-    // }
+    }
   }
 
 }
