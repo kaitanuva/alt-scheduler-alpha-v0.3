@@ -47,6 +47,16 @@ export class DataStorageService{
       )
   }
 
+  createAltList(altList: string[], schoolSys: string, token: string){
+    return this.http.post('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
+      '/altlist.json?auth=' + token, altList);
+  }
+
+  removeAltList(schoolSys: string, token: string){
+    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
+      '/altlist.json?auth=' + token);
+  }
+
   //~~~~~~~~~~~~~~School List Methods~~~~~~~~~~~~~~~//
 
   retrieveSchoolList(token: string){
@@ -63,13 +73,18 @@ export class DataStorageService{
   }
 
   createSchoolList(schoolList: SchoolPair[], schoolSys: string, token: string){
-    return this.http.post('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
+    return this.http.put('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
       '/schoollist.json?auth=' + token, schoolList);
   }
 
   addtoSchoolList(newSchoolList: SchoolPair[], schoolSys: string, token: string){
     return this.http.put('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
     '/schoollist.json?auth=' + token, newSchoolList);
+  }
+
+  removeSchoolList(schoolSys: string, token: string){
+    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
+      '/schoollist/.json?auth=' + token);
   }
 
   //~~~~~~~~~~Approval List Methods~~~~~~~~~~~~~~//
@@ -154,12 +169,7 @@ export class DataStorageService{
       '/schoolplans/' + key + '.json?auth=' + token);
   }
 
-  ///~~~~~~~~ Signup Methods ~~~~~~~~~~//
-
-  createAltList(altList: string[], schoolSys: string, token: string){
-    return this.http.post('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
-      '/altlist.json?auth=' + token, altList);
-  }
+  ///~~~~~~~~ SchoolSys Methods ~~~~~~~~~~//
 
   registerSchoolSys(schoolSys: string, token: string){
     return this.http.post('https://ng-alt-scheduler.firebaseio.com/schoolsystems.json?auth=' +
@@ -174,5 +184,15 @@ export class DataStorageService{
           return schoolSysList;
         }
       );
+  }
+
+  deleteFromSchoolSystem(key: string, token: string){
+    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/schoolsystems/' + key +
+      + '.json?auth=' + token);
+  }
+
+  deleteSchoolSysFromCore(schoolSys: string, token: string){
+    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
+      '.json?auth=' + token);
   }
 }

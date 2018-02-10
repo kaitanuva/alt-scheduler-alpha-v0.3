@@ -48,6 +48,12 @@ export class SchoolService{
     return this.altList.slice();
   }
 
+  deleteFromAltList(alt: string){
+    const id = this.altList.indexOf(alt);
+    this.altList.splice(id, 1);
+    this.altListChanged.next(this.altList.slice());
+  }
+
   ////////school functions/////////
 
   setSchools(schools: School[]){
