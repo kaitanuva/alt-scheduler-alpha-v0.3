@@ -1,3 +1,89 @@
-<p>
-  manage-alts works!
-</p>
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-2">
+        <button 
+          type="button" 
+          class="btn btn-success" 
+          (click)="newALT()">New ALT</button>
+      </div>
+    </div>
+    <br><br>
+    <form *ngIf="newClicked" #f="ngForm">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-xs-2">
+            <label for="school">Name:</label>
+            <input 
+              type="text"
+              id="name"
+              name="name"
+              placeholder="ex: johns"
+              (keydown)="preventSpaces($event)"
+              class="form-control"
+              ngModel
+              required
+            >
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-xs-2">
+            <label for="password">Password:</label>
+            <input
+              type="password"
+              name="password"
+              minlength=6
+              placeholder="password"
+              (keydown)="preventSpaces($event)"
+              class="form-control"
+              #password="ngModel"
+              ngModel
+              required
+            >
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-xs-2">
+            <label for="reenterpw">Re-enter password:</label>
+            <input
+              type="password"
+              name="reenterpw"
+              minlength=6
+              (keydown)="preventSpaces($event)"
+              class="form-control"
+              ngModel
+              required
+            >
+          </div>
+        </div>
+        <br>
+        <span 
+          *ngIf="!password.valid && password.touched"
+          style="color:red;" 
+          class="help-block"
+        >Please enter a password with 6 or more characters.</span>
+        <br>
+        <button 
+          type="submit"
+          class="btn"
+          [disabled]="!f.valid" 
+          (click)="onSave()">Save</button>
+      </div>
+    </form>
+    <hr>
+    <div class="row">
+      <div class="col-md-2">
+          <a 
+            style="cursor: pointer;"
+            class="list-group-item clearfix"
+            *ngFor="let alt of alts; let i = index"
+            routerLinkActive="active"
+            [routerLink]="i"
+          >{{alt}}</a>
+      </div>
+      <div class="col-md-10">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>

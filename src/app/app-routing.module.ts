@@ -1,3 +1,4 @@
+import { ManageAltsDispComponent } from './manage/manage-alts/manage-alts-disp/manage-alts-disp.component';
 import { MainGuard } from './manage/main-guard.service';
 import { ManageSchoolsComponent } from './manage/manage-schools/manage-schools.component';
 import { RedirectComponent } from './redirect/redirect.component';
@@ -31,7 +32,9 @@ const appRoutes: Routes = [
     { path: ':id/new', component: SchoolPlanNewComponent, canActivate: [EditGuard]},
     { path: ':id/edit', component: SchoolPlanEditComponent, canActivate: [EditGuard]}
   ]},
-  { path: 'managealts', component: ManageAltsComponent, canActivate: [MainGuard]},
+  { path: 'managealts', component: ManageAltsComponent, canActivate: [MainGuard], children:[
+    { path: ':id', component: ManageAltsDispComponent, canActivate: [MainGuard]}
+  ]},
   { path: 'manageschools', component: ManageSchoolsComponent, canActivate: [MainGuard], children:[
     { path: ':id', component: ManageSchoolsDispComponent, canActivate: [MainGuard]}
   ]},

@@ -73,23 +73,6 @@ export class SchoolService{
   }
 
   filterSchoolsByUser(){
-    // const user = this.activeUser;
-    // let filteredByName = this.schoolsList.filter(function(v,i){
-    //   return (v["alt"] == user)
-    // })
-    // let newSchools = [];
-    // for (let school of filteredByName){
-    //   newSchools.push.apply(newSchools, this.schools.filter(function(v,i){
-    //     return (v["name"] == school.school)
-    //   }))
-    // }
-    // let others = ["Office", "勤務不可日", "祝日"]
-    // for (let other of others){
-    //   newSchools.push.apply(newSchools, this.schools.filter((v,i)=>{
-    //     return (v["alt"] ==)
-    //   }))
-    // }
-    // this.filteredSchools = newSchools;
     let newSchools = [];
     newSchools.push.apply(newSchools, this.schools.filter((v,i) => {
       return (v["alt"] == this.activeUser);

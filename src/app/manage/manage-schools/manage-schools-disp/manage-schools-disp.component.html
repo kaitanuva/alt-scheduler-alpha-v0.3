@@ -1,1 +1,38 @@
-<h1>Associated ALT: {{ alt }}</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>Associated ALT: {{ alt }}</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-4">
+      <button 
+        class="btn btn-default btn-block"
+        (click)="onChange()"
+        >Change ALT
+      </button>
+    </div>
+    <div *ngIf="changeOK" class="col-xs-2">
+      <form #f="ngForm">
+        <select
+          class="form-control"
+          name="associatedALT"
+          ngModel
+          required>
+          <option 
+            *ngFor="let alt of alts"
+            [value]="alt">{{alt}}</option>
+        </select>
+      </form>
+    </div>
+    <div *ngIf="changeOK" class="col-xs-2">
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="onSave()"
+        >Save
+      </button>
+    </div>
+  </div>
+</div>
+

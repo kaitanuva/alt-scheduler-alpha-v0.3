@@ -33,6 +33,7 @@ import { ManageAltsComponent } from './manage/manage-alts/manage-alts.component'
 import { ManageSchoolsComponent } from './manage/manage-schools/manage-schools.component';
 import { MainGuard } from './manage/main-guard.service';
 import { ManageSchoolsDispComponent } from './manage/manage-schools/manage-schools-disp/manage-schools-disp.component';
+import { ManageAltsDispComponent } from './manage/manage-alts/manage-alts-disp/manage-alts-disp.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { ManageSchoolsDispComponent } from './manage/manage-schools/manage-schoo
     PasswordPipe,
     ManageAltsComponent,
     ManageSchoolsComponent,
-    ManageSchoolsDispComponent
+    ManageSchoolsDispComponent,
+    ManageAltsDispComponent
   ],
   imports: [
     BrowserModule,
