@@ -4,8 +4,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-redirect',
-  templateUrl: './redirect.component.html',
-  styleUrls: ['./redirect.component.css']
+  templateUrl: './redirect.component.html'
 })
 export class RedirectComponent implements OnInit, OnDestroy {
 

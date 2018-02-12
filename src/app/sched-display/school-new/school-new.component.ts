@@ -25,7 +25,6 @@ export class SchoolNewComponent implements OnInit, OnDestroy{
   theDate = new Date();
   lastDate: number;
   datesList = [];
-  // schoolsOptionList = [];
   timeSubscription: Subscription;
   schoolSubscription: Subscription;
 
@@ -67,9 +66,6 @@ export class SchoolNewComponent implements OnInit, OnDestroy{
         this.datesList = newDatesList;
       }
     );
-
-        
-    // this.schoolsOptionList = this.schoolService.getSchoolsList();
   }
 
   ngOnDestroy(){
@@ -88,8 +84,6 @@ export class SchoolNewComponent implements OnInit, OnDestroy{
     let allDaySchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '一日中');
     let morningSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午前');
     let noonSchool = this.schoolService.findSchoolFiltered(yearInp, monthInp, dateInp, '午後');
-    // let editedSchool = new School(nameInp, yearInp, monthInp, dateInp, timeInp);
-    // let editedSchool = new School(this.name, this.year, this.month, this.date, this.time);
     
     if (targetSchool && this.schoolService.getIndexFiltered(targetSchool) != this.id){
       alert('Another school already exists on that time & date.');
@@ -103,17 +97,6 @@ export class SchoolNewComponent implements OnInit, OnDestroy{
     else if (timeInp == '一日中' &&  noonSchool && this.schoolService.getIndexFiltered(noonSchool) !=this.id){
       alert('Another school already exists on that time & date.');
     }
-    // else{
-      // this.schoolService.editSchool(this.id, editedSchool);
-      // const token = this.authService.token;
-      // this.dataStorageService.addToSchoolDispList(editedSchool, token)
-      //   .subscribe(
-      //     (response) => console.log(response),
-      //     (error) => console.log(error)
-      //   );
-    //   console.log(editedSchool)
-    //   this.router.navigate(['schedule']);
-    // }
     else{
       let editedSchool = new School(this.editForm.value.name, yearInp, monthInp, dateInp, timeInp,
         this.schoolService.activeUser);

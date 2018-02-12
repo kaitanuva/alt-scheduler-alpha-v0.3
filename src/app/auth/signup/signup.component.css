@@ -83,8 +83,6 @@ div.password{
   left: 49px;
 }
 
-/* Progress Bar Steps CSS, credit to Grygorii Polinovskyi*/
-
 .clearfix:after {
   clear: both;
   content: "";
@@ -119,8 +117,6 @@ text-decoration: none;
 a:hover {
 color: #999;
 }
-
-/* Breadcrups CSS */
 
 .arrow-steps .step {
 font-size: 12px;

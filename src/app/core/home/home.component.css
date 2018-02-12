@@ -1,0 +1,14 @@
+.logo{
+  position: absolute;
+  bottom: 30px;
+}
+
+.left{
+  position: absolute;
+  left: 0;
+}
+
+.right{
+  position: absolute;
+  right: 0;
+}
