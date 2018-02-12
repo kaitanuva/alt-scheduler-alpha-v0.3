@@ -139,7 +139,7 @@ export class SchoolService{
 
   //////////////////////////////////////
 
-  ////////schoollist & schoolplans functions/////////
+  ////////schoollist functions/////////
 
   setSchoolsList(newschoolsList: SchoolPair[]){
     this.schoolsList = newschoolsList;
@@ -148,10 +148,6 @@ export class SchoolService{
 
   getSchoolsList(){
     return this.schoolsList.slice();
-  }
-
-  getSchoolPlansCopy(){
-    return this.schoolPlans.slice();
   }
 
   getSchoolFromSchoolList(id: number){
@@ -189,9 +185,20 @@ export class SchoolService{
     this.schoolsListChanged.next(this.getSchoolsList());
   }
 
+  editSchoolList(id: number, newALT: string){
+    this.schoolsList[id].alt = newALT;
+    this.schoolsListChanged.next(this.getSchoolsList());
+  }
+
   deleteFromSchoolList(id:number){
     this.schoolsList.splice(id, 1);
     this.schoolsListChanged.next(this.getSchoolsList());
+  }
+
+  //~~~~~~~~~~School Plans Functions~~~~~~~~~~~~//
+
+  getSchoolPlansCopy(){
+    return this.schoolPlans.slice();
   }
 
   getSchoolPlansUsingID(id: number, year: number, month: number){
@@ -246,8 +253,6 @@ export class SchoolService{
   setSchoolPlans(schoolPlans: SchoolPlan[]){
     this.schoolPlans = schoolPlans;
   }
-
-  ////////////////////////////
 
   //~~~~~~~Approval List Functions~~~~~~~~~~//
 

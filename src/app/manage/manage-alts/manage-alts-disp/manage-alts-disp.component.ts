@@ -23,14 +23,16 @@ export class ManageAltsDispComponent implements OnInit {
         }
         const schoolsList = this.schoolService.getSchoolsList();
         let newList = [];
+        let finalList = [];
         newList.push.apply(newList, schoolsList.filter((v,i) => {
           return (v["alt"] == alt);
         }));
         for (let school of newList){
-          this.filteredSchoolsList.push(school.school);
+          finalList.push(school.school);
         }
+        this.filteredSchoolsList = finalList;
       }
-    )
+    );
     
   }
 

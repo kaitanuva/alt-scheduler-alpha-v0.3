@@ -79,12 +79,17 @@ export class DataStorageService{
 
   addtoSchoolList(newSchoolList: SchoolPair[], schoolSys: string, token: string){
     return this.http.put('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
-    '/schoollist.json?auth=' + token, newSchoolList);
+      '/schoollist.json?auth=' + token, newSchoolList);
   }
 
   removeSchoolList(schoolSys: string, token: string){
     return this.http.delete('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
-      '/schoollist/.json?auth=' + token);
+      '/schoollist.json?auth=' + token);
+  }
+
+  editSchoolList(editedSchool: SchoolPair, id: number, schoolSys: string, token: string){
+    return this.http.patch('https://ng-alt-scheduler.firebaseio.com/core/' + schoolSys +
+      '/schoollist/' + id + '.json?auth=' + token, editedSchool);
   }
 
   //~~~~~~~~~~Approval List Methods~~~~~~~~~~~~~~//
