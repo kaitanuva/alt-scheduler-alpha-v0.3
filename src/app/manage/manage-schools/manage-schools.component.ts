@@ -75,7 +75,7 @@ export class ManageSchoolsComponent implements OnInit, OnDestroy {
     const reenterpw = this.newSchoolForm.value.reenterpw;
     const alt = this.newSchoolForm.value.associatedALT;
     const email = id + '-school@' + this.schoolService.schoolSys + '.jp';
-    const found = this.schoolService.checkIfAlreadyExists(name);
+    const found = this.schoolService.checkIfSchoolAlreadyExists(name);
     if (found){
       alert('That school already exists.')
     }

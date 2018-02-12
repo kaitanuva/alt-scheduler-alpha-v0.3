@@ -54,6 +54,16 @@ export class SchoolService{
     this.altListChanged.next(this.altList.slice());
   }
 
+  addToALTList(alt: string){
+    this.altList.push(alt);
+    this.altListChanged.next(this.altList.slice());
+  }
+
+  checkIfALTAlreadyExists(alt: string){
+    const found = this.altList.indexOf(alt);
+    return found == -1 ? false : true;
+  }
+
   ////////school functions/////////
 
   setSchools(schools: School[]){
@@ -167,7 +177,7 @@ export class SchoolService{
     return this.schoolsList.indexOf(school)
   }
 
-  checkIfAlreadyExists(schoolName: string){
+  checkIfSchoolAlreadyExists(schoolName: string){
     let found = this.schoolsList.find(function(v,i){
       return (v["school"] == schoolName)
     })
