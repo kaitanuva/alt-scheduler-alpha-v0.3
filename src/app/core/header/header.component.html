@@ -3,6 +3,7 @@
     <div class="navbar-default">
       <a routerLink ="/" class="navbar-brand">Home</a>
     </div>
+
     <div class="collapse navbar-collapse">
       <ul *ngIf="authService.isAuthenticated()" class="nav navbar-nav">
         <li routerLinkActive="active">
@@ -70,3 +71,4 @@
     </div>
   </div>
 </nav>
+  
