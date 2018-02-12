@@ -1,3 +1,6 @@
+import { ManageAltsDispComponent } from './manage/manage-alts/manage-alts-disp/manage-alts-disp.component';
+import { MainGuard } from './manage/main-guard.service';
+import { ManageSchoolsComponent } from './manage/manage-schools/manage-schools.component';
 import { RedirectComponent } from './redirect/redirect.component';
 import { EditGuard } from './auth/edit-guard.service';
 import { SchooldetailComponent } from './schools/schooldetail/schooldetail.component';
@@ -15,6 +18,8 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { AuthGuard } from './auth/auth-guard.service';
 import { RedirectGuard } from './redirect/redirect-guard.service';
 import { SchoolGuard } from './auth/school-guard.service';
+import { ManageAltsComponent } from './manage/manage-alts/manage-alts.component';
+import { ManageSchoolsDispComponent } from './manage/manage-schools/manage-schools-disp/manage-schools-disp.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -26,6 +31,12 @@ const appRoutes: Routes = [
     { path: ':id', component: SchooldetailComponent, canActivate: [SchoolGuard]},
     { path: ':id/new', component: SchoolPlanNewComponent, canActivate: [EditGuard]},
     { path: ':id/edit', component: SchoolPlanEditComponent, canActivate: [EditGuard]}
+  ]},
+  { path: 'managealts', component: ManageAltsComponent, canActivate: [MainGuard], children:[
+    { path: ':id', component: ManageAltsDispComponent, canActivate: [MainGuard]}
+  ]},
+  { path: 'manageschools', component: ManageSchoolsComponent, canActivate: [MainGuard], children:[
+    { path: ':id', component: ManageSchoolsDispComponent, canActivate: [MainGuard]}
   ]},
   { path: 'login', component: LoginComponent},
   { path: 'signup', component: SignupComponent}

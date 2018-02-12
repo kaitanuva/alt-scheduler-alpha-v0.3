@@ -11,6 +11,7 @@ export class AuthService{
   token: string;
   userType: string;
   altName: string;
+  schoolName: string;
 
   constructor(private router: Router,
               private redirectService: RedirectService,
@@ -89,6 +90,9 @@ export class AuthService{
             this.schoolService.setSchools(schools);
             this.schoolService.filterSchoolsByUser();
           }
+          else{
+            this.schoolService.setSchools(schools);
+          }
         },
         (error) => { throw error }
       );
@@ -104,6 +108,9 @@ export class AuthService{
               schoolPlan.key = key;
               schoolPlansList.push(schoolPlan);
             })
+            this.schoolService.setSchoolPlans(schoolPlansList);
+          }
+          else{
             this.schoolService.setSchoolPlans(schoolPlansList);
           }
         },
@@ -128,9 +135,8 @@ export class AuthService{
       this.userType = 'school';
       const index = email.indexOf('-school');
       const schoolName = email.slice(0, index);
-      // const associatedALT = this.dataStorageService.getALTassociatedWithSchool(schoolName);
+      this.schoolName = schoolName;
       this.schoolService.loggedInSchool = schoolName;
-      // this.schoolService.activeUser = associatedALT;
       this.dataStorageService.retrieveSchoolList(this.token)
         .subscribe(
           () => {
@@ -145,9 +151,14 @@ export class AuthService{
       this.dataStorageService.retrieveAltList(this.token)
         .subscribe(
           (altList) => {
-            this.altName = Object.values(altList)[0][0];
-            this.schoolService.activeUser = this.altName;
-            this.schoolService.setAltList(Object.values(altList)[0])
+            if (altList){
+              this.altName = Object.values(altList)[0][0];
+              this.schoolService.activeUser = this.altName;
+              this.schoolService.setAltList(Object.values(altList)[0])
+            }
+            else {
+              this.schoolService.setAltList([]);
+            }
           }
         );
       this.dataStorageService.retrieveSchoolList(this.token)

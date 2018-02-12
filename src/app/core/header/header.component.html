@@ -3,6 +3,7 @@
     <div class="navbar-default">
       <a routerLink ="/" class="navbar-brand">Home</a>
     </div>
+
     <div class="collapse navbar-collapse">
       <ul *ngIf="authService.isAuthenticated()" class="nav navbar-nav">
         <li routerLinkActive="active">
@@ -13,6 +14,32 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li
+          *ngIf="authService.userType"
+          class="dropdown"
+          appDropdown>
+          <a
+            style="cursor: pointer;"
+            class="dropdown-toggle"
+            role="button"
+          >
+          <i class="glyphicon glyphicon-user"></i>   Account<span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li *ngIf="authService.userType == 'main'">
+              <a style="cursor: pointer;" routerLink="/managealts">Manage ALTs</a>
+            </li>
+            <li *ngIf="authService.userType == 'main'">
+              <a style="cursor: pointer;" routerLink="/manageschools">Manage Schools</a>
+            </li>
+            <li>
+              <a style="cursor: pointer;" (click)="onChangePassword()">Change Password</a>
+            </li>
+            <li>
+              <a style="cursor: pointer;" (click)="onDeleteAccount()">Delete Account</a>
+            </li>
+          </ul>
+        </li>
         <li 
           *ngIf="authService.userType == 'main'" 
           class="dropdown" 
@@ -44,3 +71,4 @@
     </div>
   </div>
 </nav>
+  

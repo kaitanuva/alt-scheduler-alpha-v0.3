@@ -29,6 +29,11 @@ import { AuthGuard } from './auth/auth-guard.service';
 import { RedirectComponent } from './redirect/redirect.component';
 import { GlobalErrorHandler } from './error-handler';
 import { PasswordPipe } from './shared/password.pipe';
+import { ManageAltsComponent } from './manage/manage-alts/manage-alts.component';
+import { ManageSchoolsComponent } from './manage/manage-schools/manage-schools.component';
+import { MainGuard } from './manage/main-guard.service';
+import { ManageSchoolsDispComponent } from './manage/manage-schools/manage-schools-disp/manage-schools-disp.component';
+import { ManageAltsDispComponent } from './manage/manage-alts/manage-alts-disp/manage-alts-disp.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +51,11 @@ import { PasswordPipe } from './shared/password.pipe';
     LoginComponent,
     SignupComponent,
     RedirectComponent,
-    PasswordPipe
+    PasswordPipe,
+    ManageAltsComponent,
+    ManageSchoolsComponent,
+    ManageSchoolsDispComponent,
+    ManageAltsDispComponent
   ],
   imports: [
     BrowserModule,
@@ -66,6 +75,7 @@ import { PasswordPipe } from './shared/password.pipe';
     EditGuard,
     RedirectGuard,
     SchoolGuard,
+    MainGuard,
     DataStorageService
   ],
   bootstrap: [AppComponent]

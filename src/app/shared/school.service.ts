@@ -33,17 +33,36 @@ export class SchoolService{
 
   private schoolPlans = [];
 
+  private altList = [];
+
   constructor(){}
 
   ////////~~~Alt Functions~~~////////
 
   setAltList(altList: string[]){
+    this.altList = altList;
     this.altListChanged.next(altList);
   }
 
-  // getAltList(){
-  //   return this.altList;
-  // }
+  getAltList(){
+    return this.altList.slice();
+  }
+
+  deleteFromAltList(alt: string){
+    const id = this.altList.indexOf(alt);
+    this.altList.splice(id, 1);
+    this.altListChanged.next(this.altList.slice());
+  }
+
+  addToALTList(alt: string){
+    this.altList.push(alt);
+    this.altListChanged.next(this.altList.slice());
+  }
+
+  checkIfALTAlreadyExists(alt: string){
+    const found = this.altList.indexOf(alt);
+    return found == -1 ? false : true;
+  }
 
   ////////school functions/////////
 
@@ -64,23 +83,6 @@ export class SchoolService{
   }
 
   filterSchoolsByUser(){
-    // const user = this.activeUser;
-    // let filteredByName = this.schoolsList.filter(function(v,i){
-    //   return (v["alt"] == user)
-    // })
-    // let newSchools = [];
-    // for (let school of filteredByName){
-    //   newSchools.push.apply(newSchools, this.schools.filter(function(v,i){
-    //     return (v["name"] == school.school)
-    //   }))
-    // }
-    // let others = ["Office", "勤務不可日", "祝日"]
-    // for (let other of others){
-    //   newSchools.push.apply(newSchools, this.schools.filter((v,i)=>{
-    //     return (v["alt"] ==)
-    //   }))
-    // }
-    // this.filteredSchools = newSchools;
     let newSchools = [];
     newSchools.push.apply(newSchools, this.schools.filter((v,i) => {
       return (v["alt"] == this.activeUser);
@@ -137,18 +139,15 @@ export class SchoolService{
 
   //////////////////////////////////////
 
-  ////////schoollist & schoolplans functions/////////
+  ////////schoollist functions/////////
 
   setSchoolsList(newschoolsList: SchoolPair[]){
     this.schoolsList = newschoolsList;
+    this.schoolsListChanged.next(newschoolsList);
   }
 
   getSchoolsList(){
     return this.schoolsList.slice();
-  }
-
-  getSchoolPlansCopy(){
-    return this.schoolPlans.slice();
   }
 
   getSchoolFromSchoolList(id: number){
@@ -174,7 +173,7 @@ export class SchoolService{
     return this.schoolsList.indexOf(school)
   }
 
-  checkIfAlreadyExists(schoolName: string){
+  checkIfSchoolAlreadyExists(schoolName: string){
     let found = this.schoolsList.find(function(v,i){
       return (v["school"] == schoolName)
     })
@@ -186,9 +185,20 @@ export class SchoolService{
     this.schoolsListChanged.next(this.getSchoolsList());
   }
 
+  editSchoolList(id: number, newALT: string){
+    this.schoolsList[id].alt = newALT;
+    this.schoolsListChanged.next(this.getSchoolsList());
+  }
+
   deleteFromSchoolList(id:number){
     this.schoolsList.splice(id, 1);
     this.schoolsListChanged.next(this.getSchoolsList());
+  }
+
+  //~~~~~~~~~~School Plans Functions~~~~~~~~~~~~//
+
+  getSchoolPlansCopy(){
+    return this.schoolPlans.slice();
   }
 
   getSchoolPlansUsingID(id: number, year: number, month: number){
@@ -243,8 +253,6 @@ export class SchoolService{
   setSchoolPlans(schoolPlans: SchoolPlan[]){
     this.schoolPlans = schoolPlans;
   }
-
-  ////////////////////////////
 
   //~~~~~~~Approval List Functions~~~~~~~~~~//
 
