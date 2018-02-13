@@ -9,8 +9,8 @@ import { AuthService } from './auth.service';
 @Injectable()
 export class SchoolGuard implements CanActivate{
 
-  constructor(private schoolService: SchoolService,
-              private authService: AuthService
+  constructor(public schoolService: SchoolService,
+              public authService: AuthService
              ){}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){

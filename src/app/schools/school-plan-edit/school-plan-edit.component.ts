@@ -27,13 +27,13 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
   theDay: string;
   daySubscription: Subscription;
 
-  constructor(private timeService: TimeService,
-              private schoolService: SchoolService,
-              private dataStorageService: DataStorageService,
-              private authService: AuthService,
+  constructor(public timeService: TimeService,
+              public schoolService: SchoolService,
+              public dataStorageService: DataStorageService,
+              public authService: AuthService,
               private route: ActivatedRoute,
               private router: Router,
-              private editGuard: EditGuard) { }
+              public editGuard: EditGuard) { }
 
   ngOnInit() {
     this.schoolName = this.schoolService.getSchoolNameUsingLoggedIn();

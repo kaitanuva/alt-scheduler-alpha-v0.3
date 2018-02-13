@@ -28,10 +28,10 @@ export class SchoolPlanNewComponent implements OnInit {
   weekend = false;
 
   constructor(private route: ActivatedRoute,
-              private schoolService: SchoolService,
-              private timeService: TimeService,
-              private dataStorageService: DataStorageService,
-              private authService: AuthService,
+              public schoolService: SchoolService,
+              public timeService: TimeService,
+              public dataStorageService: DataStorageService,
+              public authService: AuthService,
               private router: Router) { }
 
   ngOnInit() {

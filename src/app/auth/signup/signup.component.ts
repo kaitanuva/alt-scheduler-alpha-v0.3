@@ -33,8 +33,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   schoolList = [];
   schoolSystems = [];
 
-  constructor(private authService: AuthService,
-              private dataStorageService: DataStorageService,
+  constructor(public authService: AuthService,
+              public dataStorageService: DataStorageService,
               private router: Router) { }
 
   ngOnInit() {

@@ -20,9 +20,9 @@ export class ManageSchoolsDispComponent implements OnInit, OnDestroy {
   changeOK = false;
 
   constructor(private route: ActivatedRoute,
-              private schoolService: SchoolService,
-              private dataStorageService: DataStorageService,
-              private authService: AuthService) { }
+              public schoolService: SchoolService,
+              public dataStorageService: DataStorageService,
+              public authService: AuthService) { }
 
   ngOnInit() {
     this.alts = this.schoolService.getAltList();

@@ -26,11 +26,11 @@ export class SchooldetailComponent implements OnInit, OnDestroy {
   timeSubscription: Subscription;
 
   constructor(private route: ActivatedRoute,
-              private schoolService: SchoolService,
-              private timeService: TimeService,
-              private dataStorageService: DataStorageService,
-              private editGuard: EditGuard,
-              private authService: AuthService) { }
+              public schoolService: SchoolService,
+              public timeService: TimeService,
+              public dataStorageService: DataStorageService,
+              public editGuard: EditGuard,
+              public authService: AuthService) { }
 
   ngOnInit() {
     const clickedYear = this.timeService.altClickedYear;

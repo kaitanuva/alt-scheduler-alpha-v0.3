@@ -14,10 +14,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   alts = [];
   altListSubscription: Subscription;
 
-  constructor(private schoolService: SchoolService,
+  constructor(public schoolService: SchoolService,
               private router: Router,
-              private authService: AuthService,
-              private dataStorageService: DataStorageService) { }
+              public authService: AuthService,
+              public dataStorageService: DataStorageService) { }
 
   ngOnInit() {
     this.altListSubscription = this.schoolService.altListChanged.subscribe(

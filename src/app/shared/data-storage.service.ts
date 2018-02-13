@@ -11,7 +11,7 @@ export class DataStorageService{
   private schoolsList = [];
 
   constructor(private http: Http,
-              private schoolService: SchoolService){}
+              public schoolService: SchoolService){}
 
   filterSchoolsList(altName: any, schoolName: any){
     if (altName){

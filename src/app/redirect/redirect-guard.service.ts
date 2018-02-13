@@ -5,7 +5,7 @@ import { RedirectService } from './redirect.service';
 @Injectable()
 export class RedirectGuard implements CanActivate{
 
-  constructor(private redirectService: RedirectService){}
+  constructor(public redirectService: RedirectService){}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
     if (this.redirectService.redirectRoute){

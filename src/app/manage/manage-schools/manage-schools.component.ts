@@ -20,9 +20,9 @@ export class ManageSchoolsComponent implements OnInit, OnDestroy {
   schoolsListSubscription: Subscription;
   altListSubscription: Subscription;
 
-  constructor(private schoolService: SchoolService,
-              private authService: AuthService,
-              private dataStorageService: DataStorageService) { }
+  constructor(public schoolService: SchoolService,
+              public authService: AuthService,
+              public dataStorageService: DataStorageService) { }
 
   ngOnInit() {
     let retrievedList = this.schoolService.getSchoolsList();

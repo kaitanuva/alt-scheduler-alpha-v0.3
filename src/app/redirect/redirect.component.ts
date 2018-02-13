@@ -8,7 +8,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 })
 export class RedirectComponent implements OnInit, OnDestroy {
 
-  constructor(private redirectService: RedirectService,
+  constructor(public redirectService: RedirectService,
               private router: Router) { }
 
   ngOnInit() {

@@ -31,10 +31,10 @@ export class SchooleditComponent implements OnInit, OnDestroy{
 
   weekend = false;
 
-  constructor(private schoolService: SchoolService,
-              private dataStorageService: DataStorageService,
-              private authService: AuthService,
-              private timeService: TimeService,
+  constructor(public schoolService: SchoolService,
+              public dataStorageService: DataStorageService,
+              public authService: AuthService,
+              public timeService: TimeService,
               private route: ActivatedRoute,
               private router: Router) { }
 

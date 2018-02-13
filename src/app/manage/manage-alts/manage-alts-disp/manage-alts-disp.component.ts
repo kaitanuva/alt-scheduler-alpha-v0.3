@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class ManageAltsDispComponent implements OnInit {
   filteredSchoolsList = [];
 
-  constructor(private schoolService: SchoolService,
+  constructor(public schoolService: SchoolService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {

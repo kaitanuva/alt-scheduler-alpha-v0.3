@@ -5,7 +5,7 @@ import { AuthService } from '../auth/auth.service';
 @Injectable()
 export class MainGuard implements CanActivate{
 
-  constructor(private authService: AuthService){}
+  constructor(public authService: AuthService){}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
     if (this.authService.userType == 'main'){

@@ -13,7 +13,7 @@ export class SchoolsComponent implements OnInit, OnDestroy {
   schoolsList = [];
   schoolsListSubscription: Subscription;
 
-  constructor(private schoolService: SchoolService,
+  constructor(public schoolService: SchoolService,
               private router: Router) {}
 
   ngOnInit() {

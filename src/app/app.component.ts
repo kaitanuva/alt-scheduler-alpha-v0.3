@@ -17,10 +17,10 @@ export class AppComponent implements OnInit, OnDestroy {
   authtoken: string;
   email: string;
 
-  constructor(private authService: AuthService,
-              private schoolService: SchoolService,
-              private redirectService: RedirectService,
-              private dataStorageService: DataStorageService){}
+  constructor(public authService: AuthService,
+              public schoolService: SchoolService,
+              public redirectService: RedirectService,
+              public dataStorageService: DataStorageService){}
 
   ngOnInit(){
     this.redirect = this.redirectService.canRedirect;

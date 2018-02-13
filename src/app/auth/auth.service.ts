@@ -14,9 +14,9 @@ export class AuthService{
   schoolName: string;
 
   constructor(private router: Router,
-              private redirectService: RedirectService,
-              private dataStorageService: DataStorageService,
-              private schoolService: SchoolService){}
+              public redirectService: RedirectService,
+              public dataStorageService: DataStorageService,
+              public schoolService: SchoolService){}
 
   signinUser(username: string, password: string){
     firebase.auth().signInWithEmailAndPassword(username, password)

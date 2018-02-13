@@ -8,7 +8,7 @@ import { SchoolService } from '../../shared/school.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private schoolService: SchoolService) { }
+  constructor(public schoolService: SchoolService) { }
 
   ngOnInit() {
   }

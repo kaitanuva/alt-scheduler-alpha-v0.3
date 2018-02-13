@@ -30,11 +30,11 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
   approvalListSubscription: Subscription;
   altListSubscription: Subscription;
 
-  constructor(private schoolService: SchoolService,
-              private dataStorageService: DataStorageService,
+  constructor(public schoolService: SchoolService,
+              public dataStorageService: DataStorageService,
               private router: Router,
-              private timeService: TimeService,
-              private authService: AuthService) { }
+              public timeService: TimeService,
+              public authService: AuthService) { }
 
   ngOnInit() {
     this.activeUser = this.schoolService.activeUser;
@@ -191,10 +191,10 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
     if (allDaySchool){
       alert('Another school already exists on that time & date.');
     }
-    else if (morningSchool){
+    else if (morningSchool && selectedSchool.time == '午前'){
       alert('Another school already exists on that time & date.');
     }
-    else if (noonSchool){
+    else if (noonSchool && selectedSchool.time == '午後'){
       alert('Another school already exists on that time & date.');
     }
     else{

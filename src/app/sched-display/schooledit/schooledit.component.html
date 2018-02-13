@@ -27,7 +27,6 @@
             class="form-control"
             [ngModel]="year"
             name="year"
-            (change)="onChangeYear()"
             disabled
           >
         </div>
@@ -40,7 +39,6 @@
             class="form-control"
             [ngModel]="month"
             name="month"
-            (change)="onChangeMonth()"
             disabled>
               <option value="1">January</option>
               <option value="2">February</option>
@@ -65,7 +63,6 @@
             class="form-control"
             [ngModel]="date"
             name="date"
-            (change)="checkWeekend()"
             disabled>
               <option 
                 *ngFor="let theDate of datesList"
