@@ -17,6 +17,7 @@ export class SchoolsComponent implements OnInit, OnDestroy {
               private router: Router) {}
 
   ngOnInit() {
+    this.schoolService.filterSchoolsByUser();
     let retrievedList = this.schoolService.getSchoolsList();
     for (let school of retrievedList){
       this.schoolsList.push(school.school);

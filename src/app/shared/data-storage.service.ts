@@ -170,7 +170,7 @@ export class DataStorageService{
   }
 
   removeFromSchoolPlans(key: string, token: string){
-    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/' + this.schoolService.schoolSys +
+    return this.http.delete('https://ng-alt-scheduler.firebaseio.com/core/' + this.schoolService.schoolSys +
       '/schoolplans/' + key + '.json?auth=' + token);
   }
 

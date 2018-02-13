@@ -137,6 +137,17 @@ export class SchoolService{
     }
   }
 
+  isHoliday(year: number, month: number, date: number){
+    if (this.findSchoolFiltered(year, month, date, '一日中')){
+      if (this.findSchoolFiltered(year, month, date, '一日中').name == '祝日'){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+  }
+
   //////////////////////////////////////
 
   ////////schoollist functions/////////

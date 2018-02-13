@@ -107,15 +107,18 @@ export class SchooleditComponent implements OnInit, OnDestroy{
             this.schoolService.filterSchoolsByUser();
           }
         );
-      this.dataStorageService.removeFromSchoolPlans(schoolPlan.key, this.authService.token)
-        .subscribe(
-          (response) => console.log(response),
-          (error) => console.log(error),
-          () => {
-            this.schoolService.deleteSchoolPlan(schoolPlan);
-            this.schoolService.filterSchoolsByUser();
-          }
-        );
+
+      if (schoolPlan){
+        this.dataStorageService.removeFromSchoolPlans(schoolPlan.key, this.authService.token)
+          .subscribe(
+            (response) => console.log(response),
+            (error) => console.log(error),
+            () => {
+              this.schoolService.deleteSchoolPlan(schoolPlan);
+              this.schoolService.filterSchoolsByUser();
+            }
+          );
+      }
       this.router.navigate(['schedule']);
     }
     else{

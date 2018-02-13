@@ -54,7 +54,8 @@
           style="background-color: rgb(197, 197, 197);" >休み</td>
         <td colspan=2 
           *ngIf="checkAllDaySchool(currentYear, currentMonth+1, date.date)"
-          class="text-center">
+          class="text-center"
+          [ngClass]="{'holiday': isHoliday(currentYear, currentMonth+1, date.date)}">
             <a
               class="btn"
               style="cursor: pointer;"
@@ -68,7 +69,8 @@
         <td 
           *ngIf="date.day != '日' && date.day != '土' 
           && !checkAllDaySchool(currentYear, currentMonth+1, date.date)" 
-          class="text-center">
+          class="text-center"
+          [ngClass]="{'holiday': isHoliday(currentYear, currentMonth+1, date.date)}">
             <a
               class="btn"
               style="cursor: pointer;"
@@ -83,7 +85,8 @@
         <td 
           *ngIf="date.day != '日' && date.day != '土'
           && !checkAllDaySchool(currentYear, currentMonth+1, date.date)" 
-          class="text-center">
+          class="text-center"
+          [ngClass]="{'holiday': isHoliday(currentYear, currentMonth+1, date.date)}">
             <a
               class="btn"
               style="cursor: pointer;"
