@@ -31,8 +31,8 @@
           >{{plan.status}} | {{plan.name}}, {{plan.year}}年 {{plan.month}}月 {{plan.date}}日, {{plan.time}}</option>
         </select>
       </form>
-      <button class="btn btn-success" (click)="onApprove()">Approve</button>
-      <button class="btn btn-danger"(click)="onReject()">Reject</button>
+      <button class="btn btn-success" (click)="onApprove()" [disabled]="greyedOut">Approve</button>
+      <button class="btn btn-danger"(click)="onReject()" [disabled]="greyedOutRj">Reject</button>
     </div>
   </div>
   <hr>

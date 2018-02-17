@@ -23,6 +23,8 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
   currentMonth = this.theDate.getMonth();
   currentYear = this.theDate.getFullYear();
   lastDate = this.retrieveLastDate();
+  greyedOut = false;
+  greyedOutRj = false;
   datesList = [];
   activeUser: string;
   approvalList: SchoolPlan[];
@@ -178,6 +180,8 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
   }
 
   onApprove(){
+    this.greyedOut = true;
+    setTimeout(()=>{this.greyedOut = false}, 1000);
     const id = this.approveForm.value.requestedSchools;
     if (!id) return;
     const token = this.authService.getIdToken();
@@ -254,6 +258,8 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
   }
 
   onReject(){
+    this.greyedOutRj = true;
+    setTimeout(()=>{this.greyedOutRj = false}, 1000);
     const id = this.approveForm.value.requestedSchools;
     if (!id) return;
     const selectedSchool = this.approvalList[id];
