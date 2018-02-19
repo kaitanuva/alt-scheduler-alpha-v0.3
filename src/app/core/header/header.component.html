@@ -1,5 +1,5 @@
+
 <nav class="navbar navbar-default">
-  <div class="container-fluid">
     <div class="navbar-default">
       <a routerLink ="/" class="navbar-brand">Home</a>
     </div>
@@ -68,6 +68,16 @@
         </li>
       </ul>
     </div>
+    <a class="icon" style="cursor: pointer; font-size:15px;" (click)="toggleIcon()">&#9776;</a>
+  </nav>
+  <div class="topnav" id="myTopnav">
+    <div *ngIf="authService.isAuthenticated()" class="loggedIn">
+      <a routerLink="/schedule" routerLinkActive="active" (click)="toggleIcon()">Schedule</a>
+      <a routerLink="/schools" routerLinkActive="active" (click)="toggleIcon()">Schools</a>
+      <a (click)="onDeleteAccount()">Delete Account</a>
+      <a (click)="onLogout()">Logout</a>
+    </div>
+    <div *ngIf="!authService.isAuthenticated()" class="loggedOut">
+      <a routerLink="/login" (click)="toggleIcon()">Login</a>
+    </div>
   </div>
-</nav>
-  

@@ -8,10 +8,7 @@
   <button class="btn btn-success" routerLink="new" (click)="onAdd()">Add Plan</button>
 </div>
 <hr>
-<form 
-  #f="ngForm" 
-  *ngFor="let plan of schoolPlansList"
-  [id]="plan.date">
+<form #f="ngForm" *ngFor="let plan of schoolPlansList">
   <div 
     class="form-group">
     <br>

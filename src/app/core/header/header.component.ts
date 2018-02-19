@@ -9,6 +9,7 @@ import * as firebase from 'firebase';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   alts = [];
@@ -129,6 +130,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       return;
     }
 
+  }
+
+  toggleIcon(){
+    const x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+      x.className += " responsive";
+    }
+    else {
+      x.className = "topnav";
+    }
   }
 
   onLogout(){

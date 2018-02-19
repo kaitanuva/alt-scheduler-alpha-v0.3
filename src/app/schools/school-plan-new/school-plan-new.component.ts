@@ -35,7 +35,7 @@ export class SchoolPlanNewComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.schoolName = this.schoolService.selectedSchool;
+    this.schoolName = this.schoolService.getSchoolNameUsingLoggedIn();
     this.currentMonth = this.timeService.selectedMonth;
     this.currentYear = this.timeService.selectedYear;
 
@@ -60,8 +60,7 @@ export class SchoolPlanNewComponent implements OnInit {
 
   onRequest(){
     const form = this.planForm.value;
-    const schoolName = this.schoolService.selectedSchool;
-    let schoolPlan = new SchoolPlan(schoolName, this.currentYear, this.currentMonth+1, 
+    let schoolPlan = new SchoolPlan(this.schoolName, this.currentYear, this.currentMonth+1, 
       form.date, this.theDay, form.period1, form.period2, form.period3, form.period4,
       form.period5, form.period6, form.class1, form.class2, form.class3, form.class4,
       form.class5, form.class6, form.teacher1, form.teacher2, form.teacher3, 
