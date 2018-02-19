@@ -83,7 +83,8 @@ export class AuthService{
         (schoolDispList) => {
           if (schoolDispList){
             Object.keys(schoolDispList).forEach((key, index) => {
-              const school = Object.values(schoolDispList)[index]
+              let school: any;
+              school = Object.values(schoolDispList)[index]
               school.key = key;
               schools.push(school);
             })
@@ -104,7 +105,8 @@ export class AuthService{
         (schoolPlans) => {
           if (schoolPlans){
             Object.keys(schoolPlans).forEach((key, index) => {
-              const schoolPlan = Object.values(schoolPlans)[index]
+              let schoolPlan: any;
+              schoolPlan = Object.values(schoolPlans)[index]
               schoolPlan.key = key;
               schoolPlansList.push(schoolPlan);
             })
@@ -154,7 +156,12 @@ export class AuthService{
             if (altList){
               this.altName = Object.values(altList)[0][0];
               this.schoolService.activeUser = this.altName;
-              this.schoolService.setAltList(Object.values(altList)[0])
+              let theAltList = [];
+              const altListObj = Object.values(altList)[0];
+              Object.values(altListObj).forEach((v,i) => {
+                theAltList.push(v);
+              })
+              this.schoolService.setAltList(theAltList);
             }
             else {
               this.schoolService.setAltList([]);

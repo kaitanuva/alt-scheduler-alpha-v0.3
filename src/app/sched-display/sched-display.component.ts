@@ -50,7 +50,8 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
           (schoolPlans) => {
             if (schoolPlans){
               Object.keys(schoolPlans).forEach((key,index)=>{
-                const schoolPlan = Object.values(schoolPlans)[index];
+                let schoolPlan: any;
+                schoolPlan = Object.values(schoolPlans)[index];
                 schoolPlan.key = key;
                 schoolPlansList.push(schoolPlan);
               })

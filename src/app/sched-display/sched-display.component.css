@@ -2,6 +2,12 @@ div.container-fluid{
   transform: scale(.8,.8) translate(-75px,-150px);
 }
 
+@media screen and (max-width: 767px){
+  div.container-fluid{
+    transform: none;
+  }
+}
+
 td a {
   color: black;
   display: block;
