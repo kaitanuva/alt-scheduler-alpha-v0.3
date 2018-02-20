@@ -159,13 +159,14 @@
         <button class="btn btn-primary" (click)="saveNotes(plan, i)">Save Notes</button>
         <hr>
       </div>
+      <ng-template [ngIf]="authService.userType == 'school'">
+        <br>
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          (click)="onEdit(plan.date)"
+          routerLink="./edit"
+        >Edit Plan</button>
+    </ng-template>
   </div>
-<ng-template [ngIf]="authService.userType == 'school'">
-    <button 
-      type="button" 
-      class="btn" 
-      (click)="onEdit(plan.date)"
-      routerLink="./edit"
-    >Edit Plan</button>
-</ng-template>
 </form>
