@@ -92,10 +92,10 @@ export class SchooldetailComponent implements OnInit, OnDestroy {
     this.editGuard.canEdit = true;
   }
 
-  saveNotes(schoolPlan: SchoolPlan){
+  saveNotes(schoolPlan: SchoolPlan, index: number){
     const token = this.authService.token;
     const newSchoolPlan = schoolPlan;
-    newSchoolPlan.altnotes = this.planForm.value.altnotes;
+    newSchoolPlan.altnotes = Object.values(this.planForm.value)[index];
     this.dataStorageService.editSchoolPlan(schoolPlan.key, token, newSchoolPlan)
       .subscribe(
         (response) => console.log(response),

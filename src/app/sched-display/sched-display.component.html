@@ -5,7 +5,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12 col-sm-4">
         <h1> {{ currentYear}}年 {{ months[currentMonth]}} </h1>
         <button class="btn btn-primary" (click)="prevMonth()">Prev Month</button>
         <button class="btn btn-primary" (click)="nextMonth()">Next Month</button>
@@ -16,7 +16,7 @@
           (click)="onAddSchool(currentYear, currentMonth+1, '', '')">
           New</button>
     </div>
-    <div *ngIf="authService.userType == 'main'" class="col-xs-8">
+    <div *ngIf="authService.userType == 'main'" class="col-xs-12 col-sm-8">
       <br>
       <form #f="ngForm" class="form-group">
         <select 

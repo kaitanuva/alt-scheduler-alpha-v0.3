@@ -8,9 +8,10 @@
   <button class="btn btn-success" routerLink="new" (click)="onAdd()">Add Plan</button>
 </div>
 <hr>
-<form #f="ngForm" *ngFor="let plan of schoolPlansList">
+<form #f="ngForm">
   <div 
-    class="form-group">
+    class="form-group"
+    *ngFor="let plan of schoolPlansList; let i = index">
     <br>
       <table class="table table-bordered table-hover">
         <thead>
@@ -141,11 +142,10 @@
         class="altnotes"
         *ngIf="authService.userType == 'alt'">
         <br>
-        <label for="teachercomment">ALT Notes</label>
+        <label for="altnotes">ALT Notes</label>
         <textarea 
           class="form-control"
-          name="altnotes" 
-          id="altnotes"
+          [name]="'altnotes'+i"
           [ngModel]="plan.altnotes"
           cols="110" rows="3"
         ></textarea>
@@ -156,7 +156,7 @@
         *ngIf="authService.userType == 'alt'"
       >
         <br><br><br>
-        <button class="btn btn-primary" (click)="saveNotes(plan)">Save Notes</button>
+        <button class="btn btn-primary" (click)="saveNotes(plan, i)">Save Notes</button>
         <hr>
       </div>
   </div>
