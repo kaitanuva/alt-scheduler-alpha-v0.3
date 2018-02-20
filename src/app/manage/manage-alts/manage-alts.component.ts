@@ -2,7 +2,7 @@ import { DataStorageService } from './../../shared/data-storage.service';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { SchoolService } from './../../shared/school.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import * as firebase from 'firebase';
 
@@ -11,7 +11,7 @@ import * as firebase from 'firebase';
   templateUrl: './manage-alts.component.html',
   styleUrls: ['./manage-alts.component.css']
 })
-export class ManageAltsComponent implements OnInit {
+export class ManageAltsComponent implements OnInit, OnDestroy {
   @ViewChild('f') newALTForm: NgForm;
   newClicked = false;
   alts = [];
@@ -29,6 +29,10 @@ export class ManageAltsComponent implements OnInit {
         this.alts = altList;
       }
     );
+  }
+
+  ngOnDestroy(){
+    if (this.altListSubscription) this.altListSubscription.unsubscribe();
   }
 
   preventSpaces(event){

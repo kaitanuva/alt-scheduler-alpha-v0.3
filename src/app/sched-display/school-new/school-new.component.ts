@@ -26,7 +26,6 @@ export class SchoolNewComponent implements OnInit, OnDestroy{
   lastDate: number;
   datesList = [];
   timeSubscription: Subscription;
-  schoolSubscription: Subscription;
 
   weekend = false;
 

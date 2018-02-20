@@ -12,10 +12,10 @@ export class SchoolService{
 
   dateChanged = new Subject<{year: number, month: number}>();
   altListChanged = new Subject<string[]>();
+  schoolPlansChanged = new Subject<SchoolPlan[]>();
   schoolsListChanged = new Subject<SchoolPair[]>();
   approvalListChanged = new Subject<SchoolPlan[]>();
   planCounterUpdated = new Subject<number[]>();
-  deleteSchoolOn = new Subject<boolean>();
   schoolSys: string;
   activeUser: string;
   loggedInSchool: string;
@@ -221,21 +221,21 @@ export class SchoolService{
   getSchoolPlanUsingName(name: string, year: number, month: number, date: number){
     let schoolPlan = this.schoolPlans.find(function(v,i){
       return (v["name"] == name && v["year"] == year && v["month"] == month
-      && v["date"] == date)
+      && v["date"] == date);
     })
     return schoolPlan;
   }
 
   findSchoolPlans(name: string, year: number, month: number){
     let schools = this.schoolPlans.filter(function(v,i){
-      return (v["name"] == name && v["year"] == year && v["month"] == month)
+      return (v["name"] == name && v["year"] == year && v["month"] == month);
     })
     return schools;
   }
 
   checkSchoolPlansByDate(year: number, month: number, date: number){
     let schoolPlan = this.schoolPlans.find(function(v,i){
-      return (v["year"] == year && v["month"] == month && v["date"] == date)
+      return (v["year"] == year && v["month"] == month && v["date"] == date);
     })
     return schoolPlan;
   }
@@ -263,6 +263,7 @@ export class SchoolService{
 
   setSchoolPlans(schoolPlans: SchoolPlan[]){
     this.schoolPlans = schoolPlans;
+    this.schoolPlansChanged.next(schoolPlans);
   }
 
   //~~~~~~~Approval List Functions~~~~~~~~~~//

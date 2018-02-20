@@ -53,22 +53,21 @@ export class SchooldetailComponent implements OnInit, OnDestroy {
     )
 
     this.timeSubscription = this.timeService.dateChanged
-    .subscribe(
-      (yearMonth: {year: number, month: number}) => {
-        this.currentMonth = yearMonth.month;
-        this.currentYear = yearMonth.year;
-        this.schoolPlansList = this.schoolService.getSchoolPlansUsingID(this.id, this.currentYear, this.currentMonth+1);        
-        let sortedPlans = this.schoolService.sortPlansByDate(this.schoolPlansList);
-        this.schoolPlansList = sortedPlans;
-      }
-    )
+      .subscribe(
+        (yearMonth: {year: number, month: number}) => {
+          this.currentMonth = yearMonth.month;
+          this.currentYear = yearMonth.year;
+          this.schoolPlansList = this.schoolService.getSchoolPlansUsingID(this.id, this.currentYear, this.currentMonth+1);        
+          let sortedPlans = this.schoolService.sortPlansByDate(this.schoolPlansList);
+          this.schoolPlansList = sortedPlans;
+        }
+      )
   }
 
   ngOnDestroy(){
     if (this.timeSubscription){
       this.timeSubscription.unsubscribe();
     }
-    this.schoolService.deleteSchoolOn.next(false);
   }
 
   nextMonth(){

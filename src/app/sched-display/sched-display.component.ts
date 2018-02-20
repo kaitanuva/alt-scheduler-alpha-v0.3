@@ -161,6 +161,9 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
     else if (this.altListSubscription){
       this.altListSubscription.unsubscribe();
     }
+    else if (this.approvalListSubscription){
+      this.approvalListSubscription.unsubscribe();
+    }
   }
 
   nextMonth(){
