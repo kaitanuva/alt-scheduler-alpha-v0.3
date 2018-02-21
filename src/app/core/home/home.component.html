@@ -13,8 +13,9 @@
         *ngIf="hidden"
         (click)="toggleHidden()"
       >Show Today's Schedule</button>
-      <div class="schedule" *ngIf="!hidden">
+      <form #f="ngForm" class="schedule" *ngIf="!hidden">
         <div *ngFor="let plan of schoolPlansList; let i = index">
+          <h2>{{plan.name}}</h2>
           <table class="table table-bordered table-hover">
             <thead>
               <tr class="active">
@@ -149,10 +150,12 @@
               [ngModel]="plan.altnotes"
               cols="110" rows="3"
             ></textarea>
-            <br><br>
+            <br>
+            <button class="btn btn-primary" (click)="saveNotes(plan, i)">Save Notes</button>
+            <hr>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
   <div class="row">

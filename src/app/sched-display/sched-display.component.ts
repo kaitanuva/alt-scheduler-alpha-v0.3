@@ -190,7 +190,6 @@ export class SchedDisplayComponent implements OnInit, OnDestroy {
     if (!id) return;
     const token = this.authService.getIdToken();
     const selectedSchool = this.approvalList[id];
-    console.log(selectedSchool)
     const approveSchool = new School(selectedSchool.name, selectedSchool.year,
       selectedSchool.month, selectedSchool.date, selectedSchool.time, selectedSchool.alt);
 

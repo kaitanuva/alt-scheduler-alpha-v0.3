@@ -29,3 +29,12 @@
     left: 30px;
   }
 }
+
+textarea.readonly{
+  resize: none;
+  background-color:#FFF !important;
+}
+
+textarea{
+  resize: none;
+}
