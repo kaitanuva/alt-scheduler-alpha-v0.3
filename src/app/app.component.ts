@@ -58,13 +58,20 @@ export class AppComponent implements OnInit, OnDestroy {
 
   checkTokenKey(){
     const tokenKey = Object.keys(window.localStorage)
-    .filter(it => it.startsWith('firebase:authUser'))[0];
+      .filter(it => it.startsWith('firebase:authUser'))[0];
 
     if (tokenKey){
       this.authtoken = JSON.parse(localStorage.getItem(tokenKey)).stsTokenManager.accessToken;
       this.email = JSON.parse(localStorage.getItem(tokenKey)).email;
   
       this.authService.token = this.authtoken;
+      this.authService.authorizeEmail(this.email);
+      console.log(this.email);
+      console.log(this.authService.userType);
+      console.log(this.schoolService.schoolSys);
+    }
+    else if (!tokenKey && this.authService.isAuthenticated()){
+      this.email = firebase.auth().currentUser.email;
       this.authService.authorizeEmail(this.email);
       console.log(this.email);
       console.log(this.authService.userType);

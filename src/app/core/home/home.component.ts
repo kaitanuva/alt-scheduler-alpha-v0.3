@@ -5,6 +5,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SchoolService } from '../../shared/school.service';
 import { SchoolPlan } from './../../shared/schoolplan.model';
 import { NgForm } from '@angular/forms';
+import { School } from '../../shared/school.model';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit, OnDestroy{
   schoolPlansList = [];
   hidden = true;
   schoolPlansSubscription: Subscription;
+  schoolsSubscription: Subscription;
 
   constructor(public schoolService: SchoolService,
               public authService: AuthService,
@@ -44,11 +46,11 @@ export class HomeComponent implements OnInit, OnDestroy{
           }
         );
     }
-
   }
 
   ngOnDestroy(){
     if (this.schoolPlansSubscription) this.schoolPlansSubscription.unsubscribe();
+    else if (this.schoolsSubscription) this.schoolsSubscription.unsubscribe();
   }
 
   toggleHidden(){
