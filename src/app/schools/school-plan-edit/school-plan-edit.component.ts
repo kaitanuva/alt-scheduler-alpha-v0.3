@@ -82,6 +82,8 @@ export class SchoolPlanEditComponent implements OnInit, OnDestroy {
           (response) => console.log(response),
           (error) => { throw error },
           () => {
+            newSchoolPlan.key = this.schoolPlan.key;
+            newSchoolPlan.time = this.schoolPlan.time;
             this.schoolService.editSchoolPlan(this.schoolPlan, newSchoolPlan);
             this.router.navigate(['./../'], {relativeTo: this.route});
           }
