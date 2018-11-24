@@ -8,7 +8,7 @@ const app = express();
 //   res.sendFile(path.join(__dirname + '/dist/alt-scheduler/index.html'));
 // });
 
-app.get('*', function (req, res) {
+app.get('/', function (req, res) {
   res.sendfile('./dist/index.html'); 
 });
 
