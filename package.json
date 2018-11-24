@@ -4,11 +4,16 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "ng build --aot --prod",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "10.1.0",
+    "npm": "5.6.0"
   },
   "private": true,
   "dependencies": {
@@ -26,6 +31,7 @@
     "bootstrap": "^3.3.7",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.4.1",
+    "express": "^4.16.2",
     "firebase": "^4.8.2",
     "font-awesome": "^4.7.0",
     "intl": "^1.2.5",
