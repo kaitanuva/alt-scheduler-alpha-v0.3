@@ -1,0 +1,24 @@
+.table > thead > tr > th {
+  vertical-align: middle;
+}
+
+#bgWhite{
+  background-color: white;
+}
+
+textarea.readonly{
+  resize: none;
+  background-color:#FFF !important;
+}
+
+textarea{
+  resize: none;
+}
+
+div.altnotes{
+  float: left;
+}
+
+div.altnotesbtn{
+  float: right;
+}

@@ -1,0 +1,108 @@
+<h1>School Edit Page</h1>
+<hr>
+<div class="container-fluid">
+  <div class="row">
+    <form #f="ngForm">
+      <div class="row">
+      <div class="form-group col-xs-2">
+        <label for="name">School name</label>
+        <select 
+        id="name"
+        class="form-control"
+        [ngModel]="name"
+        name="name"
+        required>
+          <option value="勤務不可日">勤務不可日</option>
+          <option value="祝日">祝日</option>
+          <option value="Office">Office</option>
+        </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-xs-2">
+          <label for="year">Year</label>
+          <input 
+            type="number"
+            id="year"
+            class="form-control"
+            [ngModel]="year"
+            name="year"
+            disabled
+          >
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-xs-2">
+          <label for="month">Month</label>
+          <select 
+            id="month"
+            class="form-control"
+            [ngModel]="month"
+            name="month"
+            disabled>
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-xs-1">
+          <label for="date">Date</label>
+            <select 
+            id="date"
+            class="form-control"
+            [ngModel]="date"
+            name="date"
+            disabled>
+              <option 
+                *ngFor="let theDate of datesList"
+                [value]="theDate"
+              >{{theDate}}</option>
+            </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-xs-2">
+            <label for="time">Time</label>
+            <select 
+            id="time"
+            class="form-control"
+            [ngModel]="time"
+            name="time"
+            disabled>
+              <option value="午前">午前</option>
+              <option value="午後">午後</option>
+              <option value="一日中">一日中</option>
+            </select>
+          </div>
+      </div>
+      <p *ngIf="weekend" style="color: red;">That's a weekend!</p>
+      <button
+        type="button"
+        class="btn btn-success"
+        [disabled]="!f.valid || f.value.name == 'New School' || weekend"
+        (click)="onSave()"
+        >Save</button>
+      <button 
+        type="button" 
+        class="btn" 
+        routerLink="/schedule"
+        >Cancel</button>
+      <button 
+        type="button" 
+        class="btn btn-danger" 
+        [disabled]="f.value.name == 'New School'"
+        (click)="onDelete()">Delete</button>
+    </form>
+  </div>
+</div>

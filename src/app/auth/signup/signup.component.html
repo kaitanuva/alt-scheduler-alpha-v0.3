@@ -1,0 +1,338 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="container">	
+      <div class="wrapper">	
+        <div class="arrow-steps clearfix">
+          <div class="step" 
+            [ngClass]="{'current': activePage == 'schoolsysPage'}">
+            <span>Step 1: School System</span> 
+          </div>
+          <div class="step"
+            [ngClass]="{'current': activePage == 'altPage'}">  
+            <span>Step 2: ALT</span>
+          </div>
+          <div class="step"
+            [ngClass]="{'current': activePage == 'schoolsPage'}">  
+            <span>Step 3: Schools</span> 
+          </div>
+          <div class="step"
+            [ngClass]="{'current': activePage == 'submitPage'}"> 
+            <span>Step 4: Confirmation & Submit</span>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="row">
+    <div class="Absolute-Center">
+      <h1 *ngIf="activePage == 'schoolsysPage'">Step 1: School System Setup - Main Account</h1>
+      <h2 *ngIf="activePage == 'altPage'">Step 2: ALT Setup</h2>
+      <h3 *ngIf="activePage == 'schoolsPage'">Step 3: Schools Setup</h3>
+      <h4 *ngIf="activePage == 'submitPage'">Step 4: Confirmation and Submit!</h4>
+      <h5 *ngIf="activePage == 'submitPage'">Accounts Summary - Please save this page for your records</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="Absolute-Center-box">
+      <div class="col-sm-10 col-md-10 col-md-offset-1">
+        <form [formGroup]="signupForm">
+          <div formGroupName="schoolsysPage">
+            <div class="form-group" *ngIf="activePage == 'schoolsysPage'">
+              <div class="form-group input-group">
+                <label for="username">Username</label>
+                <input 
+                  type="text"
+                  name="username"
+                  id="username"
+                  formControlName="username"
+                  placeholder="ex: shigenobu"
+                  (keydown)="preventSpaces($event)"
+                  class="form-control text-lowercase">
+              </div>
+              <div class="form-group input-group">
+                <label for="schoolsys">School System Name</label>
+                <input 
+                  type="text"
+                  name="schoolsys"
+                  placeholder="ex: minamisatsuma"
+                  (keydown)="preventSpaces($event)"
+                  class="form-control text-lowercase"
+                  formControlName="schoolsys">
+              </div>
+              <div class="form-group input-group">
+                <label for="password">Password: (6 or more characters)</label>
+                <input 
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                  class="form-control"
+                  minlength=6
+                  (keydown)="preventSpaces($event)"
+                  formControlName="password">
+              </div>
+              <div class="form-group input-group">
+                <label for="reenterpw">Please re-enter your password</label>
+                <input 
+                  type="password"
+                  name="reenterpw"
+                  class="form-control"
+                  (keydown)="preventSpaces($event)"
+                  minlength=6
+                  formControlName="reenterpw">
+              </div>
+              <span 
+                *ngIf="!signupForm.get('schoolsysPage.password').valid
+                && signupForm.get('schoolsysPage.password').touched"
+                style="color:red;" 
+                class="help-block"
+              >Please enter a password with 6 or more characters.</span>
+              <button 
+                class="btn btn-block btn-primary"
+                (click)="onNext()">Next
+              </button>
+            </div>
+          </div>
+          <div formGroupName="altPage">
+            <div formArrayName="alts" *ngIf="activePage == 'altPage'">
+              <div class="row">
+                <div class="col-xs-4">
+                  <button 
+                    class="btn btn-success" 
+                    type="button" 
+                    (click)="addALT()"
+                  >Add ALT</button>
+                </div>
+                <div class="col-xs-8 scroll">
+                  <button class="arrowbtn" type="button" (click)="prevActiveALT()">
+                    <i class="left"></i>
+                  </button>
+                  <input
+                    type="text"
+                    class="scrollbox text-center"
+                    name="altscroll"
+                    maxlength="3"
+                    size="1"
+                    value="{{displayedALT}}/{{signupForm.get('altPage.alts').controls.length}}"
+                    readonly
+                  >
+                  <button class="arrowbtn" type="button" (click)="nextActiveALT()">
+                      <i class="right"></i>
+                  </button>
+                </div>
+              </div>
+              <br>
+              <div 
+                class="form-group" 
+                *ngFor="let alt of signupForm.get('altPage.alts').controls; let i = index"
+                [formGroupName]="i">
+                <div [hidden]="displayedALT != i+1">
+                  <label for="name">Name: </label>
+                  <input type="text" 
+                    class="form-control text-lowercase"
+                    placeholder="ex: johns"
+                    (keydown)="preventSpaces($event)"
+                    formControlName="name">
+                  <p style="font-style: italic;">Lowercase and no spaces.</p>
+                  <p style="font-style: italic;">Ex: John Smith -> johns</p>
+                  <label for="altpw">Password: (6 or more characters)</label>
+                  <input type="text" 
+                    class="form-control"
+                    type="password"
+                    name="altpw"
+                    placeholder="password"
+                    (keydown)="preventSpaces($event)"
+                    minlength=6
+                    formControlName="altpw">
+                  <label for="reenteraltpw">Re-enter password: </label>
+                  <input type="text" 
+                    class="form-control"
+                    type="password"
+                    (keydown)="preventSpaces($event)"
+                    minlength=6
+                    formControlName="reenteraltpw">
+                  <br>
+                  <button
+                    *ngIf="i > 0"
+                    type="button" 
+                    class="btn btn-block btn-danger"
+                    (click)="deleteALT(i)">Delete</button>
+                  <span 
+                    *ngIf="!signupForm.get('altPage.alts').at(i).get('altpw').valid
+                    && signupForm.get('altPage.alts').at(i).get('altpw').touched"
+                    style="color:red;" 
+                    class="help-block"
+                  >Please enter a password with 6 or more characters.</span>
+                  <hr>
+                </div>
+              </div>
+              <div class="row">
+                <button
+                  type="button"
+                  style="float: left;"
+                  class="btn btn-default"
+                  (click)="onBack()">Back
+                </button>
+                <button
+                  style="float: right;"
+                  class="btn btn-primary"
+                  (click)="onNextALT()">Next
+                </button>
+              </div>
+            </div>
+          </div>
+          <div formGroupName="schoolsPage">
+            <div formArrayName="schools" *ngIf="activePage == 'schoolsPage'">
+              <div class="row">
+                <div class="col-xs-4">
+                  <button 
+                    class="btn btn-success" 
+                    type="button" 
+                    (click)="addSchool()"
+                  >Add School</button>
+                </div>
+                <div class="col-xs-8 scroll">
+                  <button class="arrowbtn" type="button" (click)="prevActiveSchl()">
+                    <i class="left"></i>
+                  </button>
+                  <input
+                    type="text"
+                    class="scrollbox text-center"
+                    name="schoolscroll"
+                    maxlength="3"
+                    size="1"
+                    value="{{displayedSchl}}/{{signupForm.get('schoolsPage.schools').controls.length}}"
+                    readonly
+                  >
+                  <button class="arrowbtn" type="button" (click)="nextActiveSchl()">
+                      <i class="right"></i>
+                  </button>
+                </div>
+              </div>
+              <br>
+              <div 
+                class="form-group" 
+                *ngFor="let school of signupForm.get('schoolsPage.schools').controls; let i = index"
+                [formGroupName]="i">
+                <div [hidden]="displayedSchl != i+1">
+                  <label for="schlname">School Name (English): </label>
+                  <input type="text" 
+                    class="form-control text-lowercase"
+                    placeholder="ex: kasedashou"
+                    (keydown)="preventSpaces($event)"
+                    formControlName="schlname">
+                  <p style="font-style: italic;">Lowercase and no spaces.</p>
+                  <p style="font-style: italic;">Ex: Kaseda Shougakkou -> kasedashou</p>
+                  <label for="schlnamekanji">School Name (日本語): </label>
+                  <input type="text" 
+                    class="form-control"
+                    placeholder="ex: 加世田小"
+                    (keydown)="preventSpaces($event)"
+                    formControlName="schlnamekanji">
+                  <label for="schlpw">Password: (6 or more characters)</label>
+                  <input type="text" 
+                    class="form-control"
+                    type="password"
+                    placeholder="password"
+                    (keydown)="preventSpaces($event)"
+                    minlength=6
+                    formControlName="schlpw">
+                  <label for="reenterschlpw">Re-enter password: </label>
+                  <input type="text" 
+                    class="form-control"
+                    type="password"
+                    (keydown)="preventSpaces($event)"
+                    minlength=6
+                    formControlName="reenterschlpw">
+                  <br>
+                  <label for="associatedALT">Associated ALT</label>
+                  <select  
+                    style="float: right;"
+                    formControlName="associatedALT">
+                    <option 
+                      *ngFor="let alt of altNames"
+                      [value]="alt">{{alt}}</option>
+                  </select>
+                  <br><br>
+                  <button
+                    *ngIf="i > 0"
+                    type="button" 
+                    class="btn btn-block btn-danger"
+                    (click)="deleteSchl(i)">Delete</button>
+                  <span 
+                    *ngIf="!signupForm.get('schoolsPage.schools').at(i).get('schlpw').valid
+                    && signupForm.get('schoolsPage.schools').at(i).get('schlpw').touched"
+                    style="color:red;" 
+                    class="help-block"
+                  >Please enter a password with 6 or more characters.</span>
+                  <hr> 
+                </div>
+
+              </div>
+              <div class="row">
+                <button 
+                  type="button"
+                  style="float: left;"
+                  class="btn btn-default"
+                  (click)="onBack()">Back
+                </button>
+                <button
+                  style="float: right;"
+                  class="btn btn-primary"
+                  (click)="onNextSchl()">Next
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="Absolute-Center-submit">
+        <div class="form-group" *ngIf="activePage == 'submitPage'">
+          <div class="row">
+            <table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th class="col-xs-2 text-center">Type</th>
+                  <th class="col-xs-6 text-center">Account Name</th>
+                  <th class="col-xs-4 text-center">Password</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of users; let i = index">
+                  <td class="col-xs-2 text-center">{{user.type}}</td>
+                  <td class="col-xs-6 text-center">{{user.email}}</td>
+                  <td 
+                    *ngIf="show.indexOf(i) == -1"
+                    class="col-xs-4 text-center">{{user.password | password}}
+                    <button 
+                      type="button" 
+                      style="float: right;"
+                      (click)="showPW(i)">Show</button>
+                  </td>
+                  <td 
+                    *ngIf="show.indexOf(i) != -1"
+                    class="col-xs-4 text-center">{{user.password}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <button
+              type="button"
+              style="float: left;"
+              class="btn btn-default"
+              (click)="onBack()">Back
+            </button>
+            <button
+              type="submit"
+              style="float: right;"
+              class="btn btn-success"
+              (click)="onSubmit()">Submit
+            </button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

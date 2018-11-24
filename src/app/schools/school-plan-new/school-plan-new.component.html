@@ -1,0 +1,355 @@
+<h1> {{ currentYear}}年 {{ months[currentMonth]}} </h1>
+<form #f="ngForm"> 
+  <div 
+    class="form-group">
+    <br>
+    <div class="col-xs-2">
+      <div class="radio">
+          <input type="radio" name="time" value="午前" ngModel required>午前
+      </div>
+      <div class="radio">
+        <input type="radio" name="time" value="午後" ngModel>午後
+      </div>
+      <div class="radio">
+        <input type="radio" name="time" value="一日中" ngModel>一日中
+      </div>
+    </div>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th class="col-xs-1 text-center">Date 日</th>
+          <th class="col-xs-1 text-center">Day 曜</th>
+          <th class="col-xs-2 text-center">Period (time) 校時 (時間)</th>
+          <th class="col-xs-1 text-center">Class 学年/組</th>
+          <th class="col-xs-2 text-center">Teacher 担当教諭</th>
+          <th class="col-xs-5 text-center">Lesson Plans</th>
+        </tr>
+        <tr>
+          <td rowspan="7" style="vertical-align: middle">
+            <select 
+              id="date"
+              class="text-center form-control input-sm"
+              name="date"
+              ngModel
+              (change)="onChangeDate()"
+              required>
+                <option 
+                  *ngFor="let theDate of datesList"
+                  [value]="theDate"
+                >{{theDate}}</option>
+              </select>
+          </td>
+          <td rowspan="7" style="vertical-align: middle">
+            <p class="text-center form-control-static">{{theDay}}</p>
+          </td>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="period1"
+              name="period1"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="(1) 8:40-9:25">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="class1"
+              name="class1"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="1">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="teacher1"
+              name="teacher1"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="Yamada">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control"
+              id="lesson1"
+              name="lesson1"
+              ngModel
+              type="text"
+              style="width: 100%" 
+              placeholder="Numbers">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="period2"
+              name="period2"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="(2) 9:40-10:25">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="class2"
+              name="class2"
+              ngModel
+              style="width: 100%" 
+              type="text"
+              placeholder="2">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="teacher2"
+              name="teacher2"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="Yamada">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control"
+              id="lesson2"
+              name="lesson2"
+              ngModel
+              type="text"
+              style="width: 100%" 
+              placeholder="Fruits">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input 
+              class="text-center form-control"
+              id="period3"
+              name="period3"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="(3) 10:40-11:25">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control"
+              id="class3"
+              name="class3"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="3">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control"
+              id="teacher3"
+              name="teacher3"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="Yamada">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="lesson3"
+              name="lesson3"
+              ngModel
+              type="text"
+              style="width: 100%" 
+              placeholder="Animals">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="period4"
+              name="period4"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="(4) 11:40-12:25">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control"
+              id="class4" 
+              name="class4"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="4">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="teacher4"
+              name="teacher4"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="Yamada">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="lesson4"
+              name="lesson4"
+              ngModel
+              type="text"
+              style="width: 100%" 
+              placeholder="好きなこと">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input 
+              class="text-center form-control"
+              id="lunch"
+              name="lunch"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="Lunch 給食">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control"
+              id="classLunch"
+              name="classLunch"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="6">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="teacherLunch"
+              name="teacherLunch"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="Yamada">
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input 
+              class="text-center form-control"
+              id="period5"
+              name="period5"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="(5) 2:20-3:05">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="class5"
+              name="class5"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="5">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="teacher5"
+              name="teacher5"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="Yamada">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control"
+              id="lesson5"
+              name="lesson5"
+              ngModel
+              type="text"
+              style="width: 100%" 
+              placeholder="Hi Friends 1 Lesson 1 - Hello">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input 
+              class="text-center form-control"
+              id="period6" 
+              name="period6"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="(6) 3:20-4:05">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="class6"
+              name="class6"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="6">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control" 
+              id="teacher6"
+              name="teacher6"
+              ngModel
+              style="width: 100%" 
+              type="text" 
+              placeholder="Yamada">
+          </td>
+          <td>
+            <input 
+              class="text-center form-control"
+              id="lesson6"
+              name="lesson6"
+              ngModel
+              type="text"
+              style="width: 100%" 
+              placeholder="Hi Friends 2 Lesson 6 - Let's go to Italy">
+          </td>
+        </tr>
+      </thead>
+    </table>
+    <label for="teachercomment">Teacher Comments</label>
+    <textarea 
+      class="form-control"
+      name="teachercomment" 
+      id="teachercomment"
+      ngModel
+      cols="30" rows="5"
+    ></textarea>
+  </div>
+</form>
+
+<span *ngIf="weekend" style="color: red;">That's a weekend!</span>
+
+<div style="float: right">
+<button 
+  class="btn btn-default"
+  (click)="onCancel()"
+>Cancel</button>
+<button 
+  class="btn btn-primary" 
+  (click)="onRequest()"
+  [disabled]="weekend || !f.valid"
+>Request</button>
+</div>

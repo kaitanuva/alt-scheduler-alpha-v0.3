@@ -1,0 +1,83 @@
+
+<nav class="navbar navbar-default">
+    <div class="navbar-default">
+      <a routerLink ="/" class="navbar-brand">Home</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul *ngIf="authService.isAuthenticated()" class="nav navbar-nav">
+        <li routerLinkActive="active">
+          <a routerLink="/schedule">Schedule</a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="/schools">Schools</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li
+          *ngIf="authService.userType"
+          class="dropdown"
+          appDropdown>
+          <a
+            style="cursor: pointer;"
+            class="dropdown-toggle"
+            role="button"
+          >
+          <i class="glyphicon glyphicon-user"></i>   Account<span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li *ngIf="authService.userType == 'main'">
+              <a style="cursor: pointer;" routerLink="/managealts">Manage ALTs</a>
+            </li>
+            <li *ngIf="authService.userType == 'main'">
+              <a style="cursor: pointer;" routerLink="/manageschools">Manage Schools</a>
+            </li>
+            <!-- <li>
+              <a style="cursor: pointer;" (click)="onChangePassword()">Change Password</a>
+            </li> -->
+            <li>
+              <a style="cursor: pointer;" (click)="onDeleteAccount()">Delete Account</a>
+            </li>
+          </ul>
+        </li>
+        <li 
+          *ngIf="authService.userType == 'main'" 
+          class="dropdown" 
+          appDropdown>
+          <a 
+            style="cursor: pointer;" 
+            class="dropdown-toggle" 
+            role="button"
+            >ALTs<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li *ngFor="let alt of alts">
+              <a style="cursor: pointer;" (click)="onUserChange(alt)">{{alt}}</a>
+            </li>
+          </ul>
+        </li>
+        <ng-template [ngIf]="!authService.isAuthenticated()">
+          <li>
+            <a routerLink="/login">Login</a>
+          </li>
+        </ng-template>
+        <li>
+          <a 
+            style="cursor: pointer;" 
+            (click)="onLogout()"
+            *ngIf="authService.isAuthenticated()"
+          >Logout</a>
+        </li>
+      </ul>
+    </div>
+    <a class="icon" style="cursor: pointer; font-size:15px;" (click)="toggleIcon()">&#9776;</a>
+  </nav>
+  <div class="topnav" id="myTopnav">
+    <div *ngIf="authService.isAuthenticated()" class="loggedIn">
+      <a routerLink="/schedule" routerLinkActive="active" (click)="toggleIcon()">Schedule</a>
+      <a routerLink="/schools" routerLinkActive="active" (click)="toggleIcon()">Schools</a>
+      <a (click)="onDeleteAccount()">Delete Account</a>
+      <a (click)="onLogout()">Logout</a>
+    </div>
+    <div *ngIf="!authService.isAuthenticated()" class="loggedOut">
+      <a routerLink="/login" (click)="toggleIcon()">Login</a>
+    </div>
+  </div>

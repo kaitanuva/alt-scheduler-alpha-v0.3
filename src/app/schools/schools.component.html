@@ -1,0 +1,18 @@
+<div class="container-fluid">
+<hr>
+  <div class="row">
+    <div class="col-md-2">
+        <a 
+          style="cursor: pointer;"
+          class="list-group-item clearfix"
+          *ngFor="let school of schoolsList; let i = index"
+          (click)="schoolClicked(i)"
+          routerLinkActive="active"
+          [routerLink]="i"
+        >{{school}}</a>
+    </div>
+    <div class="col-md-10">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="Absolute-Center">
+      <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
+        <form (ngSubmit)="onLogin(f)" #f="ngForm">
+          <div class="form-group input-group">
+            <span class="input-group-addon">
+              <i class="glyphicon glyphicon-user"></i>
+            </span>
+            <input 
+              type="text"
+              name="username"
+              placeholder="username"
+              ngModel
+              class="form-control"
+              required>
+          </div>
+          <div class="form-group input-group">
+            <span class="input-group-addon">
+              <i class="glyphicon glyphicon-lock"></i>
+            </span>
+            <input 
+              type="password"
+              name="password"
+              placeholder="password"
+              ngModel
+              class="form-control"
+              required>
+          </div>
+          <div class="form-group">
+            <button 
+              type="submit"
+              class="btn btn-success btn-block">Login
+            </button>
+          </div>
+          <div class="form-group text-center">
+            <a routerLink="/signup">New User? Click Here!</a>
+          </div>
+          <div class="form-group text-center">
+            <a>Forgot Password? Click Here!</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,197 @@
+.Absolute-Center{
+  margin: auto;
+  position: absolute;
+  top: 70px; left: 0; bottom: 0; right: 0;
+  padding: 100px;
+  text-align: center;
+}
+
+h1, h2, h3, h4{
+  font-size: 25px;
+}
+
+h5{
+  font-size: 20px;
+}
+
+.Absolute-Center-box{
+  margin: auto;
+  position: relative;
+  top: 150px; left: 0; bottom: 0; right: 0;
+  min-width: 200px;
+  max-width: 400px;
+  padding: 40px;
+}
+
+.Absolute-Center-submit{
+  margin: auto;
+  position: relative;
+  top: 100px; left: 0; bottom: 0; right: 0;
+  min-width: 200px;
+  max-width: 600px;
+}
+
+td {
+  vertical-align: bottom;
+}
+
+i {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.arrowbtn {
+  position: relative;
+  top: 4px;
+}
+
+.scrollbox{
+  position: relative;
+  top: 4px;
+}
+
+.scroll{
+  position: relative;
+  right: -40px;
+}
+
+.form-control.ng-invalid.ng-touched{
+  border: 1px solid red;
+}
+
+div.main{
+  top: 6px; 
+}
+
+div.jp{
+  top: 6px; right: 25px;
+}
+
+div.password{
+  left: 49px;
+}
+
+.clearfix:after {
+  clear: both;
+  content: "";
+  display: block;
+  height: 0;
+}
+
+.container {
+font-family: 'Lato', sans-serif;
+width: 1000px;
+margin: auto;
+position: absolute;
+top: 0; left: 10px; bottom: 0; right: 0;
+padding: 100px;
+text-align: center;
+}
+
+.wrapper {
+	display: table-cell;
+  height: 400px;
+}
+
+.nav {
+margin-top: 40px;
+}
+
+a, a:active {
+color: #333;
+text-decoration: none;
+}
+
+a:hover {
+color: #999;
+}
+
+.arrow-steps .step {
+font-size: 12px;
+text-align: center;
+color: #666;
+cursor: default;
+margin: 0 3px;
+padding: 9px 10px 10px 30px;
+min-width: 180px;
+float: left;
+position: relative;
+background-color: #d9e3f7;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none; 
+transition: background-color 0.2s ease;
+}
+
+.arrow-steps .step:after,
+.arrow-steps .step:before {
+content: " ";
+position: absolute;
+top: 0;
+right: -17px;
+width: 0;
+height: 0;
+border-top: 19px solid transparent;
+border-bottom: 17px solid transparent;
+border-left: 17px solid #d9e3f7;	
+z-index: 2;
+transition: border-color 0.2s ease;
+}
+
+.arrow-steps .step:before {
+right: auto;
+left: 0;
+border-left: 17px solid #fff;	
+z-index: 0;
+}
+
+.arrow-steps .step:first-child:before {
+border: none;
+}
+
+.arrow-steps .step:first-child {
+border-top-left-radius: 4px;
+border-bottom-left-radius: 4px;
+}
+
+.arrow-steps .step span {
+position: relative;
+}
+
+.arrow-steps .step span:before {
+opacity: 0;
+content: "✔";
+position: absolute;
+top: -2px;
+left: -20px;
+}
+
+.arrow-steps .step.done span:before {
+opacity: 1;
+-webkit-transition: opacity 0.3s ease 0.5s;
+-moz-transition: opacity 0.3s ease 0.5s;
+-ms-transition: opacity 0.3s ease 0.5s;
+transition: opacity 0.3s ease 0.5s;
+}
+
+.arrow-steps .step.current {
+color: #fff;
+background-color: #23468c;
+}
+
+.arrow-steps .step.current:after {
+border-left: 17px solid #23468c;	
+}
